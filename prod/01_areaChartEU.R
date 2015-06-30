@@ -17,16 +17,16 @@ stopifnot(all(origin %in% gsub("^full\\.", "", rownames(trad)[idxrow.fullgeo])))
 ###		Settings chart
 ############################################################################################
 
-chartHeight <- 500
+chartHeight <- 450
 
 # PlotLines
-plotLinesColor <- "#e5dbcd"
+plotLinesColor <- "#bfa681"
 styleLine <- 'LongDash'
 zIndex <- -10
 widthLine <- 0.5
 yoffset <- 15
 fontSize <-  '0.7em'
-textColor <- "#aa8959"
+textColor <- "#bfa681"
 
 ############################################################################################
 ###		chart data
@@ -54,21 +54,21 @@ for (i in 1:ncol(trad)) {
 		'<table cellpadding="1" style="line-height:1.4">',
 	        '<tr><td><div style="font-size:0.85em"><b>', ddd$time, '</b></td></div>',
 				'<td></td><td></td></tr>',
-	       '<tr><td colspan="3"><div style="font-size:0.75em">', ddd$y, " ",
+	       '<tr><td colspan="3"><div style="font-size:0.8em">', ddd$y, " ",
 		   		trad["tooltip.ayslumdemand",lang], '</div></td></tr>',
-	       '<tr><td align="left"><div style="font-size:0.75em"><i>', ddd$geo,'</i></td><td></td>',
-		   		'<td style="text-align:right"><div style="color:#D8D8D8;font-size:0.7em">', ddd$iso2,'</div></td></tr>',
+	       '<tr><td align="left"><div style="font-size:0.8em"><i>', ddd$geo,'</i></td><td></td>',
+		   		'<td style="text-align:right"><div style="color:#D8D8D8;font-size:0.75em">', ddd$iso2,'</div></td></tr>',
 		'</table>')
 
 
 	## CHART
 	a <- Highcharts$new()
 	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$name, series = ddd$iso2), "series")
+	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$name, series = ddd$geo), "series")
 
 	a$series(hSeries)
 	a$colors(swi_pal)
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)),
+	a$plotOptions(area = list(stacking = "normal", lineWidth = 0.1, marker = list(enabled = FALSE, symbol = "circle", radius = 1)),
 		series = list(fillOpacity = 1))
 
 	a$legend(borderWidth= 0, itemMarginTop = 3, itemMarginBottom = 5, itemHoverStyle = list(color = '#996666'),
@@ -81,13 +81,13 @@ for (i in 1:ncol(trad)) {
 		plotLines = list(
 			list(color = plotLinesColor, value = 1991.4, width = widthLine, zIndex = zIndex, dashStyle = styleLine,
 			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = yoffset,
-			style = list( color = '#D8D8D8', fontSize = fontSize))),
+			style = list( color = textColor, fontSize = fontSize))),
 			list(color = plotLinesColor, value = 1998.2, width = widthLine, zIndex = zIndex, dashStyle = styleLine,
-			label = list(text = trad['annotation.Kosovo',lang], rotation = 0, y = yoffset,
-			style = list( color = '#D8D8D8', fontSize = fontSize))),
+			label = list(text = trad['annotation.Kosovo',lang], rotation = 0, y = yoffset * 2,
+			style = list( color = textColor, fontSize = fontSize))),
 			list(color = plotLinesColor, value = 2011.3, width = widthLine, zIndex = zIndex, dashStyle = styleLine,
-			label = list(text = trad['annotation.Syria',lang], rotation = 0, x = -5, y = yoffset, align = 'right',
-			style = list( color = '#D8D8D8', fontSize = fontSize)))
+			label = list(text = trad['annotation.Syria',lang], rotation = 0, x = -5, y = yoffset * 3, align = 'right',
+			style = list( color = textColor, fontSize = fontSize)))
 			)
 		)
 
@@ -95,6 +95,7 @@ for (i in 1:ncol(trad)) {
 	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF",
 		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))
 
+    # a$credits(text = 'this is some really long text that i am using as a footer')
 	# formatter <- "#! function() { return '<b>' +
 	# 	this.point.x + '</b><br><br>' + this.point.y + '<br>' + this.point.name + ' ('+ this.series.name + ')</div>'; } !#"
 	# a$tooltip(formatter = formatter, useHTML = T, borderWidth = 2, backgroundColor = 'rgba(255,255,255,0.8)')
@@ -107,6 +108,6 @@ for (i in 1:ncol(trad)) {
 	# Convert highcharts-rCharts html chart into a responsive one
 
 	hChart2responsiveHTML(hChart.html, output.html = output.html, h2 = trad['title',lang], descr = trad['descr',lang],
-		source = trad['source',lang], h3 = "", author = "Duc-Quang Nguyen | swissinfo.ch")
+		source = trad['source',lang], h3 = "", author = 'Duc-Quang Nguyen | <a href = "http://www.swissinfo.ch" target="_blank">swissinfo.ch</a>')
 
 }

@@ -1,22 +1,22 @@
-code,fr
-title,Demandes d'asile déposées en Europe de 1985-2014
-descr,Tous les pays de l'espace économique européen sont considérés ici. Placez votre curseur ou tapotez sur une région du graphique pour voir les chiffres exacts d'un pays.
-y.lab,Demandes d'asile annuelles en millers
-source,source: Eurostat
-legend.country,Pays de l'espace économique européen
-legend.descr,(Cliquez pour masquer)
-tooltip.ayslumdemand,demandes d'asile
-annotation.exYougoslavia,Début conflit en ex-Yougoslavie
-annotation.Kosovo,Guerre du Kosovo
-annotation.Syria,Guerre civile Syrie
-iso.others,autres pays
-full.Austria,Autriche
-full.autres,autres pays de l'Union Européenne ou de l'espace économique européen
-full.France,France
-full.Germany (until 1990 former territory of the FRG),Allemagne
-full.Hungary,Hongrie
-full.Italy,Italie
-full.Netherlands,Pays-Bas
-full.Sweden,Suède
-full.Switzerland,Suisse
-full.United Kingdom,Royaume-Uni
+code,fr,de,it
+title,Demandes d'asile déposées en Europe de 1986-2014,In Europa gestellte Asylgesuche von 1986-2014,Domande d'asilo depositate in Europa 1986-2014
+descr,Tous les pays européens sont considérés ici. Placez votre curseur ou tapotez sur une région du graphique pour voir les chiffres exacts d'un pays.,Alle europäischen Länder sind berücksichtigt. Bewegen Sie den Cursor oder klicken Sie in der Graphik auf eine Region,"Qui sono considerati tutti i paesi europei. Per vedere le cifre esatte di un paese, puntare il cursore o cliccare sulla regione nel grafico."
+y.lab,Demandes d'asile annuelles en millers,Asylgesuche pro Jahr in Tausend,Domande d'asilo annuali in migliaia
+source,source: Eurostat,Eurostat,Fonte: Eurostat
+legend.country,Pays européens,Europäische Länder,Paesi europei
+legend.descr,(Cliquez pour masquer),(Klicken Sie um zu verdecken),(cliccare per nascondere)
+tooltip.ayslumdemand,demandes d'asile,Asylgesuche,Domande d'asilo
+annotation.exYougoslavia,Début conflit en ex-Yougoslavie,Beginn des Krieges in Ex-Jugoslawien,Inizio conflitto ex-Jugoslavia
+annotation.Kosovo,Guerre du Kosovo,Krieg in Kosovo,Guerra del Kosovo
+annotation.Syria,Guerre civile Syrie,Bürgerkrieg in Syrien,Guerra civile in Siria
+iso.others,autres pays,Andere Länder,Altri Paesi
+full.Austria,Autriche,Österreich,Austria
+full.autres,autres pays d'Europe,andere Länder Europas,Altri Paesi europei
+full.France,France,Frankreich,Francia
+full.Germany (until 1990 former territory of the FRG),Allemagne,Deutschland,Germania
+full.Hungary,Hongrie,Ungarn,Ungheria
+full.Italy,Italie,Italien,Italia
+full.Netherlands,Pays-Bas,Niederlande,Olanda
+full.Sweden,Suède,Schweden,Svezia
+full.Switzerland,Suisse,Schweiz,Svizzera
+full.United Kingdom,Royaume-Uni,Vereinigtes Königreich,Regno Unito

@@ -111,39 +111,41 @@ save(dd, collapsedCountries, file = "prod/01_areaChart.Rdata")
 ############################################################################################
 
 # There is only precise country of origin across EU since 2008
+#
+# data.m2 %>% filter(iso2 == "TOTAL", time == 2014) %>% top_n(20, values)
+#
+# data <- data.m2 %>% filter(iso2 == "TOTAL", ! citizen %in% c('Extra EU-28', 'European Union (28 countries)', 'Total'))
+#
+# tot2 <- data %>% group_by(time) %>% summarise(sum = sum(values, na.rm = T)) %>% ungroup()
+# # check: compare with as.data.frame(tot) !!
+#
+# # find the n largest countries during the last year
+# dev <- data %>% filter(time == max(time)) %>% group_by(citizen) %>% summarise(sum = sum(values, na.rm = T)) %>% ungroup()
+# cit.top <- unlist(head(as.data.frame(dev[order(dev$sum, decreasing = T),'citizen']), 10))
+#
+#
+# ### Merge not top countries
+# ddd <- data %>% select(one_of(c('citizen', 'time', 'values')))
+# ddd$citizen <- ifelse(as.character(ddd$citizen) %in% cit.top, as.character(ddd$citizen), 'autres')
+#
+# ddd <- ddd %>% group_by(time, citizen) %>% summarise (y = sum(values, na.rm = T)) %>% ungroup()
+#
+#
+#
+# b <- Highcharts$new()
+# b$chart(zoomType = "xy", type = 'area', height = 500, spacing = 5)
+# hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$citizen, series = ddd$citizen), "series")
+#
+# b$series(hSeries)
+# b$colors(swi_pal)
+# b$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)))
+# b$legend(borderWidth= 0)
+# b$xAxis(title = list(text = ""), max = max(ddd$time), min = min(ddd$time))
+# b$lang( numericSymbols= NULL)
+# b$yAxis(title = list(text = "Demandeurs d'asile en milliers"),
+# 	labels = list(formatter = "#! function () {return this.value / 1000;} !#"))
+#
 
-data.m2 %>% filter(iso2 == "TOTAL", time == 2014) %>% top_n(20, values)
-
-data <- data.m2 %>% filter(iso2 == "TOTAL", ! citizen %in% c('Extra EU-28', 'European Union (28 countries)', 'Total'))
-
-tot2 <- data %>% group_by(time) %>% summarise(sum = sum(values, na.rm = T)) %>% ungroup()
-# check: compare with as.data.frame(tot) !!
-
-# find the n largest countries during the last year
-dev <- data %>% filter(time == max(time)) %>% group_by(citizen) %>% summarise(sum = sum(values, na.rm = T)) %>% ungroup()
-cit.top <- unlist(head(as.data.frame(dev[order(dev$sum, decreasing = T),'citizen']), 10))
-
-
-### Merge not top countries
-ddd <- data %>% select(one_of(c('citizen', 'time', 'values')))
-ddd$citizen <- ifelse(as.character(ddd$citizen) %in% cit.top, as.character(ddd$citizen), 'autres')
-
-ddd <- ddd %>% group_by(time, citizen) %>% summarise (y = sum(values, na.rm = T)) %>% ungroup()
-
-
-
-b <- Highcharts$new()
-b$chart(zoomType = "xy", type = 'area', height = 500, spacing = 5)
-hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$citizen, series = ddd$citizen), "series")
-
-b$series(hSeries)
-b$colors(swi_pal)
-b$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)))
-b$legend(borderWidth= 0)
-b$xAxis(title = list(text = ""), max = max(ddd$time), min = min(ddd$time))
-b$lang( numericSymbols= NULL)
-b$yAxis(title = list(text = "Demandeurs d'asile en milliers"),
-	labels = list(formatter = "#! function () {return this.value / 1000;} !#"))
 
 
 ############################################################################################

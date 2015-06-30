@@ -1,3 +1,108 @@
+path.ch
+getShpLayers(path.ch)
+ch <- readOGR(path.ch, layer = 'municipalities')
+ch.df <- formatShp(ch)
+str(ch.df)
+ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) + #
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())
+lake <- readOGR(path.ch, layer = "lakes")#
+country <- readOGR(path.ch, layer = "country")
+lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
+country.df <- formatShp(readOGR(path.ch, layer = "country"))
+alpha
+lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
+country.df <- formatShp(readOGR(path.ch, layer = "country"))#
+ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + #
+  geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
+ch.communes <- ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) + #
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
+ch.communes
+lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
+country.df <- formatShp(readOGR(path.ch, layer = "country"))#
+ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + #
+  geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
+?alpha
+library(swiMap)
+?getShpLayers
+require(rgdal)#
+require(rgeos)#
+require(ggplot2)#
+path <- getPathShp('world')#
+layers <- getShpLayers(path)#
+# read shapefiles for given layer#
+world <- readOGR(path, layer = layers[1])#
+world.df <- formatShp(world)#
+# plot world map#
+ggplot(world.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = FIPS)) +#
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
+Same with swiss commune map (slow!)#
+## Not run: #
+path.ch <- getPathShp('CH')#
+ch <- readOGR(path.ch, layer = 'municipalities')#
+ch.df <- formatShp(ch)#
+# plot swiss commune map#
+ch.communes <- ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) +#
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
+ch.communes
+lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
+country.df <- formatShp(readOGR(path.ch, layer = "country"))
+ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
+library(scales)
+ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
+ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
+ch.communes + geom_polygon(data = country.df, fill = NA, size = 1) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
+str(country.df)
+library(swiMap)
+?getShpLayers
+require(rgdal)#
+require(rgeos)#
+require(ggplot2)
+path.ch <- getPathShp('CH')#
+ch <- readOGR(path.ch, layer = 'municipalities')#
+ch.df <- formatShp(ch)#
+# plot swiss commune map#
+ch.communes <- ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) +#
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
+ch.communes#
+# add the lake and country contours#
+lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
+country.df <- formatShp(readOGR(path.ch, layer = "country"))#
+ch.communes + geom_polygon(data = country.df, fill = NA, color = "black", size = 2) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
+ch.communes + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
+str(country.df)
+geom_polygon(data = country.df, fill = NA, color = "black", size = 2)
+ggplot() + geom_polygon(data = country.df, fill = NA, color = "black", size = 2)
+ggplot(aes(lon, lat)) + geom_polygon(data = country.df, fill = NA, color = "black", size = 2)
+ggplot(aes(x = long, y = lat, group = group)) +  geom_polygon(data = country.df, fill = NA, color = "black", size = 2)
+str(country.df)
+ggplot(data = country.df,aes(x = long, y = lat, group = group)) +  geom_polygon( fill = NA, color = "black", size = 2)
+ch.communes + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey") + geom_polygon(data = country.df, fill = NA, color = "black", size = 2)
+str(ch.df)
+unique(ch.df$id)
+length(unique(ch.df$id))
+str(ch.df)
+length(unique(ch.df$GEMNAME))
+length(unique(ch.df$BFSNR))
+head(df.ch)
+head(ch.df)
+tail(ch.df)
+which(ch.df$GEMNAME == 'Aeugst am Albis')
+ch.df[which(ch.df$GEMNAME == 'Aeugst am Albis'),]
+ch.df[which(ch.df$GEMNAME == 'Knonau'),]
+length(unique(ch.df$BFSNR))
+length(unique(ch.df$GEMNAME))
+duplicated(ch.df$BFSNR)
+ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]
+ch.df[!duplicated(ch.df$BFSNR),'BFSNR']
+order(ch.df[!duplicated(ch.df$BFSNR),'BFSNR'])
+ch.df[order(ch.df[!duplicated(ch.df$BFSNR),'BFSNR']), c('BFSNR', 'GEMNAME')]
+ch.df[sort(ch.df[!duplicated(ch.df$BFSNR),'BFSNR']), c('BFSNR', 'GEMNAME')]
+order(ch.df[!duplicated(ch.df$BFSNR),'BFSNR'])
+ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]
+bfsnName <- ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]
+bfsnName
+?order
+order(bfsnName[,1])
 bfsnName[order(bfsnName[,1]),]
 bfsnName <- ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]
 bfsnName <- ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]#
@@ -422,65 +527,42 @@ h1
 setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
 library(swiRcharts)#
 library(swiTheme)#
+#
 #############################################################################################
 ###		Load data#
 #############################################################################################
 #
 load("01_areaChart.Rdata")#
 trad <- read.csv("01_areaChartEU.csv", check.names = F, stringsAsFactors = F, row.names = 1)#
-## geo country names check #
+#
+## geo country names check ###
 origin <- unique(dd$geo)#
 idxrow.fullgeo <- grep("^full", rownames(trad))#
+stopifnot(all(origin %in% gsub("^full\\.", "", rownames(trad)[idxrow.fullgeo])))#
 #
-stopifnot(all(origin %in% gsub("^full\\.", "", rownames(trad)[idxrow.fullgeo])))
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-i <- 1
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-lang <- colnames(trad)[i]#
-	output.html <- paste("prod/01_EUayslumRequests_area_", lang, ".html", sep ="")#
+#############################################################################################
+###		Settings chart#
+#############################################################################################
 #
-	ddd <- dd#
+chartHeight <- 500#
 #
-	## Translate country names ###
-	ddd[which(ddd$iso2 == "autres"), 'iso2'] <- as.character(trad['iso.others', lang])#
-	# create a named vector: new geo, name old geo#
-	geotrad <- structure(as.character(trad[idxrow.fullgeo,lang]), names =  gsub("^full\\.", "", rownames(trad)[idxrow.fullgeo]))#
-	ddd$geo <- geotrad[match(ddd$geo, names(geotrad))]#
-	## CHART#
-	a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = 500, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
+# PlotLines#
+plotLinesColor <- "#e5dbcd"#
+styleLine <- 'LongDash'#
+zIndex <- -10#
+widthLine <- 0.5#
+yoffset <- 15#
+fontSize <-  '0.7em'#
+textColor <- "#aa8959"#
 #
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(list(color = "lightgrey", value = 1992, width = 1, zIndex = -10,#
-		label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-		style = list( color = 'lightgrey')))))#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]),#
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
+#############################################################################################
+###		chart data#
+#############################################################################################
 #
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a#
+i <- 1#
+for (i in 1:ncol(trad)) {#
 #
-	hChart.html <- tempfile("hChart_area")#
-	a$save(hChart.html)#
-#
-	# Example of converting a highcharts-rCharts html chart into a responsive one#
-#
-	hChart2responsiveHTML(hChart.html, output.html = output.html, h2 = trad['title',lang], descr = trad['descr',lang],#
-		source = trad['source',lang], h3 = "", author = "Duc-Quang Nguyen | swissinfo.ch")
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-lang <- colnames(trad)[i]#
+	lang <- colnames(trad)[i]#
 	output.html <- paste("01_EUayslumRequests_area_", lang, ".html", sep ="")#
 #
 	ddd <- dd#
@@ -490,58 +572,105 @@ lang <- colnames(trad)[i]#
 	# create a named vector: new geo, name old geo#
 	geotrad <- structure(as.character(trad[idxrow.fullgeo,lang]), names =  gsub("^full\\.", "", rownames(trad)[idxrow.fullgeo]))#
 	ddd$geo <- geotrad[match(ddd$geo, names(geotrad))]#
+	## create fancy tooltip as html table#
+	ddd$name <- paste0(#
+		'<table cellpadding="1" style="line-height:1.4">',#
+	        '<tr><td><div style="font-size:0.85em"><b>', ddd$time, '</b></td></div>',#
+				'<td></td><td></td></tr>',#
+	       '<tr><td colspan="3"><div style="font-size:0.75em">', ddd$y, " ",#
+		   		trad["tooltip.ayslumdemand",lang], '</div></td></tr>',#
+	       '<tr><td align="left"><div style="font-size:0.75em"><i>', ddd$geo,'</i></td><td></td>',#
+		   		'<td style="text-align:right"><div style="color:#D8D8D8;font-size:0.7em">', ddd$iso2,'</div></td></tr>',#
+		'</table>')#
 	## CHART#
 	a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = 500, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
+	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
+	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$name, series = ddd$iso2), "series")#
 #
 	a$series(hSeries)#
 	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)))#
-	a$legend(borderWidth= 0)#
+	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)),#
+		series = list(fillOpacity = 1))#
+#
+	a$legend(borderWidth= 0, itemMarginTop = 3, itemMarginBottom = 5, itemHoverStyle = list(color = '#996666'),#
+		itemStyle = list(fontWeight = "normal", fontSize = "0.8em"),#
+		title = list(style = list(fontWeight ='normal'),#
+			text = paste0(trad['legend.country',lang], ' <span style="font-size: 9px; color: #666; font-weight: normal">',#
+			trad['legend.descr',lang], '</span><br>')), style = list(fontStyle = 'italic'))#
+#
 	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(list(color = "lightgrey", value = 1992, width = 1, zIndex = -10,#
-		label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-		style = list( color = 'lightgrey')))))#
+		plotLines = list(#
+			list(color = plotLinesColor, value = 1991.4, width = widthLine, zIndex = zIndex, dashStyle = styleLine,#
+			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = yoffset,#
+			style = list( color = textColor, fontSize = fontSize))),#
+			list(color = plotLinesColor, value = 1998.2, width = widthLine, zIndex = zIndex, dashStyle = styleLine,#
+			label = list(text = trad['annotation.Kosovo',lang], rotation = 0, y = yoffset,#
+			style = list( color = textColor, fontSize = fontSize))),#
+			list(color = plotLinesColor, value = 2011.3, width = widthLine, zIndex = zIndex, dashStyle = styleLine,#
+			label = list(text = trad['annotation.Syria',lang], rotation = 0, x = -5, y = yoffset, align = 'right',#
+			style = list( color = textColor, fontSize = fontSize)))#
+			)#
+		)#
+#
 	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]),#
+	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF",#
 		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
 #
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
+    # a$credits(text = 'this is some really long text that i am using as a footer')#
+	# formatter <- "#! function() { return '<b>' +#
+	# 	this.point.x + '</b><br><br>' + this.point.y + '<br>' + this.point.name + ' ('+ this.series.name + ')</div>'; } !#"#
+	# a$tooltip(formatter = formatter, useHTML = T, borderWidth = 2, backgroundColor = 'rgba(255,255,255,0.8)')#
+	a$tooltip(formatter = "#! function() { return this.point.name; } !#", useHTML = T , borderWidth = 3, style = list(padding = 1.5))#
 	a#
 #
 	hChart.html <- tempfile("hChart_area")#
 	a$save(hChart.html)#
 #
-	# Example of converting a highcharts-rCharts html chart into a responsive one#
+	# Convert highcharts-rCharts html chart into a responsive one#
 #
 	hChart2responsiveHTML(hChart.html, output.html = output.html, h2 = trad['title',lang], descr = trad['descr',lang],#
-		source = trad['source',lang], h3 = "", author = "Duc-Quang Nguyen | swissinfo.ch")
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = 500, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
+		source = trad['source',lang], h3 = "", author = 'Duc-Quang Nguyen | <a href = "http://www.swissinfo.ch" target="_blank">swissinfo.ch</a>')#
 #
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(list(color = "lightgrey", value = 1992, width = 1, zIndex = -10,#
-		label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-		style = list( color = 'lightgrey')))))#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#efe9e0", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))
-a
+}
 setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-lang <- colnames(trad)[i]#
+library(swiRcharts)#
+library(swiTheme)#
+#
+#############################################################################################
+###		Load data#
+#############################################################################################
+#
+load("01_areaChart.Rdata")#
+trad <- read.csv("01_areaChartEU.csv", check.names = F, stringsAsFactors = F, row.names = 1)#
+#
+## geo country names check ###
+origin <- unique(dd$geo)#
+idxrow.fullgeo <- grep("^full", rownames(trad))#
+stopifnot(all(origin %in% gsub("^full\\.", "", rownames(trad)[idxrow.fullgeo])))#
+#
+#############################################################################################
+###		Settings chart#
+#############################################################################################
+#
+chartHeight <- 500#
+#
+# PlotLines#
+plotLinesColor <- "#bfa681"#
+styleLine <- 'LongDash'#
+zIndex <- -10#
+widthLine <- 0.5#
+yoffset <- 15#
+fontSize <-  '0.7em'#
+textColor <- "#bfa681"#
+#
+#############################################################################################
+###		chart data#
+#############################################################################################
+#
+i <- 1#
+for (i in 1:ncol(trad)) {#
+#
+	lang <- colnames(trad)[i]#
 	output.html <- paste("01_EUayslumRequests_area_", lang, ".html", sep ="")#
 #
 	ddd <- dd#
@@ -551,739 +680,67 @@ lang <- colnames(trad)[i]#
 	# create a named vector: new geo, name old geo#
 	geotrad <- structure(as.character(trad[idxrow.fullgeo,lang]), names =  gsub("^full\\.", "", rownames(trad)[idxrow.fullgeo]))#
 	ddd$geo <- geotrad[match(ddd$geo, names(geotrad))]#
+	## create fancy tooltip as html table#
+	ddd$name <- paste0(#
+		'<table cellpadding="1" style="line-height:1.4">',#
+	        '<tr><td><div style="font-size:0.85em"><b>', ddd$time, '</b></td></div>',#
+				'<td></td><td></td></tr>',#
+	       '<tr><td colspan="3"><div style="font-size:0.75em">', ddd$y, " ",#
+		   		trad["tooltip.ayslumdemand",lang], '</div></td></tr>',#
+	       '<tr><td align="left"><div style="font-size:0.75em"><i>', ddd$geo,'</i></td><td></td>',#
+		   		'<td style="text-align:right"><div style="color:#D8D8D8;font-size:0.7em">', ddd$iso2,'</div></td></tr>',#
+		'</table>')#
 	## CHART#
 	a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = 500, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
+	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
+	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$name, series = ddd$iso2), "series")#
 #
 	a$series(hSeries)#
 	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)))#
-	a$legend(borderWidth= 0)#
+	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)),#
+		series = list(fillOpacity = 1))#
+#
+	a$legend(borderWidth= 0, itemMarginTop = 3, itemMarginBottom = 5, itemHoverStyle = list(color = '#996666'),#
+		itemStyle = list(fontWeight = "normal", fontSize = "0.8em"),#
+		title = list(style = list(fontWeight ='normal'),#
+			text = paste0(trad['legend.country',lang], ' <span style="font-size: 9px; color: #666; font-weight: normal">',#
+			trad['legend.descr',lang], '</span><br>')), style = list(fontStyle = 'italic'))#
+#
 	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(list(color = "lightgrey", value = 1992, width = 1, zIndex = -10,#
-		label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-		style = list( color = 'lightgrey')))))#
+		plotLines = list(#
+			list(color = plotLinesColor, value = 1991.4, width = widthLine, zIndex = zIndex, dashStyle = styleLine,#
+			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = yoffset,#
+			style = list( color = textColor, fontSize = fontSize))),#
+			list(color = plotLinesColor, value = 1998.2, width = widthLine, zIndex = zIndex, dashStyle = styleLine,#
+			label = list(text = trad['annotation.Kosovo',lang], rotation = 0, y = yoffset,#
+			style = list( color = textColor, fontSize = fontSize))),#
+			list(color = plotLinesColor, value = 2011.3, width = widthLine, zIndex = zIndex, dashStyle = styleLine,#
+			label = list(text = trad['annotation.Syria',lang], rotation = 0, x = -5, y = yoffset, align = 'right',#
+			style = list( color = textColor, fontSize = fontSize)))#
+			)#
+		)#
+#
 	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#efe9e0", #
+	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF",#
 		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
 #
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
+    # a$credits(text = 'this is some really long text that i am using as a footer')#
+	# formatter <- "#! function() { return '<b>' +#
+	# 	this.point.x + '</b><br><br>' + this.point.y + '<br>' + this.point.name + ' ('+ this.series.name + ')</div>'; } !#"#
+	# a$tooltip(formatter = formatter, useHTML = T, borderWidth = 2, backgroundColor = 'rgba(255,255,255,0.8)')#
+	a$tooltip(formatter = "#! function() { return this.point.name; } !#", useHTML = T , borderWidth = 3, style = list(padding = 1.5))#
 	a#
 #
 	hChart.html <- tempfile("hChart_area")#
 	a$save(hChart.html)#
 #
-	# Example of converting a highcharts-rCharts html chart into a responsive one#
+	# Convert highcharts-rCharts html chart into a responsive one#
 #
 	hChart2responsiveHTML(hChart.html, output.html = output.html, h2 = trad['title',lang], descr = trad['descr',lang],#
-		source = trad['source',lang], h3 = "", author = "Duc-Quang Nguyen | swissinfo.ch")
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = 500, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
+		source = trad['source',lang], h3 = "", author = 'Duc-Quang Nguyen | <a href = "http://www.swissinfo.ch" target="_blank">swissinfo.ch</a>')#
 #
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(list(color = "lightgrey", value = 1992, width = 1, zIndex = -10,#
-		label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-		style = list( color = 'lightgrey')))))#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = 500, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(list(color = "#F7F7F7", value = 1992, width = 1, zIndex = -10,#
-		label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-		style = list( color = 'lightgrey')))))#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))
-a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = 500, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(list(color = "#F7F7F7", value = 1992, width = 1, zIndex = -10,#
-		label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-		style = list( color = '#D8D8D8')))))#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))
-a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = 500, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(list(color = "#F7F7F7", value = 1992, width = 1, zIndex = -10,#
-		label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-		style = list( color = '#D8D8D8')))))#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = 500, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 0.95))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(list(color = "#F7F7F7", value = 1992, width = 1, zIndex = -10,#
-		label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-		style = list( color = '#D8D8D8')))))#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "#F7F7F7", value = 1991.4, width = 1, zIndex = -10,#
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "#F7F7F7", value = 1998.2, width = 1, zIndex = -10,#
-			label = list(text = "Kosovo", rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "#F7F7F7", value = 1991.4, width = 1, zIndex = -10,#
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "#F7F7F7", value = 1998.2, width = 1, zIndex = -10,#
-			label = list(text = "Kosovo", rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			)#
-		)
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "#F7F7F7", value = 1991.4, width = 1, zIndex = -10,#
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "#F7F7F7", value = 1998.2, width = 1, zIndex = -10,#
-			label = list(text = "Kosovo", rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "#F7F7F7", value = 1991.4, width = 1, zIndex = -10,#
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "#F7F7F7", value = 1998.2, width = 1, zIndex = -10,#
-			label = list(text = "Kosovo", rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)
-a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-lang <- colnames(trad)[i]#
-	output.html <- paste("01_EUayslumRequests_area_", lang, ".html", sep ="")#
-#
-	ddd <- dd#
-#
-	## Translate country names ###
-	ddd[which(ddd$iso2 == "autres"), 'iso2'] <- as.character(trad['iso.others', lang])#
-	# create a named vector: new geo, name old geo#
-	geotrad <- structure(as.character(trad[idxrow.fullgeo,lang]), names =  gsub("^full\\.", "", rownames(trad)[idxrow.fullgeo]))#
-	ddd$geo <- geotrad[match(ddd$geo, names(geotrad))]#
-	## CHART#
-	a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-chartHeight <- 500
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "#F7F7F7", value = 1991.4, width = 1, zIndex = -10,#
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "#F7F7F7", value = 1998.2, width = 1, zIndex = -10,#
-			label = list(text = "Kosovo", rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "#F7F7F7", value = 1991.4, width = 1, zIndex = -10, dashStyle =  'longdashdot', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "#F7F7F7", value = 1998.2, width = 1, zIndex = -10,#
-			label = list(text = "Kosovo", rotation = 0, y = 15, dashStyle = 'longdashdot',#
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "#lightgrey", value = 1991.4, width = 1, zIndex = -10, dashStyle =  'ShortDot', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "#F7F7F7", value = 1998.2, width = 1, zIndex = -10,#
-			label = list(text = "Kosovo", rotation = 0, y = 15, dashStyle = 'ShortDot',#
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "lightgrey", value = 1991.4, width = 1, zIndex = -10, dashStyle =  'ShortDot', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "#F7F7F7", value = 1998.2, width = 1, zIndex = -10,#
-			label = list(text = "Kosovo", rotation = 0, y = 15, dashStyle = 'ShortDot',#
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "black", value = 1991.4, width = 1, zIndex = -10, dashStyle = 'ShortDot', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "#F7F7F7", value = 1998.2, width = 1, zIndex = -10,#
-			label = list(text = "Kosovo", rotation = 0, y = 15, dashStyle = 'ShortDot',#
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "black", value = 1991.4, width = 1, zIndex = -10, dashStyle = 'LongDash', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "black", value = 1998.2, width = 1, zIndex = -10,#
-			label = list(text = "Kosovo", rotation = 0, y = 15, dashStyle = 'LongDash',#
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "grey", value = 1991.4, width = 1, zIndex = -10, dashStyle = 'LongDash', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "grey", value = 1998.2, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Kosovo", rotation = 0, y = 15, #
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "lightgrey", value = 1991.4, width = 1, zIndex = -10, dashStyle = 'LongDash', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 1998.2, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Kosovo", rotation = 0, y = 15, #
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "lightgrey", value = 1991.4, width = 1, zIndex = -10, dashStyle = 'LongDash', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 1998.2, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Kosovo", rotation = 0, y = 15, #
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 1998.2, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Guerre civil Syrie", rotation = 0, y = 15, #
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "lightgrey", value = 1991.4, width = 1, zIndex = -10, dashStyle = 'LongDash', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 1998.2, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Kosovo", rotation = 0, y = 15, #
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 2011.3, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Guerre civil Syrie", rotation = 0, y = 15, #
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "lightgrey", value = 1991.4, width = 1, zIndex = -10, dashStyle = 'LongDash', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 1998.2, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Kosovo", rotation = 0, y = 15, #
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 2011.3, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Guerre civil Syrie", rotation = 0, y = 15, align = 'left',#
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "lightgrey", value = 1991.4, width = 1, zIndex = -10, dashStyle = 'LongDash', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 1998.2, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Kosovo", rotation = 0, y = 15, #
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 2011.3, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Guerre civil Syrie", rotation = 0, x = -30, y = 15, align = 'left',#
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a <- Highcharts$new()#
-	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)#
-	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$geo, series = ddd$iso2), "series")#
-#
-	a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "lightgrey", value = 1991.4, width = 1, zIndex = -10, dashStyle = 'LongDash', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 1998.2, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Kosovo", rotation = 0, y = 15, #
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 2011.3, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Guerre civil Syrie", rotation = 0, y = 15, textAlign = 'left',#
-			style = list( color = '#D8D8D8')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod')
-a$series(hSeries)#
-	a$colors(swi_pal)#
-	a$plotOptions(area = list(stacking = "normal", lineWidth = 0, marker = list(enabled = FALSE, symbol = "circle", radius = 0.5)), series = list(fillOpacity = 1))#
-	a$legend(borderWidth= 0)#
-	a$xAxis(title = list(text = ""), max = max(dd$time), min = min(dd$time),#
-		plotLines = list(#
-			list(color = "lightgrey", value = 1991.4, width = 1, zIndex = -10, dashStyle = 'LongDash', #
-			label = list(text = trad['annotation.exYougoslavia',lang], rotation = 0, y = 15,#
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 1998.2, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Kosovo", rotation = 0, y = 15, #
-			style = list( color = '#D8D8D8'))),#
-			list(color = "lightgrey", value = 2011.3, width = 1, zIndex = -10, dashStyle = 'LongDash',#
-			label = list(text = "Guerre civil Syrie", rotation = 0, y = 15, textAlign = 'left',#
-			style = list( color = '#D8D8D8', fontSize= '0.7em')))#
-			)#
-		)#
-	a$lang( numericSymbols= NULL)#
-	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF", #
-		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))#
-#
-	# formatter <- paste("#! function() {", "return '<strong>' + this.series.name + ",#
-	# 	 "'</strong><div class=\"tooltip\" style=\"color:#686868;font-size:0.8em\"><br/>",#
-	# 	 y.tooltip, ": <b>' + this.y + '", "</b><br/>",  x.tooltip, ": <b>' + this.x + '",#
-	# 	 "</b><br/>", z.tooltip, ": ' + this.point.z +","'</div>';",#
-	# 	"} !#", sep = "")#
-	##
-	# a$tooltip( useHTML = T, formatter = formatter)#
-	a
+}
+str(ddd)
+str(dd)
+str(dd)
+ls()
