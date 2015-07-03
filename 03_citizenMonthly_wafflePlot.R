@@ -107,13 +107,12 @@ rownames(df) <- NULL
 
 write.csv(df, file = "prod/02_inputData.csv")
 
-
-
-
 ############################################################################################
 ###		Plot
 ############################################################################################
 
+
+####### PLOT SETTINGS #######
 ###	waffle settings
 font <- "Open Sans"
 # how many rows in waffle
@@ -123,13 +122,13 @@ w.size <- 3.7
 legendKeySize <- unit(2, "line")
 legendKeyHeight <- unit(1.6,"line")
 animationInterval <- 4.2
-
-
 colorV <- structure(swi_rpal[1:nlevels(df$citizen)], names = levels(df$citizen))
 
 iso <- 'HU' ## debugging
 
-waffleIso <- function(iso = 'CH') {
+####### helper functions #######
+
+waffleIso <- function(iso = 'CH', df = df) {
 	stopifnot(length(iso) == 1)
 
 	dff <- df %>% filter(iso2 == iso)
@@ -181,8 +180,6 @@ waffleIso <- function(iso = 'CH') {
 	grid.draw(gw3)
 }
 
-
-
 introText <- function(title, title2, subtitle, img = swiLogo) {
 	par(mar = c(0,0,0,0))
 	plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
@@ -192,31 +189,47 @@ introText <- function(title, title2, subtitle, img = swiLogo) {
 	rasterImage(img, .85, 0.03, 0.96, 0)
 }
 
+
+
+
+############################################################################################
+###		Loop by language to create the GIF
+############################################################################################
+
 test <- T
-if(test){
-	output <- "test.gif"
-}  else {
-	output <- "02_EU_asylum_waffle.gif"
+
+languages <- if(test) 'fr' else colnames(trad)
+
+
+for(lang in languages) {
+
+	if(test){output <- "test.gif"
+	}  else {
+		output <- paste0("02_EU_asylum_waffle_", lang ,".gif")
+	}
+
+	saveGIF({
+		introText(title = "Demandes d'asile en Europe", "En 2015, jusqu'à présent", "Si tous les pays européens avait 50000 habitants...")
+		if(test) {
+			wp <- waffleIso('CH', df.l)
+			print(wp)
+			wp <- waffleIso('HU', df.l)
+			print(wp)
+		} else {
+			for(iso in iso.ordered) {
+				wp <- waffleIso(iso, df.l)
+				print(wp)
+			}
+		}
+	}, movie.name = output, interval = animationInterval, nmax = 50, ani.width = 800, ani.height = 600, loop = TRUE, outdir = "prod")
 }
 
 
 
-saveGIF({
-	introText(title = "Demandes d'asile en Europe", "En 2015, jusqu'à présent", "Si tous les pays européens avait 50000 habitants...")
-	if(test) {
-		wp <- waffleIso('CH')
-		print(wp)
-		print(wp)
-		wp <- waffleIso('HU')
-		print(wp)
-		print(wp)
-	} else {
-		for(iso in iso.ordered) {
-			wp <- waffleIso(iso)
-			print(wp)
-		}
-	}
-}, movie.name = output, interval = animationInterval, nmax = 50, ani.width = 800, ani.height = 600, loop = TRUE, outdir = "prod")
+
+
+
+
 
 
 
