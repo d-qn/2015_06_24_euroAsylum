@@ -5,11 +5,16 @@ library(ggplot2)
 library(swiTheme)
 require(gtable)
 library(animation)
+library(png)
+
 
 inputData <- "data/02_citizenMonthly_waffled.Rdata"
 load(inputData)
 
 tradFile <- "prod/waffle"
+
+# load SWI logo
+swiLogo <- readPNG("~/swissinfo/_helpers/SWI-RGB.png")
 
 ############################################################################################
 ###		HELPER
@@ -70,7 +75,7 @@ waffled <- function (parts, rows = 10, xlab = NULL, title = NULL, colors = NA,
     gg <- gg + theme(plot.title = element_text(size = 18))
     gg <- gg + theme(plot.background = element_blank())
 	## Change 4 make space on the top and comment the other line
-    gg <- gg + theme(plot.margin = unit(c(5, 0, 0, 0), "lines"))
+    gg <- gg + theme(plot.margin = unit(c(4, 0, 0, 0), "lines"))
     # gg <- gg + theme(plot.margin = rep(unit(0, "null"), 4))
     gg
 }
@@ -81,7 +86,9 @@ waffled <- function (parts, rows = 10, xlab = NULL, title = NULL, colors = NA,
 ############################################################################################
 
 range(data$time)
-tmp <- as.data.frame(df %>% filter(iso2 != 'EU28') %>% group_by(iso2) %>% summarise(totsq = sum(sq)) %>% filter(totsq > 2 | iso2 %in% c('PT', 'ES')))
+tmp <- as.data.frame(df %>% filter(iso2 != 'EU28') %>% group_by(iso2) %>%
+	summarise(totsq = sum(sq)) %>% filter(totsq > 2 | iso2 %in% c('PT', 'ES') |
+	!iso2 %in% c('LI', 'IS', 'CZ', 'HR', 'LT', 'LV', 'SI', 'SK', 'EE')))
 
 iso.ordered <- as.character(tmp$iso2[order(tmp$totsq)])
 
@@ -102,42 +109,84 @@ waffleIso <- function(iso = 'CH') {
 	stopifnot(length(iso) == 1)
 
 	dff <- df %>% filter(iso2 == iso)
-	topText <- paste0("En 2015", " (jusqu'en mars), ", dff[which(dff$citizen == "Total"),'sum'],
-		" demandes d'asile ont été déposées en ", dff$geo[1], ".")
-	text2 <- paste0("Si la ",  dff$geo[1], " avait ", unit,  " habitants...", "\n", "Il y aurait eu ",
+
+	countryTop <- geom_text(data = data.frame(x = 0, y = w.row + 2, label = dff$geo[1]), aes(x = x, y = y, label = label),
+				family = font, fontface = "bold", alpha = 0.4, size = 11, hjust = 0, vjust = 0, colour = "#aa8959")
+	topText <- paste0(dff[which(dff$citizen == "Total"),'sum'],
+		" demandes d'asile y ont été déposées en 2015 jusqu'à mars.")
+	titleTop <- geom_text(data = data.frame(x = 0, y = w.row + 1.4, label = topText), aes(x = x, y = y, label = label),
+				family = font, alpha = 1, size = 5, hjust = 0, vjust = 0)
+	text2 <- paste0("Si la ",  dff$geo[1], " avait ", unit,  " habitants, il y aurait eu ",
 		dff[which(dff$citizen == "Total"),'perU'], " demandes d'asile provenant de:")
+	subtitle <- geom_text(data = data.frame(x = 0, y = w.row + 0.85, label = text2), aes(x = x, y = y, label = label),
+				family = font, fontface = "bold", alpha = 1, size = 5, hjust = 0, vjust = 0)
 
+	# Hack: set a blank waffle and display top text
+	blankW <- waffled(rep(round(17 * w.row / length(wf)), length(wf)), rows = w.row, size = 0.7, colors = rep("white", length(wf))) +
+		theme(legend.position = "bottom", legend.key.size = unit(0.7, "line"), legend.key.height = unit(1,"line"),
+		legend.key = element_rect(colour = NA), legend.text = element_text(colour = "white")) + guides(fill = guide_legend(nrow = 2, byrow = TRUE,
+		override.aes = list(colour = NULL)))
+	textOnly <- blankW + countryTop +titleTop + subtitle
+
+	textOnly2 <- ggplot_gtable(ggplot_build(textOnly))
+	textOnly2$layout$clip[textOnly2$layout$name == "panel"] <- "off"
+	grid.newpage()
+	grid.draw(textOnly2)
+
+	# Waffle chart
 	wf <- structure(dff$sq, names = as.character(dff$citizen))
-
 	padding <- maxCol - ceiling(sum(wf) / w.row)
-
 	gw <- waffled(wf, rows = w.row, size = 0.7, colors = unname(colorV[match(names(wf), names(colorV))]),
 		pad = padding, xlab = NULL) +
 		theme(legend.position = "bottom", legend.key.size = unit(0.7, "line"), legend.key.height = unit(1,"line"),
 		legend.key = element_rect(colour = NA),
-		axis.ticks = element_blank(), axis.text = element_blank(), text = element_text(size = 12, family = font)) +
+		axis.ticks = element_blank(), axis.text = element_blank(), text = element_text(size = 13, family = font)) +
 		guides(fill = guide_legend(nrow = 2, byrow = TRUE, override.aes = list(colour = NULL)))
 		# TITLE
 
-	gw2 <- gw + geom_text(data = data.frame(x = 0, y = w.row + 3, label = topText), aes(x = x, y = y, label = label),
-		family = font, alpha = 1, size = 4, hjust = 0, vjust = 0)
-
-	gw2 <- gw2 + geom_text(data = data.frame(x = 0, y = w.row + 1, label = text2), aes(x = x, y = y, label = label),
-		family = font, fontface = "bold", alpha = 1, size = 4, hjust = 0, vjust = 0)
+	gw2 <- gw + countryTop + titleTop + subtitle
 
 	## Turn off clipping and print !
 	gw3 <- ggplot_gtable(ggplot_build(gw2))
 	gw3$layout$clip[gw3$layout$name == "panel"] <- "off"
 	grid.newpage()
 	grid.draw(gw3)
+	grid.draw(gw3)
 }
 
-saveGIF({
-	for(iso in iso.ordered) {
-		print(waffleIso(iso))
-	}
-}, movie.name = "EU_asylum_waffle.gif", interval = 5, nmax = 50, ani.width = 640, ani.height = 570, loop = TRUE, outdir = getwd())
+test <- T
+if(test){
+	output <- "test.gif"
+}  else {
+	output <- "02_EU_asylum_waffle.gif"
+}
 
+introText <- function(title, subtitle, img = swiLogo) {
+	par(mar = c(0,0,0,0))
+	plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+	text(x = 0.05, y = 0.95, title, cex = 2.2, col = "black", family = font, font = 2, adj = 0)
+	text(x = 0.05, y = 0.88, subtitle, cex = 2, col = "gray30", family = font, font = 1, adj = 0)
+	rasterImage(img, .85, 0.05, 0.96, 0)
+}
+
+
+
+saveGIF({
+	introText(title = "Demandes d'asile en Europe", "Si tous les pays européens avait 50000 habitants...")
+	if(test) {
+		wp <- waffleIso('CH')
+		print(wp)
+		print(wp)
+		wp <- waffleIso('HU')
+		print(wp)
+		print(wp)
+	} else {
+		for(iso in iso.ordered) {
+			wp <- waffleIso(iso)
+			print(wp)
+		}
+	}
+}, movie.name = output, interval = 5, nmax = 50, ani.width = 800, ani.height = 600, loop = TRUE, outdir = "prod")
 
 
 
