@@ -101,9 +101,17 @@ colnames(t.df) <- c('code', 'en')
 write.csv(t.df, file = "prod/02_translation_tmp.csv", row.names = F)
 
 
+### Filter out iso.ordered
+df <- df %>% filter(iso2 %in% iso.ordered)
+
 ### Add the citizen code to data.frame
-df <- cbind(df, cit.code = t.df[match(df$citizen, t.df$en), 'code'])
+df <- cbind(df, cit.code = factor(t.df[match(df$citizen, t.df$en), 'code']))
 rownames(df) <- NULL
+
+
+### Define colors
+colorV <- structure(swi_rpal[1:nlevels(df$cit.code)], names = levels(df$cit.code))
+colorV['cit.Tota'] <- 'lightgrey'
 
 write.csv(df, file = "prod/02_inputData.csv")
 
@@ -119,30 +127,29 @@ font <- "Open Sans"
 w.row <- 10
 w.size <- 3.7
 
-legendKeySize <- unit(2, "line")
-legendKeyHeight <- unit(1.6,"line")
-animationInterval <- 4.2
-colorV <- structure(swi_rpal[1:nlevels(df$citizen)], names = levels(df$citizen))
+legendKeySize <- unit(2.2, "line")
+legendKeyHeight <- unit(2,"line")
+animationInterval <- 4.6
 
 iso <- 'HU' ## debugging
 
 ####### helper functions #######
 
-waffleIso <- function(iso = 'CH', df = df) {
+waffleIso <- function(iso = 'CH', iDf = df.l, trad, lang) {
 	stopifnot(length(iso) == 1)
 
-	dff <- df %>% filter(iso2 == iso)
+	dff <- iDf %>% filter(iso2 == iso)
 	dfff <- dff %>% filter(sq > 0)
-	wf <- structure(dfff$sq, names = as.character(dfff$citizen))
 
-	countryTop <- geom_text(data = data.frame(x = 0, y = w.row + 2.1, label = dff$geo[1]), aes(x = x, y = y, label = label),
+	wf <- structure(dfff$sq, names = as.character(dfff$CIT))
+
+	countryTop <- geom_text(data = data.frame(x = 0, y = w.row + 2.1, label = dff$GEO[1]), aes(x = x, y = y, label = label),
 				family = font, fontface = "bold", alpha = 1, size = 11, hjust = 0, vjust = 0, colour = "#aa8959")
-	topText <- paste0(dff[which(dff$citizen == "Total"),'sum'], " ",
-		" demandes d'asile y ont été déposées en 2015 jusqu'à mars.")
+	topText <- paste0(dff[which(dff$citizen == "Total"),'sum'], " ", trad["title.slide", lang])
 	titleTop <- geom_text(data = data.frame(x = 0, y = w.row + 1.45, label = topText), aes(x = x, y = y, label = label),
 				family = font, alpha = 1, size = 5, hjust = 0, vjust = 0)
-	text2 <- paste0("Si ce pays avait", " ", unit,  " ", "habitants, il y aurait eu", " ",
-		dff[which(dff$citizen == "Total"),'perU'], " ", "demandes d'asile provenant de:")
+	text2 <- paste0(trad["subtitle1.slide", lang], " ", unit,  " ", trad["subtitle2.slide", lang], " ",
+		dff[which(dff$citizen == "Total"),'perU'], " ", trad["subtitle3.slide", lang])
 	subtitle <- geom_text(data = data.frame(x = 0, y = w.row + 0.85, label = text2), aes(x = x, y = y, label = label),
 				family = font, alpha = 1, size = 5, hjust = 0, vjust = 0)
 
@@ -161,7 +168,7 @@ waffleIso <- function(iso = 'CH', df = df) {
 
 	# Waffle chart
 	padding <- maxCol - ceiling(sum(wf) / w.row)
-	gw <- waffled(wf, rows = w.row, size = w.size, colors = unname(colorV[match(names(wf), names(colorV))]),
+	gw <- waffled(wf, rows = w.row, size = w.size, colors = unname(colorV[match(as.character(iDf[match(names(wf), iDf$CIT),'cit.code']), names(colorV))]),
 		pad = padding, xlab = NULL) +
 		theme(legend.position = "bottom", legend.key.size = legendKeySize, legend.key.height = legendKeyHeight,
 		legend.key = element_rect(colour = NA),
@@ -189,6 +196,20 @@ introText <- function(title, title2, subtitle, img = swiLogo) {
 	rasterImage(img, .85, 0.03, 0.96, 0)
 }
 
+outroText <- function(source = "source: Eurostat",
+	method = "Seuls les mois avec des données pour tous les pays européens ont été considérés.",
+	lastUpdate = paste0("Dernière mise à jour: ", Sys.Date()), author = "Duc-Quang Nguyen (@duc_qn)", img = swiLogo) {
+
+	par(mar = c(0,0,0,0))
+	plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+	text(x = 0.01, y = 0.95, source, cex = 1.5, col = "black", family = font, font = 3, adj = 0)
+	text(x = 0.01, y = 0.88, method, cex = 1.3, col = "black", family = font, font = 3, adj = 0)
+
+	text(x = 0.01, y = 0.2, lastUpdate, cex = 1, col = "gray30", family = font, font = 1, adj = 0)
+	text(x = 0.01, y = 0.15, author, cex = 1, col = "gray30", family = font, font = 1, adj = 0)
+	rasterImage(img, .85, 0.03, 0.96, 0)
+}
+
 
 
 
@@ -196,12 +217,14 @@ introText <- function(title, title2, subtitle, img = swiLogo) {
 ###		Loop by language to create the GIF
 ############################################################################################
 
-test <- T
+test <- F
 
 languages <- if(test) 'fr' else colnames(trad)
 
 
 for(lang in languages) {
+
+	df.l <- cbind(df, GEO = trad[match(df$iso2, rownames(trad)), lang], CIT = trad[match(df$cit.code, rownames(trad)), lang] )
 
 	if(test){output <- "test.gif"
 	}  else {
@@ -209,17 +232,18 @@ for(lang in languages) {
 	}
 
 	saveGIF({
-		introText(title = "Demandes d'asile en Europe", "En 2015, jusqu'à présent", "Si tous les pays européens avait 50000 habitants...")
+		introText(title = trad["title.main", lang], trad["title2.main", lang], trad["title3.main", lang])
 		if(test) {
-			wp <- waffleIso('CH', df.l)
+			wp <- waffleIso('CH', df.l, trad, lang)
 			print(wp)
-			wp <- waffleIso('HU', df.l)
+			wp <- waffleIso('HU', df.l, trad, lang)
 			print(wp)
 		} else {
 			for(iso in iso.ordered) {
-				wp <- waffleIso(iso, df.l)
+				wp <- waffleIso(iso, df.l, trad, lang)
 				print(wp)
 			}
+			outroText()
 		}
 	}, movie.name = output, interval = animationInterval, nmax = 50, ani.width = 800, ani.height = 600, loop = TRUE, outdir = "prod")
 }
