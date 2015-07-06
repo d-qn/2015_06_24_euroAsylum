@@ -89,7 +89,7 @@ waffled <- function (parts, rows = 10, xlab = NULL, title = NULL, colors = NA,
 range(data$time)
 tmp <- as.data.frame(df %>% filter(iso2 != 'EU28') %>% group_by(iso2) %>%
 	summarise(totsq = sum(sq)) %>% filter(totsq > 2 | iso2 %in% c('PT', 'ES')) %>%
-	filter(!iso2 %in% c('LI', 'IS', 'CZ', 'HR', 'LT', 'LV', 'SI', 'SK', 'EE', 'BG', 'LU', 'PT', 'BE', 'FI', 'IE')))
+	filter(!iso2 %in% c('LI', 'IS', 'CZ', 'HR', 'LT', 'LV', 'SI', 'SK', 'EE', 'BG', 'LU', 'PT', 'BE', 'FI', 'IE', 'NO', 'NL', 'DK')))
 
 iso.ordered <- as.character(tmp$iso2[order(tmp$totsq)])
 
@@ -111,7 +111,7 @@ rownames(df) <- NULL
 
 ### Define colors
 colorV <- structure(swi_rpal[1:nlevels(df$cit.code)], names = levels(df$cit.code))
-colorV['cit.Tota'] <- 'lightgrey'
+colorV['cit.Tota'] <- 'darkgrey'
 
 write.csv(df, file = "prod/02_inputData.csv")
 
@@ -198,13 +198,14 @@ introText <- function(title, title2, subtitle, img = swiLogo) {
 
 outroText <- function(source = "source: Eurostat",
 	method = "Seuls les mois avec des données pour tous les pays européens ont été considérés.",
+	method2 = "Inspiré par: Le Monde - les Décodeurs",
 	lastUpdate = paste0("Dernière mise à jour: ", Sys.Date()), author = "Duc-Quang Nguyen (@duc_qn)", img = swiLogo) {
 
 	par(mar = c(0,0,0,0))
 	plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
 	text(x = 0.01, y = 0.95, source, cex = 1.5, col = "black", family = font, font = 3, adj = 0)
 	text(x = 0.01, y = 0.88, method, cex = 1.3, col = "black", family = font, font = 3, adj = 0)
-
+	text(x = 0.01, y = 0.8, method2, cex = 1.3, col = "black", family = font, font = 3, adj = 0)
 	text(x = 0.01, y = 0.2, lastUpdate, cex = 1, col = "gray30", family = font, font = 1, adj = 0)
 	text(x = 0.01, y = 0.15, author, cex = 1, col = "gray30", family = font, font = 1, adj = 0)
 	rasterImage(img, .85, 0.03, 0.96, 0)
@@ -224,7 +225,7 @@ languages <- if(test) 'fr' else colnames(trad)
 
 for(lang in languages) {
 
-	df.l <- cbind(df, GEO = trad[match(df$iso2, rownames(trad)), lang], CIT = trad[match(df$cit.code, rownames(trad)), lang] )
+	df.l <- cbind(df, GEO = trad[match(df$iso2, rownames(trad)), lang], CIT = paste0(" ", trad[match(df$cit.code, rownames(trad)), lang], " ") )
 
 	if(test){output <- "test.gif"
 	}  else {
@@ -243,6 +244,7 @@ for(lang in languages) {
 				wp <- waffleIso(iso, df.l, trad, lang)
 				print(wp)
 			}
+			outroText()
 			outroText()
 		}
 	}, movie.name = output, interval = animationInterval, nmax = 50, ani.width = 800, ani.height = 600, loop = TRUE, outdir = "prod")

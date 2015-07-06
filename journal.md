@@ -48,3 +48,11 @@ Between 1986 and 2007, data on asylum was collected on the basis of a gentlemenâ
 * __tps00189__ get the recent monthly asylum seeker only
 * __tps00191__ get the yearly application by year 2008-2014
 
+
+
+
+
+## DW
+
+* http://charts.swissinfo.ch/2e7mQ/1/
+* 
