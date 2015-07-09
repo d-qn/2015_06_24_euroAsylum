@@ -5,7 +5,7 @@ library(swiTheme)
 ###		Load data
 ############################################################################################
 
-load("01_areaChart.Rdata")
+load("../data/01_areaChart.Rdata")
 trad <- read.csv("01_areaChartEU.csv", check.names = F, stringsAsFactors = F, row.names = 1)
 
 ## geo country names check ##
@@ -34,11 +34,10 @@ textColor <- "#bfa681"
 
 i <- 1
 
-
 for (i in 1:ncol(trad)) {
 
 	lang <- colnames(trad)[i]
-	output.html <- paste("01_EUayslumRequests_area_", lang, ".html", sep ="")
+	output.html <- paste("../01_EUayslumRequests_area_", lang, ".html", sep ="")
 
 	ddd <- dd
 
@@ -95,10 +94,6 @@ for (i in 1:ncol(trad)) {
 	a$yAxis(title = list(text = trad['y.lab',lang]), gridLineColor = "#EFEFEF",
 		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))
 
-    # a$credits(text = 'this is some really long text that i am using as a footer')
-	# formatter <- "#! function() { return '<b>' +
-	# 	this.point.x + '</b><br><br>' + this.point.y + '<br>' + this.point.name + ' ('+ this.series.name + ')</div>'; } !#"
-	# a$tooltip(formatter = formatter, useHTML = T, borderWidth = 2, backgroundColor = 'rgba(255,255,255,0.8)')
 	a$tooltip(formatter = "#! function() { return this.point.name; } !#", useHTML = T , borderWidth = 3, style = list(padding = 1.5))
 	a
 
@@ -106,7 +101,6 @@ for (i in 1:ncol(trad)) {
 	a$save(hChart.html)
 
 	# Convert highcharts-rCharts html chart into a responsive one
-
 	hChart2responsiveHTML(hChart.html, output.html = output.html, h2 = trad['title',lang], descr = trad['descr',lang],
 		source = trad['source',lang], h3 = "", author = 'Duc-Quang Nguyen | <a href = "http://www.swissinfo.ch" target="_blank">swissinfo.ch</a>')
 

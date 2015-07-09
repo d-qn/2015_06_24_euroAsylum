@@ -89,7 +89,7 @@ waffled <- function (parts, rows = 10, xlab = NULL, title = NULL, colors = NA,
 range(data$time)
 tmp <- as.data.frame(df %>% filter(iso2 != 'EU28') %>% group_by(iso2) %>%
 	summarise(totsq = sum(sq)) %>% filter(totsq > 2 | iso2 %in% c('PT', 'ES')) %>%
-	filter(!iso2 %in% c('LI', 'IS', 'CZ', 'HR', 'LT', 'LV', 'SI', 'SK', 'EE', 'BG', 'LU', 'PT', 'BE', 'FI', 'IE', 'NO', 'NL', 'DK')))
+	filter(!iso2 %in% c('LI', 'IS', 'CZ', 'HR', 'LT', 'LV', 'SI', 'SK', 'BG', 'EE', 'LU', 'PT', 'BE', 'FI', 'IE', 'NO', 'NL', 'DK')))
 
 iso.ordered <- as.character(tmp$iso2[order(tmp$totsq)])
 
@@ -129,7 +129,7 @@ w.size <- 3.7
 
 legendKeySize <- unit(2.2, "line")
 legendKeyHeight <- unit(2,"line")
-animationInterval <- 4.6
+animationInterval <- 4
 
 iso <- 'HU' ## debugging
 
@@ -144,7 +144,7 @@ waffleIso <- function(iso = 'CH', iDf = df.l, trad, lang) {
 	wf <- structure(dfff$sq, names = as.character(dfff$CIT))
 
 	countryTop <- geom_text(data = data.frame(x = 0, y = w.row + 2.1, label = dff$GEO[1]), aes(x = x, y = y, label = label),
-				family = font, fontface = "bold", alpha = 1, size = 11, hjust = 0, vjust = 0, colour = "#aa8959")
+				family = font, fontface = "bold", alpha = 1, size = 11, hjust = 0, vjust = 0, colour = "#333333")
 	topText <- paste0(dff[which(dff$citizen == "Total"),'sum'], " ", trad["title.slide", lang])
 	titleTop <- geom_text(data = data.frame(x = 0, y = w.row + 1.45, label = topText), aes(x = x, y = y, label = label),
 				family = font, alpha = 1, size = 5, hjust = 0, vjust = 0)
@@ -212,8 +212,6 @@ outroText <- function(source = "source: Eurostat",
 }
 
 
-
-
 ############################################################################################
 ###		Loop by language to create the GIF
 ############################################################################################
@@ -222,10 +220,10 @@ test <- F
 
 languages <- if(test) 'fr' else colnames(trad)
 
-
 for(lang in languages) {
 
-	df.l <- cbind(df, GEO = trad[match(df$iso2, rownames(trad)), lang], CIT = paste0(" ", trad[match(df$cit.code, rownames(trad)), lang], " ") )
+	df.l <- cbind(df, GEO = trad[match(df$iso2, rownames(trad)), lang],
+		CIT = paste0(" ", trad[match(df$cit.code, rownames(trad)), lang], " ") )
 
 	if(test){output <- "test.gif"
 	}  else {

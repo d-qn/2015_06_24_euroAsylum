@@ -55,4 +55,19 @@ Between 1986 and 2007, data on asylum was collected on the basis of a gentlemenâ
 ## DW
 
 * http://charts.swissinfo.ch/2e7mQ/1/
-* 
+
+
+
+
+##Â Charts
+
+1. Area chart asylum seeker by European country
+   * (Be sure to have run before the pre-prod script: 01_euAsylumRequest.R to save the data) 
+   * Run the [prod script](/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts/01_areaChartEU.R) 
+1. Waffle chart
+   * Be sure to run the test and pre-prod scripts 02_citizenMonthly.R
+   * 
+  
+ 
+
+

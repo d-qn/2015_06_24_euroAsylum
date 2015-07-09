@@ -104,7 +104,7 @@ a$yAxis(title = list(text = "Demandeurs d'asile en milliers"),
 
 
 
-save(dd, collapsedCountries, file = "prod/01_areaChart.Rdata")
+save(dd, collapsedCountries, file = "prod/data/01_areaChart.Rdata")
 
 ############################################################################################
 ###		2 AREA chart by origin country
@@ -145,24 +145,6 @@ save(dd, collapsedCountries, file = "prod/01_areaChart.Rdata")
 # b$yAxis(title = list(text = "Demandeurs d'asile en milliers"),
 # 	labels = list(formatter = "#! function () {return this.value / 1000;} !#"))
 #
-
-
-
-############################################################################################
-###		3 WAFFLE chart by origin country of others
-############################################################################################
-library(waffle)
-
-ee <- data %>% filter(time == 2014) %>% select(one_of(c('citizen', 'values')))
-
-ee$pc <- ee$values / sum(ee$values) * 100
-
-ww <- ee[which(ee$pc >= 1.5),]
-ww$n <- round(ww$pc)
-wf <- structure(ww$n, names = as.character(ww$citizen))
-wf<- c(wf, `autres` = 100-sum(wf))
-
-waffle(wf, rows = 20)
 
 
 
