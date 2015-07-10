@@ -1,0 +1,26 @@
+code,fr
+title,Décisions positives des demandes d'asile par pays d'origine
+descr,Pourcentage de décisions positives en première instance en 2014 pour une sélection de pays d'Europe et par pays d'origine. La taille des bulles est proportionnelle au nombre de cas réglés. Placez votre curseur ou tapotez sur une bulle pour voir les chiffres exacts.
+y.lab,Taux de décision positive en première instance (%)
+source,source: Eurostat
+legend.country,Pays d'origine
+legend.descr,(Cliquez pour masquer)
+tooltip1,Décisions en première en instance pour demandes d'asile:
+tooltip2,% décision positive
+cit.Afghanistan,Afghanistan
+cit.Eritrea,Erythrée
+cit.Iraq,Iraq
+cit.Pakistan,Pakistan
+cit.Somalia,Somalie
+cit.Stateless,Apatride
+cit.Syria,Syrie
+cit.autres pays,autres pays
+CH,Suisse
+DE,Allemagne
+ES,Espagne
+FR,France
+HU,Hongrie
+IT,Italie
+PT,Portugal
+SE,Suède
+UK,Royaume-Uni

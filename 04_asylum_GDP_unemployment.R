@@ -1,11 +1,10 @@
 ###### This download the yearly data with country of origin!
 library(eurostat)
 library(WDI)
-
 library(dplyr)
+library(tidyr)
 library(ggplot2)
 library(swiTheme)
-
 
 ############################################################################################
 ###		Get asylum data
@@ -32,8 +31,15 @@ dat.asap <- filter(dat.asap, citizen == "Total", geo != "Total", iso2 != 'EU28')
 
 
 dat.asde <- getYearlyData(id[2])
-dat.asde <- dat.asde %>%  filter(time == max(dat.asde$time), sex == "Total", age == "Total", decision == "Total positive decisions")
-dat.asde <- filter(dat.asde, citizen == "Total", geo != "Total", iso2 != 'EU28')  %>% select(one_of(c('geo', 'values', 'iso2')))
+
+dat.asde1 <- dat.asde %>%  filter(time == max(dat.asde$time), sex == "Total", age == "Total", decision == "Total positive decisions")
+dat.asde1 <- filter(dat.asde1, citizen == "Total", geo != "Total", iso2 != 'EU28')  %>% select(one_of(c('geo', 'values', 'iso2')))
+
+
+dat.asde2 <- dat.asde %>%  filter(time == max(dat.asde$time), sex == "Total", age == "Total",
+	decision %in% c("Total positive decisions", "Total")) %>% filter(citizen == "Total", geo != "Total", iso2 != 'EU28')
+dat.asde2 <- spread(dat.asde2, decision, values) %>% select(one_of(c('geo', 'iso2', 'Total', 'Total positive decisions')))
+dat.asde2$tauxDeReconnaissance <- (dat.asde2$`Total positive decisions` / dat.asde2$Total) * 100
 
 ############################################################################################
 ###		Get Eurostat population data
@@ -84,39 +90,58 @@ une <- getwbData(idw[2], isoES2WB)
 ###		Combine the data
 ############################################################################################
 
+## COMBINE ASYLUM ABSOLUTE NUMBERS
 # demande d'asile
-asylum.df <- dat.asap
-colnames(asylum.df)[2] <- "demandes d'asiles en 2014"
+asylum.df <- dat.asap %>% select(iso2, geo, values)
+colnames(asylum.df)[3] <- "Demandes d'asiles en 2014"
 
+stopifnot(dat.asde1$geo == dat.asde2$geo)
+
+asylum.df <- cbind(asylum.df,
+	`Décisions positives en première instance en 2014` = dat.asde1$values,
+	`Taux de décision positive en première instance 2014` = round(dat.asde2$tauxDeReconnaissance, 1)
+)
+
+## match indicators to result data.frame
 stopifnot(match(asylum.df$iso2, names(isoES2WB)) == 1:length(isoES2WB))
 
-asylum.df <- cbind (asylum.df, population = pop[match(asylum.df$iso2, pop$iso2), 'values'],
-	gdpPerCapitaPPP = gdp[match(isoES2WB, gdp$iso2c), 'values'],
-	unemployment  = une[match(isoES2WB, une$iso2c), 'values']
-	)
+asy.pop <- pop[match(asylum.df$iso2, pop$iso2), 'values']
+asy.gdp <- round(gdp[match(isoES2WB, gdp$iso2c), 'values'])
 
-asylum.df$demandeParMillion <- round((asylum.df$`demandes d'asiles en 2014` / asylum.df$population) * 10^6)
-asylum.df$demandeParGDP <- round((asylum.df$`demandes d'asiles en 2014` / asylum.df$gdpPerCapitaPPP) * 10^3)
-asylum.df$demandeParUnemployment <- round(asylum.df$`demandes d'asiles en 2014` / asylum.df$unemployment)
-
-write.csv(
-	asylum.df %>% select(one_of(c("geo", "demandes d'asiles en 2014",
-	'demandeParMillion', 'demandeParGDP', 'demandeParUnemployment'))), file = "prod/04a_asylumSeekerByIndicator.csv", row.names = F)
+asylum.df$`Demandes d'asiles en 2014 par million d'habitants` <- round((asylum.df$`Demandes d'asiles en 2014` / asy.pop) * 10^6)
+asylum.df$`Nombre de demandeurs d'asile par 1 USD du PIB par habitant` <- round((asylum.df$`Demandes d'asiles en 2014` / asy.gdp ), 3)
 
 
+asylum.df$`Décisions positives en première instance par million d'habitants` <- round((asylum.df$`Décisions positives en première instance en 2014` / asy.pop) * 10^6)
+asylum.df$`Décisions positives en première instance par 1 USD du PIB par habitant` <-
+	round( asylum.df$`Décisions positives en première instance en 2014`  / asy.gdp , 3)
+
+write.csv(asylum.df, file = "prod/04_asylumDW.csv", row.names = F)
 
 
-posi.df <- dat.asde
-colnames(posi.df)[2] <- "Décisions positives en 2014"
-stopifnot(match(posi.df$iso2, names(isoES2WB)) == 1:length(isoES2WB))
-posi.df <- cbind (posi.df, population = pop[match(posi.df$iso2, pop$iso2), 'values'],
-	gdpPerCapitaPPP = gdp[match(isoES2WB, gdp$iso2c), 'values'],
-	unemployment  = une[match(isoES2WB, une$iso2c), 'values']
-	)
-posi.df$demandeParMillion <- round((posi.df$`Décisions positives en 2014` / posi.df$population) * 10^6)
-posi.df$demandeParGDP <- round((posi.df$`Décisions positives en 2014` / posi.df$gdpPerCapitaPPP) * 10^3)
-posi.df$demandeParUnemployment <- round(posi.df$`Décisions positives en 2014` / posi.df$unemployment)
 
-write.csv(posi.df %>% select(one_of(c("geo", "Décisions positives en 2014",
-	'demandeParMillion', 'demandeParGDP', 'demandeParUnemployment'))), file = "prod/04b_positiveDecByIndicator.csv", row.names = F)
 
+
+#
+#
+# write.csv(
+# 	asylum.df %>% select(one_of(c("geo", "demandes d'asiles en 2014",
+# 	'demandeParMillion', 'demandeParGDP', 'demandeParUnemployment'))), file = "prod/04a_asylumSeekerByIndicator.csv", row.names = F)
+#
+#
+#
+#
+# posi.df <- dat.asde
+# colnames(posi.df)[2] <- "Décisions positives en 2014"
+# stopifnot(match(posi.df$iso2, names(isoES2WB)) == 1:length(isoES2WB))
+# posi.df <- cbind (posi.df, population = pop[match(posi.df$iso2, pop$iso2), 'values'],
+# 	gdpPerCapitaPPP = gdp[match(isoES2WB, gdp$iso2c), 'values'],
+# 	unemployment  = une[match(isoES2WB, une$iso2c), 'values']
+# 	)
+# posi.df$demandeParMillion <- round((posi.df$`Décisions positives en 2014` / posi.df$population) * 10^6)
+# posi.df$demandeParGDP <- round((posi.df$`Décisions positives en 2014` / posi.df$gdpPerCapitaPPP) * 10^3)
+# posi.df$demandeParUnemployment <- round(posi.df$`Décisions positives en 2014` / posi.df$unemployment)
+#
+# write.csv(posi.df %>% select(one_of(c("geo", "Décisions positives en 2014",
+# 	'demandeParMillion', 'demandeParGDP', 'demandeParUnemployment'))), file = "prod/04b_positiveDecByIndicator.csv", row.names = F)
+#

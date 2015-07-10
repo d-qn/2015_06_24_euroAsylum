@@ -6,7 +6,7 @@ library(swiTheme)
 ############################################################################################
 
 load("../data/01_areaChart.Rdata")
-trad <- read.csv("01_areaChartEU.csv", check.names = F, stringsAsFactors = F, row.names = 1)
+trad <- read.csv("../trad/01_areaChartEU.csv", check.names = F, stringsAsFactors = F, row.names = 1)
 
 ## geo country names check ##
 origin <- unique(dd$geo)

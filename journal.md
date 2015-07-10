@@ -25,7 +25,9 @@
 1. Comparaison internationale
    * Refugees applications in 2014 
    
+###
 
+The analysis changes when com- paring the number of asylum-seekers to the size of the national population or the Gross Domestic Product (GDP) (PPP). (18) These measures may allow for a better comparison among countries as these indicators tend to more accurately reflect the contributions of a country to host asylum-seekers
 
 ### Other ideas
 

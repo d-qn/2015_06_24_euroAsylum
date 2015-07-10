@@ -6,7 +6,7 @@ library(swiTheme)
 
 loadData <- T
 inputfile <- "data/02_citizenMonthly.Rdata"
-outputfile <- "data/02_citizenMonthly_waffled.Rdata"
+outputfile <- "prod/data/02_citizenMonthly_waffled.Rdata"
 
 ############################################################################################
 ###		Get data
@@ -185,6 +185,7 @@ colorV <- structure(swi_rpal[1:nlevels(df$citizen)], names = levels(df$citizen))
 
 
 
+### SAVE
 save(df, dd, maxCol, data, sumAll, unit, squareThreshold, file = outputfile)
 
 

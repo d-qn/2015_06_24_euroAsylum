@@ -8,10 +8,10 @@ library(animation)
 library(png)
 
 
-inputData <- "data/02_citizenMonthly_waffled.Rdata"
+inputData <- "../data/02_citizenMonthly_waffled.Rdata"
 load(inputData)
 
-tradFile <- "prod/02_translation.csv"
+tradFile <- "../trad/02_translation.csv"
 trad <- read.csv(tradFile, check.names = F, stringsAsFactors = F, row.names = 1)
 
 # load SWI logo
@@ -98,7 +98,7 @@ t.df <- df %>% filter(iso2 %in% iso.ordered) %>% select(iso2, geo, citizen)
 
 t.df <- rbind(unique(t.df[,1:2]), data.frame(iso2 = paste0("cit.", substr(unique(t.df$citizen), 1, 4)), geo = unique(t.df$citizen)))
 colnames(t.df) <- c('code', 'en')
-write.csv(t.df, file = "prod/02_translation_tmp.csv", row.names = F)
+write.csv(t.df, file = "../trad/02_translation_tmp.csv", row.names = F)
 
 
 ### Filter out iso.ordered
@@ -113,7 +113,7 @@ rownames(df) <- NULL
 colorV <- structure(swi_rpal[1:nlevels(df$cit.code)], names = levels(df$cit.code))
 colorV['cit.Tota'] <- 'darkgrey'
 
-write.csv(df, file = "prod/02_inputData.csv")
+write.csv(df, file = "../data/02_inputData.csv")
 
 ############################################################################################
 ###		Plot
@@ -127,7 +127,7 @@ font <- "Open Sans"
 w.row <- 10
 w.size <- 3.7
 
-legendKeySize <- unit(2.2, "line")
+legendKeySize <- unit(2.5, "line")
 legendKeyHeight <- unit(2,"line")
 animationInterval <- 4
 
@@ -143,15 +143,15 @@ waffleIso <- function(iso = 'CH', iDf = df.l, trad, lang) {
 
 	wf <- structure(dfff$sq, names = as.character(dfff$CIT))
 
-	countryTop <- geom_text(data = data.frame(x = 0, y = w.row + 2.1, label = dff$GEO[1]), aes(x = x, y = y, label = label),
+	countryTop <- geom_text(data = data.frame(x = 0, y = w.row + 2.2, label = dff$GEO[1]), aes(x = x, y = y, label = label),
 				family = font, fontface = "bold", alpha = 1, size = 11, hjust = 0, vjust = 0, colour = "#333333")
 	topText <- paste0(dff[which(dff$citizen == "Total"),'sum'], " ", trad["title.slide", lang])
-	titleTop <- geom_text(data = data.frame(x = 0, y = w.row + 1.45, label = topText), aes(x = x, y = y, label = label),
-				family = font, alpha = 1, size = 5, hjust = 0, vjust = 0)
+	titleTop <- geom_text(data = data.frame(x = 0, y = w.row + 1.5, label = topText), aes(x = x, y = y, label = label),
+				family = font, alpha = 1, size = 6, hjust = 0, vjust = 0)
 	text2 <- paste0(trad["subtitle1.slide", lang], " ", unit,  " ", trad["subtitle2.slide", lang], " ",
 		dff[which(dff$citizen == "Total"),'perU'], " ", trad["subtitle3.slide", lang])
-	subtitle <- geom_text(data = data.frame(x = 0, y = w.row + 0.85, label = text2), aes(x = x, y = y, label = label),
-				family = font, alpha = 1, size = 5, hjust = 0, vjust = 0)
+	subtitle <- geom_text(data = data.frame(x = 0, y = w.row + 0.9, label = text2), aes(x = x, y = y, label = label),
+				family = font, alpha = 1, size = 6, hjust = 0, vjust = 0)
 
 	# Hack: set a blank waffle and display top text
 	blankW <- waffled(rep(round(17 * w.row / length(wf)), length(wf)), rows = w.row, size = w.size, colors = rep("white", length(wf))) +
@@ -190,9 +190,9 @@ waffleIso <- function(iso = 'CH', iDf = df.l, trad, lang) {
 introText <- function(title, title2, subtitle, img = swiLogo) {
 	par(mar = c(0,0,0,0))
 	plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
-	text(x = 0.01, y = 0.95, title, cex = 2.3, col = "black", family = font, font = 2, adj = 0)
-	text(x = 0.01, y = 0.88, title2, cex = 2.3, col = "black", family = font, font = 2, adj = 0)
-	text(x = 0.01, y = 0.5, subtitle, cex = 2.3, col = "gray30", family = font, font = 1, adj = 0)
+	text(x = 0.01, y = 0.95, title, cex = 2.5, col = "black", family = font, font = 2, adj = 0)
+	text(x = 0.01, y = 0.88, title2, cex = 2.5, col = "black", family = font, font = 2, adj = 0)
+	text(x = 0.01, y = 0.5, subtitle, cex = 2.5, col = "gray30", family = font, font = 1, adj = 0)
 	rasterImage(img, .85, 0.03, 0.96, 0)
 }
 
@@ -203,11 +203,11 @@ outroText <- function(source = "source: Eurostat",
 
 	par(mar = c(0,0,0,0))
 	plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
-	text(x = 0.01, y = 0.95, source, cex = 1.5, col = "black", family = font, font = 3, adj = 0)
-	text(x = 0.01, y = 0.88, method, cex = 1.3, col = "black", family = font, font = 3, adj = 0)
-	text(x = 0.01, y = 0.8, method2, cex = 1.3, col = "black", family = font, font = 3, adj = 0)
-	text(x = 0.01, y = 0.2, lastUpdate, cex = 1, col = "gray30", family = font, font = 1, adj = 0)
-	text(x = 0.01, y = 0.15, author, cex = 1, col = "gray30", family = font, font = 1, adj = 0)
+	text(x = 0.01, y = 0.95, source, cex = 1.8, col = "black", family = font, font = 3, adj = 0)
+	text(x = 0.01, y = 0.88, method, cex = 1.5, col = "black", family = font, font = 3, adj = 0)
+	text(x = 0.01, y = 0.8, method2, cex = 1.5, col = "black", family = font, font = 3, adj = 0)
+	text(x = 0.01, y = 0.2, lastUpdate, cex = 1.3, col = "gray30", family = font, font = 1, adj = 0)
+	text(x = 0.01, y = 0.15, author, cex = 1.3, col = "gray30", family = font, font = 1, adj = 0)
 	rasterImage(img, .85, 0.03, 0.96, 0)
 }
 

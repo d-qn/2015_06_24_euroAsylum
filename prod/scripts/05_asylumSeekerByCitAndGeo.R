@@ -7,6 +7,9 @@ library(ggplot2)
 library(swiTheme)
 library(swiRcharts)
 
+
+trad <- read.csv("../trad/05_asylumSeekerByCitAndGeo_bubble.csv", check.names = F, stringsAsFactors = F, row.names = 1)
+
 getData <- F
 
 ############################################################################################
@@ -33,9 +36,9 @@ if(getData) {
 	dat.asde <- getYearlyData(id)
 	dat.asde <- dat.asde %>%  filter(time == max(dat.asde$time), sex == "Total", age == "Total")
 
-	save(dat.asde, file = "data/05_asylumByCitAndGeo.Rdata")
+	save(dat.asde, file = "../data/05_asylumByCitAndGeo.Rdata")
 } else {
-	load(file = "data/05_asylumByCitAndGeo.Rdata")
+	load(file = "../data/05_asylumByCitAndGeo.Rdata")
 }
 citizenAgg <- c("Total", "European Union (28 countries)", "Extra EU-28")
 
@@ -53,13 +56,13 @@ data.frame(iso2 = tot.pos$iso2, geo = tot.pos$geo, rate = (tot.pos$values / tot.
 ###		Create a subset data with a few geos to plot
 ############################################################################################
 
-iso2.subset <- c('CH', 'DE', 'UK', 'FR', 'IT', 'SP', 'SE', 'HU')
+iso2.subset <- c('CH', 'DE', 'UK', 'FR', 'IT', 'ES', 'PT', 'SE', 'HU')
 
 citot <- dat.asde %>% filter(iso2 == 'TOTAL', !citizen %in% citizenAgg, decision == "Total positive decisions")
 citot2 <- dat.asde %>% filter(iso2 == 'TOTAL', !citizen %in% citizenAgg, decision == "Total")
 
 cit.top <- unique(c(as.character(head(citot2[order(citot2$values, decreasing = T),'citizen'], 6)),
-	as.character(head(citot[order(citot$values, decreasing = T),'citizen'], 5))))
+	as.character(head(citot[order(citot$values, decreasing = T),'citizen'], 6))))
 
 cit.top <- cit.top[!cit.top %in% c("Albania", "Serbia", "Unknown")]
 
@@ -89,10 +92,6 @@ ordered.iso2subset <- data %>% group_by(iso2) %>% summarise(meanPosRate = mean(p
 ############################################################################################
 
 
-
-
-
-
 data$iso2 <- factor(data$iso2, levels = as.character(unlist(ordered.iso2subset)))
 #ggplot(data = data) + geom_line(aes(x = iso2, y = posRate, group = CIT, colour = CIT))
 
@@ -103,46 +102,62 @@ citColors <- structure(swi_rpal[1:length(unique(data$series))], names = unique(d
 data$color <- citColors[match(data$series, names(citColors))]
 
 
-## create fancy tooltip as html table
-data$name <- paste0(
-	'<table cellpadding="1" style="line-height:1.4">',
-    '<tr><td><div style="font-size:0.9em">', data$geo, '</td></div>',
-		'<td></td><td></td></tr>',
-    '<tr><td colspan="3"><div style="font-size:0.85em">',
-		"Décisions en première en instance pour demandes d'asile:", " ",
-		'<b>', data$series, '</b>','</div></td></tr>',
-       '<tr><td colspan="3"><div style="font-size:0.85em">', data$totDec, '</div></td></tr>',
-	   '<tr><td colspan="3"><div style="font-size:0.85em">',  "% décision positive :", '<b> ',
-	 	 	data$posRate, '</b> ', "(", data$totPos, ")", '</div></td></tr>',
-	'</table>')
+i <- 1
 
+for (i in 1:ncol(trad)) {
 
+	lang <- colnames(trad)[i]
+	output.html <- paste("../05_asylumDecisionByCitizenAndGeo_bubble_", lang, ".html", sep ="")
 
-a <- rCharts::Highcharts$new()
-hSeries <- hSeries2(data.frame(x = as.numeric(data$geo), y = data$posRate, z = data$totDec,
-	name = data$name, series = data$series), "series")
-a$series(hSeries)
+	ddd <- data
 
-a$chart(zoomType = "xy", type = "bubble", height = 600)
-a$xAxis(categories = c("", levels(data$geo)))
-a$lang( numericSymbols= NULL)
-a$plotOptions(bubble = list(minSize = 3, maxSize = 70))
-a$yAxis(title = list(text = "positive decision rate on first instance (%)", style = list(fontWeight = "bold")),
-	labels = list(format = '{value}'), floor = 0, ceiling = 120, gridLineWidth = 0)
+	## Translate citizen country names ##
+	stopifnot(paste0("cit.",unique(ddd$series)) %in% rownames(trad))
+	rowI <- match(paste0("cit.",ddd$series), rownames(trad))
+	ddd$series <- trad[rowI,lang]
+	## Translate country names ##
+	stopifnot(unique(ddd$iso2) %in% rownames(trad))
+	rowI <- match(ddd$iso2, rownames(trad))
+	ddd$geo <- trad[rowI,lang]
+	ddd$geo <- factor(ddd$geo, levels = as.character(unlist(ddd[match(unlist(ordered.iso2subset), ddd$iso2),'geo'])))
 
-a$legend(title = list(style = list(fontWeight ='normal'),
-		text = paste0("Pays d'origine", ' <span style="font-size: 9px; color: #666; font-weight: normal">',
-		"Cliquer pour masquer", '</span><br>')), style = list(fontStyle = 'italic'))
+	## create fancy tooltip as html table
+	ddd$name <- paste0(
+		'<table cellpadding="1" style="line-height:1.4">',
+	    '<tr><td><div style="font-size:0.85em"><i>', ddd$geo, '</i></td></div>',
+			'<td></td><td></td></tr>',
+	    '<tr><td colspan="3"><div style="font-size:0.85em">',
+			trad['tooltip1',lang], " ",
+			'<b>', ddd$series, '</b>','</div></td></tr>',
+	       '<tr><td colspan="3"><div style="font-size:0.85em">', ddd$totDec, '</div></td></tr>',
+		   '<tr><td colspan="3"><div style="font-size:0.85em">', trad['tooltip2',lang] , ' : <b> ',
+		 	 	ddd$posRate, '</b> ', "(", ddd$totPos, ")", '</div></td></tr>',
+		'</table>')
 
-a$tooltip(formatter = "#! function() { return this.point.name; } !#", useHTML = T , borderWidth = 3, style = list(padding = 1.5))
-a
+	a <- rCharts::Highcharts$new()
+	hSeries <- hSeries2(data.frame(x = as.numeric(ddd$geo), y = ddd$posRate, z = ddd$totDec,
+		name = ddd$name, series = ddd$series), "series")
+	a$series(hSeries)
 
-#a
+	a$chart(zoomType = "xy", type = "bubble", height = 600)
+	a$xAxis(categories = c("", levels(ddd$geo)))
+	a$lang( numericSymbols= NULL)
+	a$plotOptions(bubble = list(minSize = 3, maxSize = 70))
+	a$yAxis(title = list(text = trad['y.lab',lang], style = list(fontWeight = "bold")),
+		labels = list(format = '{value}'), gridLineWidth = 0)
 
-hChart.html <- tempfile("hchart_labelledBubble.html")
-a$save(hChart.html)
+	a$legend(title = list(style = list(fontWeight ='normal'),
+			text = paste0(trad['legend.country',lang], ' <span style="font-size: 9px; color: #666; font-weight: normal">',
+			trad['legend.descr',lang], '</span><br>')), style = list(fontStyle = 'italic'))
 
-# Example of converting a highcharts-rCharts html chart into a responsive one
+	a$tooltip(formatter = "#! function() { return this.point.name; } !#", useHTML = T , borderWidth = 3, style = list(padding = 1.5))
+	#a
+	hChart.html <- tempfile("hchart_labelledBubble.html")
+	a$save(hChart.html)
 
-hChart2responsiveHTML(hChart.html, output.html = output.html, h2 = trad['title',lang], descr = trad['descr',lang],
-	source = trad['source',lang], h3 = "", author = " | swissinfo.ch")
+	# Example of converting a highcharts-rCharts html chart into a responsive one
+
+	hChart2responsiveHTML(hChart.html, output.html = output.html, h2 = trad['title',lang], descr = trad['descr',lang],
+		source = trad['source',lang], h3 = "", author = " | swissinfo.ch")
+
+}
