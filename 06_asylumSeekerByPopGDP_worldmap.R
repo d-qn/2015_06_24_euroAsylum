@@ -98,11 +98,23 @@ if(getData) {
 }
 
 
+############################################################################################
+###		map settings
+############################################################################################
+fontSize <- "0.9em"
+groups <- c("par million d'habitants", "par 1 USD du PIB par habitant")
+mapTitle <- "Total des réfugiés et demandeurs d'asile dans le monde en 2014"
+mapSubtitle <- "Exprimez ce total en fonction de la population ou du PIB par habitant ci-dessous."
+source <- "swissinfo.ch | source: UNHCR & The World Bank"
+
 
 mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'
-mb_attribution <- 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'
+mb_attribution <- paste0(source, ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')
 
-country_popup1 <- paste0('<p style=\"font-size:0.8em\"><strong>', data$country, "</strong><br><br>",
+
+
+
+country_popup1 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",
 					  "Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",
 					  "Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",
 					  "Population", ": ", round(data$pop / 10^6, 2), " million <br><br>",
@@ -110,7 +122,7 @@ country_popup1 <- paste0('<p style=\"font-size:0.8em\"><strong>', data$country, 
 					  "</strong></p>"
 					  )
 
-country_popup2 <- paste0('<p style=\"font-size:0.8em\"><strong>', data$country, "</strong><br><br>",
+country_popup2 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",
 					"Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",
 					"Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",
 					"PIB par habitant (à parité de pouvoir d'achat)", ": ", data$gdp, " USD<br><br>",
@@ -118,28 +130,15 @@ country_popup2 <- paste0('<p style=\"font-size:0.8em\"><strong>', data$country, 
 				  	"</strong></p>"
 				  )
 
-
-m <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%
-	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],
-    radius = ~sqrt(totalParMillion) / 10, popup = country_popup1) %>% setView(21.824312, 39.074208, zoom = 3)
-#
-# n <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%
-# 	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],
-#     radius = ~sqrt(totalParPIB) * 25000, popup = country_popup2) %>% setView(21.824312, 39.074208, zoom = 3)
-#
-# saveWidget(m, file="map_byPop.html", selfcontained = FALSE, libdir = "leafletjs")
-# saveWidget(n, file="map_byGdp.html", selfcontained = FALSE, libdir = "leafletjs")
-
-groups <- c("par million d'habitants", "par 1 USD du PIB par habitant")
-
 mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%
 	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],
     radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%
 	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],
     radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>%
 	setView(21.824312, 39.074208, zoom = 3) %>%
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = mapSubtitle) %>%
     addLayersControl(
-       overlayGroups = c(groups[1], groups[2]),
+       baseGroups = c(groups[1], groups[2]),
        options = layersControlOptions(collapsed = FALSE)
      ) %>% hideGroup(groups[2])
 
