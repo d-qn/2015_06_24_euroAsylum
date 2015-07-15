@@ -1,26 +1,26 @@
-code,fr
-title,Décisions positives des demandes d'asile par pays d'origine
-descr,Pourcentage de décisions positives en première instance en 2014 pour une sélection de pays d'Europe et par pays d'origine. La taille des bulles est proportionnelle au nombre de cas réglés. Placez votre curseur ou tapotez sur une bulle pour voir les chiffres exacts.
-y.lab,Taux de décision positive en première instance (%)
-source,source: Eurostat
-legend.country,Pays d'origine
-legend.descr,(Cliquez pour masquer)
-tooltip1,Décisions en première en instance pour demandes d'asile:
-tooltip2,% décision positive
-cit.Afghanistan,Afghanistan
-cit.Eritrea,Erythrée
-cit.Iraq,Iraq
-cit.Pakistan,Pakistan
-cit.Somalia,Somalie
-cit.Stateless,Apatride
-cit.Syria,Syrie
-cit.autres pays,autres pays
-CH,Suisse
-DE,Allemagne
-ES,Espagne
-FR,France
-HU,Hongrie
-IT,Italie
-PT,Portugal
-SE,Suède
-UK,Royaume-Uni
+code,fr,it
+title,Décisions positives des demandes d'asile par pays d'origine,Domande d'asilo: decisioni positive per paese d'origine
+descr,Pourcentage de décisions positives en première instance en 2014 pour une sélection de pays d'Europe et par pays d'origine. La taille des bulles est proportionnelle au nombre de cas réglés. Placez votre curseur ou tapotez sur une bulle pour voir les chiffres exacts.,"Percentuale di decisioni positive in prima istanza nel 2014 per paese d'origine e d'accoglienza. La grandezza delle bolle è proporzionale al numero di casi risolti. Per vedere le cifre esatte di un paese, puntare il cursore o cliccare su una bolla."
+y.lab,Taux de décision positive en première instance (%),Tasso di decisioni positive in prima istanza (%)
+source,source: Eurostat,Fonte: Eurostat
+legend.country,Pays d'origine,Paese d'origine
+legend.descr,(Cliquez pour masquer),(Cliccare per nascondere)
+tooltip1,Décisions en première en instance pour demandes d'asile:,Totale decisioni in prima istanza
+tooltip2,% décision positive,% di decisioni positive
+cit.Afghanistan,Afghanistan,Afghanistan
+cit.Eritrea,Erythrée,Eritrea
+cit.Iraq,Iraq,Iraq
+cit.Pakistan,Pakistan,Pakistan
+cit.Somalia,Somalie,Somalia
+cit.Stateless,Apatride,Apolide
+cit.Syria,Syrie,Siria
+cit.autres pays,autres pays,Altri paesi
+CH,Suisse,Svizzera
+DE,Allemagne,Germania
+ES,Espagne,Spagna
+FR,France,Francia
+HU,Hongrie,Ungheria
+IT,Italie,Italia
+PT,Portugal,Portogallo
+SE,Suède,Svezia
+UK,Royaume-Uni,Regno Unito

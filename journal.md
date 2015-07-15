@@ -15,28 +15,17 @@
 ## Ideas
 
 
-1. EU asylum request 2008-2014
-   * similaire à euronews linechat mais as cumulative line chart (group most countries) x 2 (origin et destination)
-   * data: tps00191
-1. Demandeurs d'asile en 2014 (Asylum and new asylum applicants (2014)
-   * similaire to [Guardian DW ](http://www.theguardian.com/world/datablog/2015/may/11/which-eu-countries-receive-the-most-asylum-seekers)
-   * Le nombre de demande d'asile accepté par l'Allemange est impressionant en comparaison européenne. Mais lorsqu'on compare avec la population et en proportion du PIB and unemployment rate.
-   * data: tps00191
-1. Comparaison internationale
-   * Refugees applications in 2014 
-   
-###
-
-The analysis changes when com- paring the number of asylum-seekers to the size of the national population or the Gross Domestic Product (GDP) (PPP). (18) These measures may allow for a better comparison among countries as these indicators tend to more accurately reflect the contributions of a country to host asylum-seekers
-
-### Other ideas
-
-* Non-accompanied children
-* 
-
 ### Notes
 Between 1986 and 2007, data on asylum was collected on the basis of a gentlemen’s agreement. Since 2008 data have been provided to Eurostat under the provisions of Article 4 of Regulation (EC) 862/2007 most of the statistics presented in this article were collected within this regulatory framework
 
+
+## ToDo
+
+* Set up all the languages 
+* Clean up and reorganise code
+* commit
+* Reorder "autres pays" dans graphique 1 et 4
+* 
 
 
 ## Data

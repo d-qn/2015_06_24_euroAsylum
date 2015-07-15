@@ -1,0 +1,12 @@
+code,fr,it
+title,Total des réfugiés et demandeurs d'asile dans le monde en 2014,Numero totale di rifugiati e richiedenti l'asilo nel mondo a fine 2014
+group1,par million d'habitants,per milione di abitanti
+group2,par 1 USD du PIB par habitant,per 1 USD del PIL pro capite
+credits,swissinfo.ch | source: UNHCR & The World Bank,swissinfo.ch | Fonte: UNHCR & The World Bank
+tooltip.refugeesTotal,Nombre total de réfugiés,Numero totale di rifugiati
+tooltip.asylumTotal,Nombre total de demandeurs d'asile,Numero totale di richiedenti l'asilo
+tooltip.population,Population,Popolazione
+tooltip.popMillion,millions,milioni
+tooltip.totalByPop,Nombre de réfugiés et demandeurs d'asile par million d'habitant,Numero di rifugiati e di richiedenti l'asilo per milione di abitanti
+tooltip.gdpPerCapita,PIB par habitant (à parité de pouvoir d'achat et en USD),PIL pro capite (a parità di potere d'acquisto)
+tooltip.totbyGDP,Nombre de réfugiés et demandeurs d'asile par 1 USD de PIB par habitant,Numero di rifugiati e di richiedenti l'asilo per 1 USD del PIL pro capite

@@ -1,161 +1,3 @@
-ggplot(world.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = FIPS)) + #
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank())
-ggplot(world.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = FIPS)) + #
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())
-path.ch <- getPathShp('CH')
-path.ch
-getShpLayers(path.ch)
-ch <- readOGR(path.ch, layer = 'municipalities')
-ch.df <- formatShp(ch)
-str(ch.df)
-ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) + #
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())
-lake <- readOGR(path.ch, layer = "lakes")#
-country <- readOGR(path.ch, layer = "country")
-lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
-country.df <- formatShp(readOGR(path.ch, layer = "country"))
-alpha
-lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
-country.df <- formatShp(readOGR(path.ch, layer = "country"))#
-ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + #
-  geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
-ch.communes <- ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) + #
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
-ch.communes
-lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
-country.df <- formatShp(readOGR(path.ch, layer = "country"))#
-ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + #
-  geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
-?alpha
-library(swiMap)
-?getShpLayers
-require(rgdal)#
-require(rgeos)#
-require(ggplot2)#
-path <- getPathShp('world')#
-layers <- getShpLayers(path)#
-# read shapefiles for given layer#
-world <- readOGR(path, layer = layers[1])#
-world.df <- formatShp(world)#
-# plot world map#
-ggplot(world.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = FIPS)) +#
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
-Same with swiss commune map (slow!)#
-## Not run: #
-path.ch <- getPathShp('CH')#
-ch <- readOGR(path.ch, layer = 'municipalities')#
-ch.df <- formatShp(ch)#
-# plot swiss commune map#
-ch.communes <- ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) +#
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
-ch.communes
-lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
-country.df <- formatShp(readOGR(path.ch, layer = "country"))
-ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
-library(scales)
-ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
-ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
-ch.communes + geom_polygon(data = country.df, fill = NA, size = 1) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
-str(country.df)
-library(swiMap)
-?getShpLayers
-require(rgdal)#
-require(rgeos)#
-require(ggplot2)
-path.ch <- getPathShp('CH')#
-ch <- readOGR(path.ch, layer = 'municipalities')#
-ch.df <- formatShp(ch)#
-# plot swiss commune map#
-ch.communes <- ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) +#
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
-ch.communes#
-# add the lake and country contours#
-lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
-country.df <- formatShp(readOGR(path.ch, layer = "country"))#
-ch.communes + geom_polygon(data = country.df, fill = NA, color = "black", size = 2) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
-ch.communes + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
-str(country.df)
-geom_polygon(data = country.df, fill = NA, color = "black", size = 2)
-ggplot() + geom_polygon(data = country.df, fill = NA, color = "black", size = 2)
-ggplot(aes(lon, lat)) + geom_polygon(data = country.df, fill = NA, color = "black", size = 2)
-ggplot(aes(x = long, y = lat, group = group)) +  geom_polygon(data = country.df, fill = NA, color = "black", size = 2)
-str(country.df)
-ggplot(data = country.df,aes(x = long, y = lat, group = group)) +  geom_polygon( fill = NA, color = "black", size = 2)
-ch.communes + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey") + geom_polygon(data = country.df, fill = NA, color = "black", size = 2)
-str(ch.df)
-unique(ch.df$id)
-length(unique(ch.df$id))
-str(ch.df)
-length(unique(ch.df$GEMNAME))
-length(unique(ch.df$BFSNR))
-head(df.ch)
-head(ch.df)
-tail(ch.df)
-which(ch.df$GEMNAME == 'Aeugst am Albis')
-ch.df[which(ch.df$GEMNAME == 'Aeugst am Albis'),]
-ch.df[which(ch.df$GEMNAME == 'Knonau'),]
-length(unique(ch.df$BFSNR))
-length(unique(ch.df$GEMNAME))
-duplicated(ch.df$BFSNR)
-ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]
-ch.df[!duplicated(ch.df$BFSNR),'BFSNR']
-order(ch.df[!duplicated(ch.df$BFSNR),'BFSNR'])
-ch.df[order(ch.df[!duplicated(ch.df$BFSNR),'BFSNR']), c('BFSNR', 'GEMNAME')]
-ch.df[sort(ch.df[!duplicated(ch.df$BFSNR),'BFSNR']), c('BFSNR', 'GEMNAME')]
-order(ch.df[!duplicated(ch.df$BFSNR),'BFSNR'])
-ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]
-bfsnName <- ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]
-bfsnName
-?order
-order(bfsnName[,1])
-bfsnName[order(bfsnName[,1]),]
-bfsnName <- ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]
-bfsnName <- ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]#
-str(bfsnName[order(bfsnName[,1]),])
-"GeoJSON" %in% ogrDrivers()$name
-library(rgdal)
-install.packages("rgeos", repos="http://R-Forge.R-project.org", type="source")
-install.packages('rgdal')
-install.packages('rgdal', type='source')
-library(rgdal)
-install.packages('rgdal', type='source')
-library(rgdal)
-install.packages('rgdal')
-install.packages('rgdal', type='source')
-library(rgdal)
-library(swiMap)
-?getShpLayers
-require(rgdal)#
-require(rgeos)#
-require(ggplot2)#
-path <- getPathShp('world')#
-layers <- getShpLayers(path)#
-# read shapefiles for given layer#
-world <- readOGR(path, layer = layers[1])#
-world.df <- formatShp(world)#
-# plot world map#
-ggplot(world.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = FIPS)) +#
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
-Same with swiss commune map (slow!)#
-## Not run: #
-path.ch <- getPathShp('CH')#
-ch <- readOGR(path.ch, layer = 'municipalities')#
-ch.df <- formatShp(ch)#
-# plot swiss commune map#
-ch.communes <- ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) +#
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
-ch.communes#
-# add the lake and country contours#
-lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))
-ogrListLayers(file.path(path.ch, "ch-country.ch"))
-ogrListLayers(file.path(path.ch, "ch-country.json"))
-country.layers <- ogrListLayers(file.path(path.ch, "ch-country.json"))
-country.layers
-country.df <- readOGR(file.path(path.ch, "ch-country.json"), "country")
-country.layers <- ogrListLayers(file.path(path.ch, "ch-country.json"))
-country.df <- formatShp(readOGR(file.path(path.ch, "ch-country.json"), country.layers[1]))
-country.df <- readOGR(file.path(path.ch, "ch-country.json"), country.layers[1])
-ch.communes + geom_polygon(data = country.df, fill = NA, color = "black", size = 2) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
 country.df <- formatShp(readOGR(file.path(path.ch, "ch-country.json"), country.layers[1]))
 country.df <- readOGR(file.path(path.ch, "ch-country.json"), country.layers[1])
 str(country.df)
@@ -529,8 +371,753 @@ h1$series(data=plotData$uci, showInLegend = FALSE, marker = list(symbol = 'squar
 h1$series(data=plotData$lci, showInLegend = FALSE, marker = list(symbol = 'square'), connectNulls = TRUE)#
 h1$series(data=rep(30,30), marker= list(enabled = FALSE))#
 h1
-library(leaflet)
-? addLayersControl
-? layersControlOptions
 setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+library(WDI)#
+library(countrycode)#
+library(tidyr)#
+library(dplyr)#
+library(ggplot2)#
+library(swiTheme)#
+library(leaflet)#
+#
+#############################################################################################
+###		Load UNHCR asylum seeker data#
+#############################################################################################
+#
+dat.read <- read.csv("data/unhcr_popstats_export_time_series_2015_07_10_150142_refugees.csv", check.names = F, stringsAsFactors = F)#
+#
+dat.read <- rename(dat.read, country = `Country / territory of asylum/residence`)#
+dat.read$Value <- as.numeric(dat.read$Value)#
+#
+###	Aggregate values by country (drop origin)#
+dat <- dat.read %>% group_by(country) %>% summarise(total = sum(Value, na.rm = T)) %>% ungroup()#
+###	Aggregate values by country and origin#
+dat2 <- dat.read %>% group_by(country, `Population type`) %>% summarise(total = sum(Value, na.rm = T)) %>% ungroup()#
+#
+###	get the iso country code #
+dat$iso2 <- countrycode(dat$country, "country.name", "iso2c")#
+dat2$iso2 <- countrycode(dat2$country, "country.name", "iso2c")#
+#
+# discard VG, NR#
+dat <- dat[!dat$iso2 %in% c('VG', 'NR'),]#
+#
+#############################################################################################
+###		Get world bank indicators#
+#############################################################################################
+#
+# GDP per capita, PPP (current international $) http://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD#
+# Population, total http://data.worldbank.org/indicator/SP.POP.TOTL#
+#
+idw <- c('NY.GDP.PCAP.PP.CD', 'SP.POP.TOTL')#
+#
+getwbData <- function (ind, countries = dat$iso2) {#
+	indicator <- WDI(indicator = ind, country = countries, start = 2008, end = 2015)#
+	colnames(indicator)[3] <- 'values'#
+	do.call(rbind, by(indicator, indicator$iso2c, function(ii) {#
+		rowx <- !is.na(ii[,3])#
+		if(all(!rowx)) {#
+			ii[1,]#
+		} else if (all(rowx)){#
+			ii[which.max(ii$year),]#
+		} else {#
+			ii[which(rowx)[1],]#
+		}#
+	}))#
+}#
+#
+gdp <- getwbData(idw[1], dat$iso2)#
+pop <- getwbData(idw[2], dat$iso2)#
+#
+# combine indicators#
+dat$totalParMillion <- round((dat$total / pop[match(dat$iso2, pop$iso2c),'values']) * 10^6)#
+dat$totalParPIB <- round((dat$total / gdp[match(dat$iso2, gdp$iso2c),'values'] ), 1)#
+#
+#############################################################################################
+###		MAP#
+#############################################################################################
+library(ggmap)#
+library(leaflet)#
+library(htmlwidgets)#
+# Geocode every country (concatenate country name with iso2 code)#
+latlon <- geocode(paste(dat$country, dat$iso2, sep = ", country="), output = c("latlon"), messaging = F)#
+data <- cbind(dat, latlon)#
+#
+# remove parenthesis and rep. abbreviations#
+naCountry <- gsub("Rep\\.", "Republic", gsub(" \\(.*\\)$", "", data[is.na(data$lat),'country']))#
+latlon2 <- geocode(paste(naCountry,  data[is.na(data$lat),'iso2'], sep = ", country="),  output = c("latlon"), messaging = F)#
+data[is.na(data$lat), c('lon', 'lat')] <- latlon2#
+#
+# remove lines with NA lat lon#
+data <- data[!is.na(data$lat),]#
+## Add back the number of asylum seeker and refugees#
+# add asylum and refugees numbers#
+tmp <- filter(dat2, `Population type` == "Asylum-seekers")#
+data$asylumSeeker <- unlist(tmp[match(data$iso2, tmp$iso2), 'total'])#
+tmp <- filter(dat2, `Population type` == "Refugees (incl. refugee-like situations)")#
+data$refugees <- unlist(tmp[match(data$iso2, tmp$iso2), 'total'])#
+# add PIB and GDP#
+data$pop <- pop[match(data$iso2, pop$iso2c),'values']#
+data$gdp <- round(gdp[match(data$iso2, gdp$iso2c),'values'])#
+#
+save(data, file = "prod/data/06_refugeesMap.Rdata")#
+mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
+mb_attribution <- 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'#
+#
+country_popup1 <- paste0('<p style=\"font-size:0.8em\"><strong>', data$country, "</strong><br><br>",#
+					  "Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					  "Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					  "Population", ": ", round(data$pop / 10^6, 2), " million <br><br>",#
+					  "Nombre de réfugiés et demandeurs d'asile par million d'habitant: ", "<strong>", data$totalParMillion,#
+					  "</strong></p>"#
+					  )#
+#
+country_popup2 <- paste0('<p style=\"font-size:0.8em\"><strong>', data$country, "</strong><br><br>",#
+					"Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					"Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					"PIB par habitant (à parité de pouvoir d'achat)", ": ", data$gdp, " USD<br><br>",#
+				  	"Nombre de réfugiés et demandeurs d'asile par 1 USD de PIB par habitant: ", "<strong>", data$totalParPIB,#
+				  	"</strong></p>"#
+				  )#
+# m <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+# 	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+#     radius = ~sqrt(totalParMillion) * 850, popup = country_popup1) %>% setView(21.824312, 39.074208, zoom = 3)#
+##
+# n <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+# 	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
+#     radius = ~sqrt(totalParPIB) * 25000, popup = country_popup2) %>% setView(21.824312, 39.074208, zoom = 3)#
+##
+# saveWidget(m, file="map_byPop.html", selfcontained = FALSE, libdir = "leafletjs")#
+# saveWidget(n, file="map_byGdp.html", selfcontained = FALSE, libdir = "leafletjs")#
+#
+groups <- c("par million d'habitants", "par 1 USD du PIB par habitant")#
+#
+mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) * 850, popup = country_popup1, group=groups[1]) %>%#
+	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 25000, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[1])#
 saveWidget(n, file="map_refugeesAsylum.html", selfcontained = FALSE, libdir = "leafletjs")
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+saveWidget(mn, file="map_refugeesAsylum.html", selfcontained = FALSE, libdir = "leafletjs")
+sqrt(data$totalParMillion)
+cbind(data, sqrt(data$totalParMillion))
+cbind(data, sqrt(data$totalParMillion) * 850)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) * 800, popup = country_popup1, group=groups[1]) %>%#
+	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 25000, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[1])#
+saveWidget(mn, file="map_refugeesAsylum.html", selfcontained = FALSE, libdir = "leafletjs")
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+    radius = ~sqrt(totalParMillion) * 850, popup = country_popup1) %>% setView(21.824312, 39.074208, zoom = 3)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+    radius = ~sqrt(totalParMillion), popup = country_popup1) %>% setView(21.824312, 39.074208, zoom = 3)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+    radius = ~sqrt(totalParMillion) / 100, popup = country_popup1) %>% setView(21.824312, 39.074208, zoom = 3)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+    radius = ~sqrt(totalParMillion) / 10, popup = country_popup1) %>% setView(21.824312, 39.074208, zoom = 3)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 10, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) / 10, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[1])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 10, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 10, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[1])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 10, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB), popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[1])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 10, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 5, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[1])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 10, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 3, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[1])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 10, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[1])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 10, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[1])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 10, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[1])#
+saveWidget(mn, file="map_refugeesAsylum.html", selfcontained = FALSE, libdir = "leafletjs")
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 8, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[1])#
+saveWidget(mn, file="map_refugeesAsylum.html", selfcontained = FALSE, libdir = "leafletjs")
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+groups <- c("par million d'habitants", "par 1 USD du PIB par habitant")#
+#
+mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])#
+saveWidget(mn, file="map_refugeesAsylum.html", selfcontained = FALSE, libdir = "leafletjs")
+?leaflet
+library(leaflet)#
+m = leaflet() %>% addTiles()#
+m  # a map with the default OSM tile layer#
+#
+# set bounds#
+m %>% fitBounds(0, 40, 10, 50)#
+#
+# move the center to Snedecor Hall#
+m = m %>% setView(-93.65, 42.0285, zoom = 17)#
+m#
+#
+# popup#
+m %>% addPopups(-93.65, 42.0285, 'Here is the <b>Department of Statistics</b>, ISU')#
+rand_lng = function(n = 10) rnorm(n, -93.65, .01)#
+rand_lat = function(n = 10) rnorm(n, 42.0285, .01)#
+#
+# use automatic bounds derived from lng/lat data#
+m = m %>% clearBounds()#
+#
+# popup#
+m %>% addPopups(rand_lng(), rand_lat(), 'Random popups')#
+#
+# marker#
+m %>% addMarkers(rand_lng(), rand_lat())#
+m %>% addMarkers(#
+  rand_lng(), rand_lat(), popup = paste('A random letter', sample(LETTERS, 10))#
+)#
+#
+Rlogo = file.path(R.home('doc'), 'html', 'logo.jpg')#
+m %>% addMarkers(#
+  174.7690922, -36.8523071, icon = list(#
+    iconUrl = Rlogo, iconSize = c(100, 76)#
+  ), popup = 'R was born here!'#
+)
+mn
+? addTiles
+mn
+?addTiles
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
+mb_attribution <- 'swissinfo.ch | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'#
+fontSize <- "0.9em"#
+#
+country_popup1 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",#
+					  "Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					  "Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					  "Population", ": ", round(data$pop / 10^6, 2), " million <br><br>",#
+					  "Nombre de réfugiés et demandeurs d'asile par million d'habitant: ", "<strong>", data$totalParMillion,#
+					  "</strong></p>"#
+					  )#
+#
+country_popup2 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",#
+					"Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					"Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					"PIB par habitant (à parité de pouvoir d'achat)", ": ", data$gdp, " USD<br><br>",#
+				  	"Nombre de réfugiés et demandeurs d'asile par 1 USD de PIB par habitant: ", "<strong>", data$totalParPIB,#
+				  	"</strong></p>"#
+				  )#
+# m <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+# 	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+#     radius = ~sqrt(totalParMillion) / 10, popup = country_popup1) %>% setView(21.824312, 39.074208, zoom = 3)#
+##
+# n <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+# 	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
+#     radius = ~sqrt(totalParPIB) * 25000, popup = country_popup2) %>% setView(21.824312, 39.074208, zoom = 3)#
+##
+# saveWidget(m, file="map_byPop.html", selfcontained = FALSE, libdir = "leafletjs")#
+# saveWidget(n, file="map_byGdp.html", selfcontained = FALSE, libdir = "leafletjs")#
+#
+groups <- c("par million d'habitants", "par 1 USD du PIB par habitant")#
+#
+mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+mn
+addLegend
+? addLegend
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2]) %>% addLegend(position = "topleft", title = "asdfad")
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2]) %>% addLegend(position = "topleft", title = "asdfad", colors = NULL)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2]) %>% addLegend(position = "topleft", title = "asdfad", colors = NULL, labels = NULL)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+fontSize <- "0.9em"#
+groups <- c("par million d'habitants", "par 1 USD du PIB par habitant")#
+mapTitle <- "Réfugiés et demandeurs d'asile dans le monde"#
+country_popup1 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",#
+					  "Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					  "Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					  "Population", ": ", round(data$pop / 10^6, 2), " million <br><br>",#
+					  "Nombre de réfugiés et demandeurs d'asile par million d'habitant: ", "<strong>", data$totalParMillion,#
+					  "</strong></p>"#
+					  )#
+#
+country_popup2 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",#
+					"Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					"Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					"PIB par habitant (à parité de pouvoir d'achat)", ": ", data$gdp, " USD<br><br>",#
+				  	"Nombre de réfugiés et demandeurs d'asile par 1 USD de PIB par habitant: ", "<strong>", data$totalParPIB,#
+				  	"</strong></p>"#
+				  )#
+# m <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+# 	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+#     radius = ~sqrt(totalParMillion) / 10, popup = country_popup1) %>% setView(21.824312, 39.074208, zoom = 3)#
+##
+# n <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+# 	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
+#     radius = ~sqrt(totalParPIB) * 25000, popup = country_popup2) %>% setView(21.824312, 39.074208, zoom = 3)#
+##
+# saveWidget(m, file="map_byPop.html", selfcontained = FALSE, libdir = "leafletjs")#
+# saveWidget(n, file="map_byGdp.html", selfcontained = FALSE, libdir = "leafletjs")#
+mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2]) %>% addLegend(position = "topleft", title = mapTitle, colors = NULL, labels = NULL)
+mn
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+fontSize <- "0.9em"#
+groups <- c("par million d'habitants", "par 1 USD du PIB par habitant")#
+mapTitle <- "Réfugiés et demandeurs d'asile dans le monde"#
+country_popup1 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",#
+					  "Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					  "Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					  "Population", ": ", round(data$pop / 10^6, 2), " million <br><br>",#
+					  "Nombre de réfugiés et demandeurs d'asile par million d'habitant: ", "<strong>", data$totalParMillion,#
+					  "</strong></p>"#
+					  )#
+#
+country_popup2 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",#
+					"Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					"Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					"PIB par habitant (à parité de pouvoir d'achat)", ": ", data$gdp, " USD<br><br>",#
+				  	"Nombre de réfugiés et demandeurs d'asile par 1 USD de PIB par habitant: ", "<strong>", data$totalParPIB,#
+				  	"</strong></p>"#
+				  )#
+# m <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+# 	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+#     radius = ~sqrt(totalParMillion) / 10, popup = country_popup1) %>% setView(21.824312, 39.074208, zoom = 3)#
+##
+# n <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+# 	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
+#     radius = ~sqrt(totalParPIB) * 25000, popup = country_popup2) %>% setView(21.824312, 39.074208, zoom = 3)#
+##
+# saveWidget(m, file="map_byPop.html", selfcontained = FALSE, libdir = "leafletjs")#
+# saveWidget(n, file="map_byGdp.html", selfcontained = FALSE, libdir = "leafletjs")#
+mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2]) %>% addLegend(position = "topright", title = mapTitle, colors = NULL, labels = NULL)
+mn
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, colors = NULL, labels = NULL) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+?addLegend
+?addLayersControl
+? layersControlOptions
+?addLegend
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, colors = NULL, labels = "tests") %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, colors = "white", labels = "tests") %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = "tests") %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+fontSize <- "0.9em"#
+groups <- c("par million d'habitants", "par 1 USD du PIB par habitant")#
+mapTitle <- "Total des réfugiés et demandeurs d'asile dans le monde en 2014"#
+mapSubtitle <- "Choisissez d'exprimer ce total en fonction de la population ou du PIB par habitant."#
+#
+country_popup1 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",#
+					  "Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					  "Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					  "Population", ": ", round(data$pop / 10^6, 2), " million <br><br>",#
+					  "Nombre de réfugiés et demandeurs d'asile par million d'habitant: ", "<strong>", data$totalParMillion,#
+					  "</strong></p>"#
+					  )#
+#
+country_popup2 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",#
+					"Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					"Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					"PIB par habitant (à parité de pouvoir d'achat)", ": ", data$gdp, " USD<br><br>",#
+				  	"Nombre de réfugiés et demandeurs d'asile par 1 USD de PIB par habitant: ", "<strong>", data$totalParPIB,#
+				  	"</strong></p>"#
+				  )#
+# m <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+# 	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+#     radius = ~sqrt(totalParMillion) / 10, popup = country_popup1) %>% setView(21.824312, 39.074208, zoom = 3)#
+##
+# n <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+# 	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
+#     radius = ~sqrt(totalParPIB) * 25000, popup = country_popup2) %>% setView(21.824312, 39.074208, zoom = 3)#
+##
+# saveWidget(m, file="map_byPop.html", selfcontained = FALSE, libdir = "leafletjs")#
+# saveWidget(n, file="map_byGdp.html", selfcontained = FALSE, libdir = "leafletjs")#
+mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = mapSubtitle) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+mn
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
+mb_attribution <- 'swissinfo.ch | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'#
+#
+fontSize <- "0.9em"#
+groups <- c("par million d'habitants", "par 1 USD du PIB par habitant")#
+mapTitle <- "Total des réfugiés et demandeurs d'asile dans le monde en 2014"#
+mapSubtitle <- "Exprimez ce total en fonction de la population ou du PIB par habitant ci-dessous."#
+#
+country_popup1 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",#
+					  "Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					  "Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					  "Population", ": ", round(data$pop / 10^6, 2), " million <br><br>",#
+					  "Nombre de réfugiés et demandeurs d'asile par million d'habitant: ", "<strong>", data$totalParMillion,#
+					  "</strong></p>"#
+					  )#
+#
+country_popup2 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",#
+					"Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					"Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					"PIB par habitant (à parité de pouvoir d'achat)", ": ", data$gdp, " USD<br><br>",#
+				  	"Nombre de réfugiés et demandeurs d'asile par 1 USD de PIB par habitant: ", "<strong>", data$totalParPIB,#
+				  	"</strong></p>"#
+				  )#
+# m <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+# 	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+#     radius = ~sqrt(totalParMillion) / 10, popup = country_popup1) %>% setView(21.824312, 39.074208, zoom = 3)#
+##
+# n <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+# 	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
+#     radius = ~sqrt(totalParPIB) * 25000, popup = country_popup2) %>% setView(21.824312, 39.074208, zoom = 3)#
+##
+# saveWidget(m, file="map_byPop.html", selfcontained = FALSE, libdir = "leafletjs")#
+# saveWidget(n, file="map_byGdp.html", selfcontained = FALSE, libdir = "leafletjs")#
+mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = mapSubtitle) %>%#
+    addLayersControl(#
+       overlayGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])#
+saveWidget(mn, file="map_refugeesAsylum.html", selfcontained = FALSE, libdir = "leafletjs")
+?addLayersControl
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = mapSubtitle) %>%#
+    addLayersControl(#
+       baseGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+fontSize <- "0.9em"#
+groups <- c("par million d'habitants", "par 1 USD du PIB par habitant")#
+mapTitle <- "Total des réfugiés et demandeurs d'asile dans le monde en 2014"#
+mapSubtitle <- "Exprimez ce total en fonction de la population ou du PIB par habitant ci-dessous."#
+source <- "swissinfo.ch | source: UNHCR & The World Bank"#
+mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
+mb_attribution <- paste0(source, '| Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
+country_popup1 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",#
+					  "Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					  "Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					  "Population", ": ", round(data$pop / 10^6, 2), " million <br><br>",#
+					  "Nombre de réfugiés et demandeurs d'asile par million d'habitant: ", "<strong>", data$totalParMillion,#
+					  "</strong></p>"#
+					  )#
+#
+country_popup2 <- paste0('<p style=\"font-size:', fontSize, '\"><strong>', data$country, "</strong><br><br>",#
+					"Nombre total de réfugiés: ", "<strong>",  data$refugees,"</strong><br>",#
+					"Nombre total de demandeurs d'asile: ", "<strong>",  data$asylumSeeker,"</strong><br><br>",#
+					"PIB par habitant (à parité de pouvoir d'achat)", ": ", data$gdp, " USD<br><br>",#
+				  	"Nombre de réfugiés et demandeurs d'asile par 1 USD de PIB par habitant: ", "<strong>", data$totalParPIB,#
+				  	"</strong></p>"#
+				  )#
+mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = mapSubtitle) %>%#
+    addLayersControl(#
+       baseGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])#
+saveWidget(mn, file="map_refugeesAsylum.html", selfcontained = FALSE, libdir = "leafletjs")
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = mapSubtitle) %>%#
+    addLayersControl(#
+       baseGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) * 1000, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = mapSubtitle) %>%#
+    addLayersControl(#
+       baseGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~(totalParMillion) * 1000, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = mapSubtitle) %>%#
+    addLayersControl(#
+       baseGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~(totalParMillion) * 10, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = mapSubtitle) %>%#
+    addLayersControl(#
+       baseGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~(totalParMillion) * 5, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = mapSubtitle) %>%#
+    addLayersControl(#
+       baseGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircles(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) * 1000, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = mapSubtitle) %>%#
+    addLayersControl(#
+       baseGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1], #
+    radius = ~sqrt(totalParMillion) / 12, popup = country_popup1, group=groups[1]) %>%#
+	addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7], #
+    radius = ~sqrt(totalParPIB) * 2, popup = country_popup2, group=groups[2]) %>% #
+	setView(21.824312, 39.074208, zoom = 3) %>%#
+	addLegend(position = "topright", title = mapTitle, opacity = 0, colors = "white", labels = mapSubtitle) %>%#
+    addLayersControl(#
+       baseGroups = c(groups[1], groups[2]),#
+       options = layersControlOptions(collapsed = FALSE)#
+     ) %>% hideGroup(groups[2])

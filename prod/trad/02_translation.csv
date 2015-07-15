@@ -1,33 +1,37 @@
-code,en,fr
-AT,Austria,Autriche
-CH,Switzerland,Suisse
-CY,Cyprus,Chypre
-DE,Germany,Allemagne
-EL,Greece,Grèce
-ES,Spain,Espagne
-FR,France,France
-HU,Hungary,Hongrie
-IT,Italy,Italie
-MT,Malta,Malte
-SE,Sweden,Suède
-UK,United Kingdom,Royaume-Uni
-cit.Afgh,Afghanistan,Afghanistan
-cit.Alba,Albania,Albanie
-cit.Erit,Eritrea,Erythrée
-cit.Iraq,Iraq,Irak
-cit.Liby,Libya,Libye
-cit.Mali,Mali,Mali
-cit.Serb,Serbia,Serbie
-cit.Soma,Somalia,Somalie
-cit.Stat,Stateless,Apatride
-cit.Syri,Syria,Syrie
-cit.Ukra,Ukraine,Ukraine
-cit.Koso,Kosovo,Kosovo
-cit.Tota,Other countries,Autres pays
-title.main,,Demandes d'asile en Europe
-title2.main,,"En 2015, jusqu'à présent"
-title3.main,,Si tous les pays européens avait 50000 habitants...
-title.slide,,demandes d'asile y ont été déposées en 2015 jusqu'à mars
-subtitle1.slide,,Si ce pays avait
-subtitle2.slide,,"habitants, il y aurait eu"
-subtitle3.slide,,demandes d'asile de:
+code,en,fr,it
+AT,Austria,Autriche,Austria
+CH,Switzerland,Suisse,Svizzera
+CY,Cyprus,Chypre,Cipro
+DE,Germany,Allemagne,Germania
+EL,Greece,Grèce,Grecia
+ES,Spain,Espagne,Spagna
+FR,France,France,Francia
+HU,Hungary,Hongrie,Ungheria
+IT,Italy,Italie,Italia
+MT,Malta,Malte,Malta
+SE,Sweden,Suède,Svezia
+UK,United Kingdom,Royaume-Uni,Regno Unito
+cit.Afgh,Afghanistan,Afghanistan,Afghanistan
+cit.Alba,Albania,Albanie,Albania
+cit.Erit,Eritrea,Erythrée,Eritrea
+cit.Iraq,Iraq,Irak,Iraq
+cit.Liby,Libya,Libye,Libia
+cit.Mali,Mali,Mali,Mali
+cit.Serb,Serbia,Serbie,Serbia
+cit.Soma,Somalia,Somalie,Somalia
+cit.Stat,Stateless,Apatride,Apolide
+cit.Syri,Syria,Syrie,Siria
+cit.Ukra,Ukraine,Ukraine,Ucraina
+cit.Koso,Kosovo,Kosovo,Kosovo
+cit.Tota,Other countries,Autres pays,Altri paesi
+title.main,,Demandes d'asile en Europe,Domande d'asilo in Europa
+title2.main,,"En 2015, jusqu'à présent","Nel 2015, fino ad oggi"
+title3.main,,Si tous les pays européens avait 50000 habitants...,Se tutti i paesi europei avessero 50'000 abitanti…
+title.slide,,demandes d'asile y ont été déposées en 2015 jusqu'à mars,"domande d'asilo depositate nel 2015, fino a fine marzo"
+subtitle1.slide,,Si ce pays avait,Se questo paese avesse
+subtitle2.slide,,"habitants, il y aurait eu","abitanti, ci sarebbero"
+subtitle3.slide,,demandes d'asile de:,domande d'asilo di:
+credit.source,,source: Eurostat,Fonte: Eurostat
+credit.method1,,Seuls les mois avec des données pour tous les pays européens ont été considérés.,Sono stati presi in considerazione unicamente i mesi peri quali sono disponibili i dati per tutti i paesi europei
+credit.method2,,Inspiré par: Le Monde - les Décodeurs,Ispirato da: Le Monde - les Décodeurs
+credit.lastUpdate,,Dernière mise à jour:,Ultimo aggiornamento: 

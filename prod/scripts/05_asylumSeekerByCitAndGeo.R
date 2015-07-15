@@ -158,6 +158,6 @@ for (i in 1:ncol(trad)) {
 	# Example of converting a highcharts-rCharts html chart into a responsive one
 
 	hChart2responsiveHTML(hChart.html, output.html = output.html, h2 = trad['title',lang], descr = trad['descr',lang],
-		source = trad['source',lang], h3 = "", author = " | swissinfo.ch")
+		source = trad['source',lang], h3 = "", author = " swissinfo.ch")
 
 }

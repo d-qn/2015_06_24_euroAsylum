@@ -129,7 +129,7 @@ w.size <- 3.7
 
 legendKeySize <- unit(2.5, "line")
 legendKeyHeight <- unit(2,"line")
-animationInterval <- 4
+animationInterval <- 3.7
 
 iso <- 'HU' ## debugging
 
@@ -223,7 +223,7 @@ languages <- if(test) 'fr' else colnames(trad)
 for(lang in languages) {
 
 	df.l <- cbind(df, GEO = trad[match(df$iso2, rownames(trad)), lang],
-		CIT = paste0(" ", trad[match(df$cit.code, rownames(trad)), lang], " ") )
+		CIT = paste0(" ", trad[match(df$cit.code, rownames(trad)), lang], "  ") )
 
 	if(test){output <- "test.gif"
 	}  else {
@@ -242,18 +242,10 @@ for(lang in languages) {
 				wp <- waffleIso(iso, df.l, trad, lang)
 				print(wp)
 			}
-			outroText()
-			outroText()
+			outroText(source = trad["credit.source", lang], method = trad["credit.method1", lang], method2 = trad["credit.method2", lang], lastUpdate = paste0(trad["credit.lastUpdate", lang],  Sys.Date()))
+			outroText(source = trad["credit.source", lang], method = trad["credit.method1", lang], method2 = trad["credit.method2", lang], lastUpdate = paste0(trad["credit.lastUpdate", lang],  Sys.Date()))
 		}
 	}, movie.name = output, interval = animationInterval, nmax = 50, ani.width = 800, ani.height = 600, loop = TRUE, outdir = "prod")
 }
-
-
-
-
-
-
-
-
 
 

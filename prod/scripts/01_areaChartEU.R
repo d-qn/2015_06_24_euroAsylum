@@ -47,6 +47,8 @@ for (i in 1:ncol(trad)) {
 	geotrad <- structure(as.character(trad[idxrow.fullgeo,lang]), names =  gsub("^full\\.", "", rownames(trad)[idxrow.fullgeo]))
 	ddd$geo <- geotrad[match(ddd$geo, names(geotrad))]
 
+	# legend order: set order for items in legend
+	legendIndex <- structure(seq(0, length(unique(ddd$iso2))-1), names = c( "DE", 'AT', "FR",  "HU", "IT", "NL", "SE", "UK", 'CH', "autres pays"))
 
 	## create fancy tooltip as html table
 	ddd$name <- paste0(
@@ -59,13 +61,15 @@ for (i in 1:ncol(trad)) {
 		   		'<td style="text-align:right"><div style="color:#D8D8D8;font-size:0.75em">', ddd$iso2,'</div></td></tr>',
 		'</table>')
 
-
 	## CHART
 	a <- Highcharts$new()
 	a$chart(zoomType = "xy", type = 'area', height = chartHeight, spacing = 5)
 	hSeries <- hSeries2(data.frame(x = ddd$time, y = ddd$y, name = ddd$name, series = ddd$geo), "series")
+	h2 <- lapply(hSeries, function(series) {
+		c(series, index = unname(legendIndex[ddd[match(series$name, ddd$geo),'iso2']]))
+	})
 
-	a$series(hSeries)
+	a$series(h2)
 	a$colors(swi_pal)
 	a$plotOptions(area = list(stacking = "normal", lineWidth = 0.1, marker = list(enabled = FALSE, symbol = "circle", radius = 1)),
 		series = list(fillOpacity = 1))
@@ -95,7 +99,7 @@ for (i in 1:ncol(trad)) {
 		labels = list(formatter = "#! function () {return this.value / 1000;} !#"))
 
 	a$tooltip(formatter = "#! function() { return this.point.name; } !#", useHTML = T , borderWidth = 3, style = list(padding = 1.5))
-	a
+	#a
 
 	hChart.html <- tempfile("hChart_area")
 	a$save(hChart.html)
@@ -103,5 +107,4 @@ for (i in 1:ncol(trad)) {
 	# Convert highcharts-rCharts html chart into a responsive one
 	hChart2responsiveHTML(hChart.html, output.html = output.html, h2 = trad['title',lang], descr = trad['descr',lang],
 		source = trad['source',lang], h3 = "", author = 'Duc-Quang Nguyen | <a href = "http://www.swissinfo.ch" target="_blank">swissinfo.ch</a>')
-
 }
