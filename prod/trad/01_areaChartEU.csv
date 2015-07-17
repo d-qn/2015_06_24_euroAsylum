@@ -1,22 +1,22 @@
-code,fr,de,it
-title,Demandes d'asile déposées en Europe de 1986-2014,In Europa gestellte Asylgesuche von 1986-2014,Domande d'asilo depositate in Europa 1986-2014
-descr,Tous les pays européens sont considérés ici. Placez votre curseur ou tapotez sur une région du graphique pour voir les chiffres exacts d'un pays.,Alle europäischen Länder sind berücksichtigt. Bewegen Sie den Cursor oder klicken Sie in der Graphik auf eine Region,"Qui sono considerati tutti i paesi europei. Per vedere le cifre esatte di un paese, puntare il cursore o cliccare sulla regione nel grafico."
-y.lab,Demandes d'asile annuelles en millers,Asylgesuche pro Jahr in Tausend,Domande d'asilo annuali in migliaia
-source,source: Eurostat,Eurostat,Fonte: Eurostat
-legend.country,Pays européens,Europäische Länder,Paesi europei
-legend.descr,(Cliquez pour masquer),(Klicken Sie um zu verdecken),(cliccare per nascondere)
-tooltip.ayslumdemand,demandes d'asile,Asylgesuche,Domande d'asilo
-annotation.exYougoslavia,Début conflit en ex-Yougoslavie,Beginn des Krieges in Ex-Jugoslawien,Inizio conflitto ex-Jugoslavia
-annotation.Kosovo,Guerre du Kosovo,Krieg in Kosovo,Guerra del Kosovo
-annotation.Syria,Guerre civile Syrie,Bürgerkrieg in Syrien,Guerra civile in Siria
-iso.others,autres pays,Andere Länder,Altri Paesi
-full.Austria,Autriche,Österreich,Austria
-full.autres,autres pays d'Europe,andere Länder Europas,Altri Paesi europei
-full.France,France,Frankreich,Francia
-full.Germany (until 1990 former territory of the FRG),Allemagne,Deutschland,Germania
-full.Hungary,Hongrie,Ungarn,Ungheria
-full.Italy,Italie,Italien,Italia
-full.Netherlands,Pays-Bas,Niederlande,Olanda
-full.Sweden,Suède,Schweden,Svezia
-full.Switzerland,Suisse,Schweiz,Svizzera
-full.United Kingdom,Royaume-Uni,Vereinigtes Königreich,Regno Unito
+code,fr,de,it,pt,ar,ch
+title,Demandes d'asile déposées en Europe de 1986-2014,In Europa gestellte Asylgesuche von 1986-2014,Domande d'asilo depositate in Europa 1986-2014,Pedidos de asilo na Europa 1986-2014,طلبات اللجوء المقدمة في أوروبا من 1986 إلى 2014,1986-2014年欧洲接收的难民申请总数
+descr,Tous les pays européens sont considérés ici. Placez votre curseur ou tapotez sur une région du graphique pour voir les chiffres exacts d'un pays.,Alle europäischen Länder sind berücksichtigt. Bewegen Sie den Cursor oder klicken Sie in der Graphik auf eine Region,"Qui sono considerati tutti i paesi europei. Per vedere le cifre esatte di un paese, puntare il cursore o cliccare sulla regione nel grafico.",Todos os países europeus são considerados aqui. Coloque o cursor ou toque em uma região do gráfico para ver os números exatos de um país.,تم الأخذ بعين الإعتبار جميع البلدان الأوروبية. استخدم المؤشر أو اضغط على منطقة في الرسم البياني لمعرفة الأرقام الدقيقة لكل بلد,这里收录了欧洲所有国家。请用光标或手指点图片中的地区，查阅该国的精确数据。
+y.lab,Demandes d'asile annuelles en millers,Asylgesuche pro Jahr in Tausend,Domande d'asilo annuali in migliaia,Pedidos de asilo por ano em milhares,طلبات اللجوء السنوية بالآلاف,每年难民申请总数(单位：千)
+source,source: Eurostat,Eurostat,Fonte: Eurostat,fonte: Eurostat,المصدر: مكتب إحصاء الجماعات الأوروبية Eurostat,来源：欧盟统计局
+legend.country,Pays européens,Europäische Länder,Paesi europei,Paises europeus,البلدان الأوروبية,欧洲国家
+legend.descr,(Cliquez pour masquer),(Klicken Sie um zu verdecken),(cliccare per nascondere),(Clique para esconder),اضغط لحجب المحتوى,(点击隐藏)
+tooltip.ayslumdemand,demandes d'asile,Asylgesuche,Domande d'asilo,Pedidos de asilo,طلبات اللجوء,难民申请数量
+annotation.exYougoslavia,Début conflit en ex-Yougoslavie,Beginn des Krieges in Ex-Jugoslawien,Inizio conflitto ex-Jugoslavia,Início conflito ex-Jugoslávia,بداية الصراع في يوغوسلافيا السابقة,前南斯拉夫冲突初期
+annotation.Kosovo,Guerre du Kosovo,Krieg in Kosovo,Guerra del Kosovo,Guerra do Kosovo,الحرب في كوسوفو,科索沃战争
+annotation.Syria,Guerre civile Syrie,Bürgerkrieg in Syrien,Guerra civile in Siria,Guerra civil na Síria,الحرب الأهلية في سوريا,叙利亚内战
+iso.others,autres pays,Andere Länder,Altri Paesi,outros países,بلدان أخرى,其他国家
+full.Austria,Autriche,Österreich,Austria,Áustria,النمسا,奥地利
+full.autres,autres pays d'Europe,andere Länder Europas,Altri Paesi europei,outros países da Europa,بلدان أوروبية أخرى,其他欧洲国家
+full.France,France,Frankreich,Francia,França,فرنسا,法国
+full.Germany (until 1990 former territory of the FRG),Allemagne,Deutschland,Germania,Alemanha,ألمانيا,德国
+full.Hungary,Hongrie,Ungarn,Ungheria,Hungria,هنغاريا (المجر),匈牙利
+full.Italy,Italie,Italien,Italia,Itália,إيطاليا,意大利
+full.Netherlands,Pays-Bas,Niederlande,Olanda,Holanda,هولندا,荷兰
+full.Sweden,Suède,Schweden,Svezia,Suécia,السويد,瑞典
+full.Switzerland,Suisse,Schweiz,Svizzera,Suíça,سويسرا,瑞士
+full.United Kingdom,Royaume-Uni,Vereinigtes Königreich,Regno Unito,Reino Unido,المملكة المتحدة,英国

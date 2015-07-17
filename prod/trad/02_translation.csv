@@ -1,37 +1,37 @@
-code,en,fr,it
-AT,Austria,Autriche,Austria
-CH,Switzerland,Suisse,Svizzera
-CY,Cyprus,Chypre,Cipro
-DE,Germany,Allemagne,Germania
-EL,Greece,Grèce,Grecia
-ES,Spain,Espagne,Spagna
-FR,France,France,Francia
-HU,Hungary,Hongrie,Ungheria
-IT,Italy,Italie,Italia
-MT,Malta,Malte,Malta
-SE,Sweden,Suède,Svezia
-UK,United Kingdom,Royaume-Uni,Regno Unito
-cit.Afgh,Afghanistan,Afghanistan,Afghanistan
-cit.Alba,Albania,Albanie,Albania
-cit.Erit,Eritrea,Erythrée,Eritrea
-cit.Iraq,Iraq,Irak,Iraq
-cit.Liby,Libya,Libye,Libia
-cit.Mali,Mali,Mali,Mali
-cit.Serb,Serbia,Serbie,Serbia
-cit.Soma,Somalia,Somalie,Somalia
-cit.Stat,Stateless,Apatride,Apolide
-cit.Syri,Syria,Syrie,Siria
-cit.Ukra,Ukraine,Ukraine,Ucraina
-cit.Koso,Kosovo,Kosovo,Kosovo
-cit.Tota,Other countries,Autres pays,Altri paesi
-title.main,,Demandes d'asile en Europe,Domande d'asilo in Europa
-title2.main,,"En 2015, jusqu'à présent","Nel 2015, fino ad oggi"
-title3.main,,Si tous les pays européens avait 50000 habitants...,Se tutti i paesi europei avessero 50'000 abitanti…
-title.slide,,demandes d'asile y ont été déposées en 2015 jusqu'à mars,"domande d'asilo depositate nel 2015, fino a fine marzo"
-subtitle1.slide,,Si ce pays avait,Se questo paese avesse
-subtitle2.slide,,"habitants, il y aurait eu","abitanti, ci sarebbero"
-subtitle3.slide,,demandes d'asile de:,domande d'asilo di:
-credit.source,,source: Eurostat,Fonte: Eurostat
-credit.method1,,Seuls les mois avec des données pour tous les pays européens ont été considérés.,Sono stati presi in considerazione unicamente i mesi peri quali sono disponibili i dati per tutti i paesi europei
-credit.method2,,Inspiré par: Le Monde - les Décodeurs,Ispirato da: Le Monde - les Décodeurs
-credit.lastUpdate,,Dernière mise à jour:,Ultimo aggiornamento: 
+code,en,fr,it,de,pt,ch
+AT,Austria,Autriche,Austria,Österreich,Áustria,奥地利
+CH,Switzerland,Suisse,Svizzera,Schweiz,Suíça,瑞士
+CY,Cyprus,Chypre,Cipro,Zypern,Chipre,塞浦路斯
+DE,Germany,Allemagne,Germania,Deutschland,Alemanha,德国
+EL,Greece,Grèce,Grecia,Griechenland,Grécia,希腊
+ES,Spain,Espagne,Spagna,Spanien,Espanha,西班牙
+FR,France,France,Francia,Frankreich,França,法国
+HU,Hungary,Hongrie,Ungheria,Ungarn,Hungria,匈牙利
+IT,Italy,Italie,Italia,Italien,Itália,意大利
+MT,Malta,Malte,Malta,Malta,Malta,马耳他
+SE,Sweden,Suède,Svezia,Schweden,Suécia,瑞典
+UK,United Kingdom,Royaume-Uni,Regno Unito,Vereinigtes Königreich,Reino Unido,英国
+cit.Afgh,Afghanistan,Afghanistan,Afghanistan,Afghanistan,Afeganistão,阿富汗
+cit.Alba,Albania,Albanie,Albania,Albanien,Albânia,阿尔巴尼亚
+cit.Erit,Eritrea,Erythrée,Eritrea,Eritrea,Eritreia,厄立特里亚
+cit.Iraq,Iraq,Irak,Iraq,Irak,Iraque,伊拉克
+cit.Liby,Libya,Libye,Libia,Libyen,Líbia,利比亚
+cit.Mali,Mali,Mali,Mali,Mali,Mali,马里
+cit.Serb,Serbia,Serbie,Serbia,Serbien,Sérvia,塞尔维亚
+cit.Soma,Somalia,Somalie,Somalia,Somalia,Somália,索马里
+cit.Stat,Stateless,Apatride,Apolide,Staatenlos,Apátrida,无国籍
+cit.Syri,Syria,Syrie,Siria,Syrien,Síria,叙利亚
+cit.Ukra,Ukraine,Ukraine,Ucraina,Ukraine,Ucrânia,乌克兰
+cit.Koso,Kosovo,Kosovo,Kosovo,Kosovo,Kosovo,科索沃
+cit.Tota,Other countries,Autres pays,Altri paesi,Andere Länder,Outros países,其他国家
+title.main,,Demandes d'asile en Europe,Domande d'asilo in Europa,Asylgesuche in Europa,Pedidos de asilo na Europa,欧洲接收的难民申请
+title2.main,,"En 2015, jusqu'à présent","Nel 2015, fino ad oggi","2015, bis jetzt",Em 2015 até agora,2015年，截至今日
+title3.main,,Si tous les pays européens avait 50000 habitants...,Se tutti i paesi europei avessero 50'000 abitanti…,Wenn alle europäischen Länder 50'000 Einwohner hätten…,Se cada país europeu tinhivesse 50.000 habitantes ...,假如所有欧洲国家都只有5万居民……
+title.slide,,demandes d'asile y ont été déposées en 2015 jusqu'à mars,"domande d'asilo depositate nel 2015, fino a fine marzo","Asylgesuche, die bis im März 2015 eingereicht wurden",pedidos de asilo apresentados em 2015 até março,2015年接收到的难民申请(截至3月)
+subtitle1.slide,,Si ce pays avait,Se questo paese avesse,Wenn dieses Land,Se este país tivesse,假如该国有
+subtitle2.slide,,"habitants, il y aurait eu","abitanti, ci sarebbero","Einwohner hätte, hätte es","habitantes, teria havido",名居民，那么会有
+subtitle3.slide,,demandes d'asile de:,domande d'asilo di:,Asylgesuche aus:,pedidos de asilo de:,份难民申请来自：
+credit.source,,source: Eurostat,Fonte: Eurostat,Quelle: Eurostat,fonte: Eurostat,来源：欧盟统计局
+credit.method1,,Seuls les mois avec des données pour tous les pays européens ont été considérés.,Sono stati presi in considerazione unicamente i mesi peri quali sono disponibili i dati per tutti i paesi europei,"Es wurden nur jene Monate berücksichtigt, wo Zahlen für alle europäischen Länder vorlagen.",Apenas os meses com dados para todos os países europeus foram considerados.,仅收录所有欧洲国家都接收到难民申请的月份。
+credit.method2,,Inspiré par: Le Monde - les Décodeurs,Ispirato da: Le Monde - les Décodeurs,Inspiriert von: Le Monde - les Décodeurs,Inspirado por: Le Monde - les Décodeurs,启发：《世界报》
+credit.lastUpdate,,Dernière mise à jour:,Ultimo aggiornamento: ,Letztes Update:,Última atualização:,最后更新：

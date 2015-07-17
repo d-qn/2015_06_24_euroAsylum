@@ -126,7 +126,14 @@ for (i in 1:ncol(trad)) {
 	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'
 	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')
 
-	top <- paste0('<strong>', data$geo, "</strong>", '<p style=\"font-size:', fontSize, '\">',
+
+	if(lang == 'ar') {
+		topP <- paste0('<div align=\"right\"><strong>', data$geo, "</strong>", '<p dir=\"rtl\" style=\"font-size:', fontSize, '\">')
+	} else {
+		topP <- paste0('<strong>', data$geo, "</strong>", '<p style=\"font-size:', fontSize, '\">')
+	}
+
+	top <- paste0(topP,
 	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",
   	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"
 	  )
@@ -134,13 +141,12 @@ for (i in 1:ncol(trad)) {
 	popup_pop <- paste0(top,
 	  trad['tooltip.population', lang], ": ", round(data$pop / 10^6, 2), " ", trad['tooltip.popMillion', lang], "<br>",
 	  trad['tooltip.totalByPop', lang], ": ", "<strong>", data$totalParMillion,
-	  "</strong></p>")
+	  "</strong></p>", ifelse(lang == 'ar', "</div>", ""))
 
 	popup_gdp <- paste0(top,
 	  trad['tooltip.gdpPerCapita', lang],  ": ", data$gdp, "<br>",
    	  trad['tooltip.totbyGDP', lang], ": ", "<strong>", data$totalParPIB,
-  	  "</strong></p>"
-	)
+  	  "</strong></p>", ifelse(lang == 'ar', "</div>", ""))
 
 	mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%
 		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],
@@ -156,3 +162,4 @@ for (i in 1:ncol(trad)) {
 
 	saveWidget(mn, file = output.html, selfcontained = FALSE, libdir = "leafletjs")
 }
+

@@ -1,54 +1,3 @@
-ch <- readOGR(path.ch, layer = 'municipalities')
-ch.df <- formatShp(ch)
-str(ch.df)
-ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) + #
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())
-lake <- readOGR(path.ch, layer = "lakes")#
-country <- readOGR(path.ch, layer = "country")
-lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
-country.df <- formatShp(readOGR(path.ch, layer = "country"))
-alpha
-lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
-country.df <- formatShp(readOGR(path.ch, layer = "country"))#
-ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + #
-  geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
-ch.communes <- ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) + #
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
-ch.communes
-lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
-country.df <- formatShp(readOGR(path.ch, layer = "country"))#
-ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + #
-  geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
-?alpha
-library(swiMap)
-?getShpLayers
-require(rgdal)#
-require(rgeos)#
-require(ggplot2)#
-path <- getPathShp('world')#
-layers <- getShpLayers(path)#
-# read shapefiles for given layer#
-world <- readOGR(path, layer = layers[1])#
-world.df <- formatShp(world)#
-# plot world map#
-ggplot(world.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = FIPS)) +#
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
-Same with swiss commune map (slow!)#
-## Not run: #
-path.ch <- getPathShp('CH')#
-ch <- readOGR(path.ch, layer = 'municipalities')#
-ch.df <- formatShp(ch)#
-# plot swiss commune map#
-ch.communes <- ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) +#
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
-ch.communes
-lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
-country.df <- formatShp(readOGR(path.ch, layer = "country"))
-ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
-library(scales)
-ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
-ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
-ch.communes + geom_polygon(data = country.df, fill = NA, size = 1) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
 str(country.df)
 library(swiMap)
 ?getShpLayers
@@ -524,498 +473,464 @@ h1$series(data=rep(30,30), marker= list(enabled = FALSE))#
 h1
 257508 / 20524
 setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-###### This download the very large monthly data with country of origin!#
-#
+library(WDI)#
+library(countrycode)#
+library(tidyr)#
 library(dplyr)#
 library(ggplot2)#
 library(swiTheme)#
-require(gtable)#
-library(animation)#
-library(png)#
-inputData <- "../data/02_citizenMonthly_waffled.Rdata"#
-load(inputData)#
+library(swiMap)#
+library(leaflet)#
+library(htmlwidgets)#
 #
-tradFile <- "../trad/02_translation.csv"#
-trad <- read.csv(tradFile, check.names = F, stringsAsFactors = F, row.names = 1)#
+getData <- F#
 #
-# load SWI logo#
-swiLogo <- readPNG("~/swissinfo/_helpers/SWI-RGB.png")
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-tradFile
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-###### This download the very large monthly data with country of origin!#
+trad <- read.csv("../trad/06_refugessByPopGDP.csv", check.names = F, stringsAsFactors = F, row.names = 1)#
 #
-library(dplyr)#
-library(ggplot2)#
-library(swiTheme)#
-require(gtable)#
-library(animation)#
-library(png)#
-inputData <- "../data/02_citizenMonthly_waffled.Rdata"#
-load(inputData)#
+if(getData) {#
+	#############################################################################################
+	###		Load UNHCR asylum seeker data#
+	#############################################################################################
 #
-tradFile <- "../trad/02_translation.csv"#
-trad <- read.csv(tradFile, check.names = F, stringsAsFactors = F, row.names = 1)#
+	dat.read <- read.csv("data/unhcr_popstats_export_time_series_2015_07_10_150142_refugees.csv", check.names = F, stringsAsFactors = F)#
 #
-# load SWI logo#
-swiLogo <- readPNG("~/swissinfo/_helpers/SWI-RGB.png")#
+	dat.read <- rename(dat.read, country = `Country / territory of asylum/residence`)#
+	dat.read$Value <- as.numeric(dat.read$Value)#
 #
-#############################################################################################
-###		HELPER#
-#############################################################################################
+	###	Aggregate values by country (drop origin)#
+	dat <- dat.read %>% group_by(country) %>% summarise(total = sum(Value, na.rm = T)) %>% ungroup()#
+	###	Aggregate values by country and origin#
+	dat2 <- dat.read %>% group_by(country, `Population type`) %>% summarise(total = sum(Value, na.rm = T)) %>% ungroup()#
 #
-library(waffle)#
+	###	get the iso country code#
+	dat$iso2 <- countrycode(dat$country, "country.name", "iso2c")#
+	dat2$iso2 <- countrycode(dat2$country, "country.name", "iso2c")#
 #
-#### Adapt the original function#
-waffled <- function (parts, rows = 10, xlab = NULL, title = NULL, colors = NA,#
-    size = 2, flip = FALSE, reverse = FALSE, equal = TRUE, pad = 0)#
-{#
-    part_names <- names(parts)#
-    if (length(part_names) < length(parts)) {#
-        part_names <- c(part_names, LETTERS[1:length(parts) -#
-            length(part_names)])#
-    }#
-    if (all(is.na(colors))) {#
-        colors <- brewer.pal(length(parts), "Set2")#
-    }#
-    parts_vec <- unlist(sapply(1:length(parts), function(i) {#
-        rep(LETTERS[i + 1], parts[i])#
-    }))#
-    if (reverse) {#
-        parts_vec <- rev(parts_vec)#
-    }#
-    dat <- expand.grid(y = 1:rows, x = seq_len(pad + (ceiling(sum(parts)/rows))))#
-	##### My change 1 , added factor and levels being of length "parts" (even if some parts have 0 square) !!!!!!!!!!!!#
-    dat$value <- factor(c(parts_vec, rep(NA, nrow(dat) - length(parts_vec))), levels = LETTERS[2:(length(parts)+1)])#
-    ##### Changes 2, do not pass data in ggplot but to geom_tile#
-	if (flip) {#
-		gg <- ggplot() + geom_tile(data = dat, aes(x = y, y = x, fill = value), color = "white", size = size)#
-    }#
-    else {#
-		gg <- ggplot() + geom_tile(data = dat, aes(x = x, y = y, fill = value), color = "white", size = size)#
-    }#
-    #gg <- gg + geom_tile(color = "white", size = size)#
-    gg <- gg + labs(x = xlab, y = NULL, title = title)#
-    gg <- gg + scale_x_continuous(expand = c(0, 0))#
-    gg <- gg + scale_y_continuous(expand = c(0, 0))#
-    ###### 3 Added this as well, not sure it is useful: drop = FALSE !!!!!!!!!!!!#
-	gg <- gg + scale_fill_manual(name = "", values = colors,#
-        labels = part_names, drop = FALSE)#
-    gg <- gg + guides(fill = guide_legend(override.aes = list(colour = NULL)))#
-    if (equal) {#
-        gg <- gg + coord_equal()#
-    }#
-    gg <- gg + theme_bw()#
-    gg <- gg + theme(panel.grid = element_blank())#
-    gg <- gg + theme(panel.border = element_blank())#
-    gg <- gg + theme(panel.background = element_blank())#
-    gg <- gg + theme(panel.margin = unit(0, "null"))#
-    gg <- gg + theme(axis.text = element_blank())#
-    gg <- gg + theme(axis.title.x = element_text(size = 10))#
-    gg <- gg + theme(axis.ticks = element_blank())#
-    gg <- gg + theme(axis.line = element_blank())#
-    gg <- gg + theme(axis.ticks.length = unit(0, "null"))#
-    gg <- gg + theme(axis.ticks.margin = unit(0, "null"))#
-    gg <- gg + theme(plot.title = element_text(size = 18))#
-    gg <- gg + theme(plot.background = element_blank())#
-	## Change 4 make space on the top and comment the other line#
-    gg <- gg + theme(plot.margin = unit(c(2.8, 0, 0.5, 0), "lines"))#
-    # gg <- gg + theme(plot.margin = rep(unit(0, "null"), 4))#
-    gg#
-}#
-#############################################################################################
-### subset the whole dataset and save the production data.frame#
-#############################################################################################
+	# discard VG, NR#
+	dat <- dat[!dat$iso2 %in% c('VG', 'NR'),]#
 #
-range(data$time)#
-tmp <- as.data.frame(df %>% filter(iso2 != 'EU28') %>% group_by(iso2) %>%#
-	summarise(totsq = sum(sq)) %>% filter(totsq > 2 | iso2 %in% c('PT', 'ES')) %>%#
-	filter(!iso2 %in% c('LI', 'IS', 'CZ', 'HR', 'LT', 'LV', 'SI', 'SK', 'BG', 'EE', 'LU', 'PT', 'BE', 'FI', 'IE', 'NO', 'NL', 'DK')))#
+	#############################################################################################
+	###		Get world bank indicators#
+	#############################################################################################
 #
-iso.ordered <- as.character(tmp$iso2[order(tmp$totsq)])#
+	# GDP per capita, PPP (current international $) http://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD#
+	# Population, total http://data.worldbank.org/indicator/SP.POP.TOTL#
 #
-## Create the translation data.frame#
-t.df <- df %>% filter(iso2 %in% iso.ordered) %>% select(iso2, geo, citizen)#
+	idw <- c('NY.GDP.PCAP.PP.CD', 'SP.POP.TOTL')#
 #
-t.df <- rbind(unique(t.df[,1:2]), data.frame(iso2 = paste0("cit.", substr(unique(t.df$citizen), 1, 4)), geo = unique(t.df$citizen)))#
-colnames(t.df) <- c('code', 'en')#
-write.csv(t.df, file = "../trad/02_translation_tmp.csv", row.names = F)#
-### Filter out iso.ordered#
-df <- df %>% filter(iso2 %in% iso.ordered)#
-#
-### Add the citizen code to data.frame#
-df <- cbind(df, cit.code = factor(t.df[match(df$citizen, t.df$en), 'code']))#
-rownames(df) <- NULL#
-### Define colors#
-colorV <- structure(swi_rpal[1:nlevels(df$cit.code)], names = levels(df$cit.code))#
-colorV['cit.Tota'] <- 'darkgrey'#
-#
-write.csv(df, file = "../data/02_inputData.csv")#
-#
-#############################################################################################
-###		Plot#
-#############################################################################################
-####### PLOT SETTINGS ########
-###	waffle settings#
-font <- "Open Sans"#
-# how many rows in waffle#
-w.row <- 10#
-w.size <- 3.7#
-#
-legendKeySize <- unit(2.5, "line")#
-legendKeyHeight <- unit(2,"line")#
-animationInterval <- 4#
-#
-iso <- 'HU' ## debugging#
-#
-####### helper functions ########
-#
-waffleIso <- function(iso = 'CH', iDf = df.l, trad, lang) {#
-	stopifnot(length(iso) == 1)#
-#
-	dff <- iDf %>% filter(iso2 == iso)#
-	dfff <- dff %>% filter(sq > 0)#
-#
-	wf <- structure(dfff$sq, names = as.character(dfff$CIT))#
-#
-	countryTop <- geom_text(data = data.frame(x = 0, y = w.row + 2.2, label = dff$GEO[1]), aes(x = x, y = y, label = label),#
-				family = font, fontface = "bold", alpha = 1, size = 11, hjust = 0, vjust = 0, colour = "#333333")#
-	topText <- paste0(dff[which(dff$citizen == "Total"),'sum'], " ", trad["title.slide", lang])#
-	titleTop <- geom_text(data = data.frame(x = 0, y = w.row + 1.5, label = topText), aes(x = x, y = y, label = label),#
-				family = font, alpha = 1, size = 6, hjust = 0, vjust = 0)#
-	text2 <- paste0(trad["subtitle1.slide", lang], " ", unit,  " ", trad["subtitle2.slide", lang], " ",#
-		dff[which(dff$citizen == "Total"),'perU'], " ", trad["subtitle3.slide", lang])#
-	subtitle <- geom_text(data = data.frame(x = 0, y = w.row + 0.9, label = text2), aes(x = x, y = y, label = label),#
-				family = font, alpha = 1, size = 6, hjust = 0, vjust = 0)#
-#
-	# Hack: set a blank waffle and display top text#
-	blankW <- waffled(rep(round(17 * w.row / length(wf)), length(wf)), rows = w.row, size = w.size, colors = rep("white", length(wf))) +#
-		theme(legend.position = "bottom", legend.key.size = legendKeySize, legend.key.height = legendKeyHeight,#
-		legend.key = element_rect(colour = NA), legend.text = element_text(colour = "white")) +#
-		guides(fill = guide_legend(nrow = 2, byrow = TRUE,#
-		override.aes = list(colour = NULL)))#
-	textOnly <- blankW + countryTop +titleTop + subtitle#
-#
-	textOnly2 <- ggplot_gtable(ggplot_build(textOnly))#
-	textOnly2$layout$clip[textOnly2$layout$name == "panel"] <- "off"#
-	grid.newpage()#
-	grid.draw(textOnly2)#
-#
-	# Waffle chart#
-	padding <- maxCol - ceiling(sum(wf) / w.row)#
-	gw <- waffled(wf, rows = w.row, size = w.size, colors = unname(colorV[match(as.character(iDf[match(names(wf), iDf$CIT),'cit.code']), names(colorV))]),#
-		pad = padding, xlab = NULL) +#
-		theme(legend.position = "bottom", legend.key.size = legendKeySize, legend.key.height = legendKeyHeight,#
-		legend.key = element_rect(colour = NA),#
-		axis.ticks = element_blank(), axis.text = element_blank(), text = element_text(size = 14, family = font)) +#
-		guides(fill = guide_legend(nrow = 2, byrow = TRUE, override.aes = list(colour = NULL)))#
-		# TITLE#
-#
-	gw2 <- gw + countryTop + titleTop + subtitle#
-#
-	## Turn off clipping and print !#
-	gw3 <- ggplot_gtable(ggplot_build(gw2))#
-	gw3$layout$clip[gw3$layout$name == "panel"] <- "off"#
-	grid.newpage()#
-	grid.draw(gw3)#
-	grid.newpage()#
-	grid.draw(gw3)#
-}#
-#
-introText <- function(title, title2, subtitle, img = swiLogo) {#
-	par(mar = c(0,0,0,0))#
-	plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')#
-	text(x = 0.01, y = 0.95, title, cex = 2.5, col = "black", family = font, font = 2, adj = 0)#
-	text(x = 0.01, y = 0.88, title2, cex = 2.5, col = "black", family = font, font = 2, adj = 0)#
-	text(x = 0.01, y = 0.5, subtitle, cex = 2.5, col = "gray30", family = font, font = 1, adj = 0)#
-	rasterImage(img, .85, 0.03, 0.96, 0)#
-}#
-#
-outroText <- function(source = "source: Eurostat",#
-	method = "Seuls les mois avec des données pour tous les pays européens ont été considérés.",#
-	method2 = "Inspiré par: Le Monde - les Décodeurs",#
-	lastUpdate = paste0("Dernière mise à jour: ", Sys.Date()), author = "Duc-Quang Nguyen (@duc_qn)", img = swiLogo) {#
-#
-	par(mar = c(0,0,0,0))#
-	plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')#
-	text(x = 0.01, y = 0.95, source, cex = 1.8, col = "black", family = font, font = 3, adj = 0)#
-	text(x = 0.01, y = 0.88, method, cex = 1.5, col = "black", family = font, font = 3, adj = 0)#
-	text(x = 0.01, y = 0.8, method2, cex = 1.5, col = "black", family = font, font = 3, adj = 0)#
-	text(x = 0.01, y = 0.2, lastUpdate, cex = 1.3, col = "gray30", family = font, font = 1, adj = 0)#
-	text(x = 0.01, y = 0.15, author, cex = 1.3, col = "gray30", family = font, font = 1, adj = 0)#
-	rasterImage(img, .85, 0.03, 0.96, 0)#
-}#
-#############################################################################################
-###		Loop by language to create the GIF#
-#############################################################################################
-#
-test <- F#
-#
-languages <- if(test) 'fr' else colnames(trad)#
-#
-for(lang in languages) {#
-#
-	df.l <- cbind(df, GEO = trad[match(df$iso2, rownames(trad)), lang],#
-		CIT = paste0(" ", trad[match(df$cit.code, rownames(trad)), lang], "  ") )#
-#
-	if(test){output <- "test.gif"#
-	}  else {#
-		output <- paste0("02_EU_asylum_waffle_", lang ,".gif")#
+	getwbData <- function (ind, countries = dat$iso2) {#
+		indicator <- WDI(indicator = ind, country = countries, start = 2008, end = 2015)#
+		colnames(indicator)[3] <- 'values'#
+		do.call(rbind, by(indicator, indicator$iso2c, function(ii) {#
+			rowx <- !is.na(ii[,3])#
+			if(all(!rowx)) {#
+				ii[1,]#
+			} else if (all(rowx)){#
+				ii[which.max(ii$year),]#
+			} else {#
+				ii[which(rowx)[1],]#
+			}#
+		}))#
 	}#
 #
-	saveGIF({#
-		introText(title = trad["title.main", lang], trad["title2.main", lang], trad["title3.main", lang])#
-		if(test) {#
-			wp <- waffleIso('CH', df.l, trad, lang)#
-			print(wp)#
-			wp <- waffleIso('HU', df.l, trad, lang)#
-			print(wp)#
-		} else {#
-			for(iso in iso.ordered) {#
-				wp <- waffleIso(iso, df.l, trad, lang)#
-				print(wp)#
-			}#
-			outroText(source = trad["credit.source", lang], method = trad["credit.method1", lang], method2 = trad["credit.method2", lang], lastUpdate = trad["credit.lastUpdate", lang])#
-			outroText(source = trad["credit.source", lang], method = trad["credit.method1", lang], method2 = trad["credit.method2", lang], lastUpdate = trad["credit.lastUpdate", lang])#
-		}#
-	}, movie.name = output, interval = animationInterval, nmax = 50, ani.width = 800, ani.height = 600, loop = TRUE, outdir = "prod")#
-}
-paste0("Dernière mise à jour: ", Sys.Date())
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-###### This download the very large monthly data with country of origin!#
+	gdp <- getwbData(idw[1], dat$iso2)#
+	pop <- getwbData(idw[2], dat$iso2)#
 #
+	# combine indicators#
+	dat$totalParMillion <- round((dat$total / pop[match(dat$iso2, pop$iso2c),'values']) * 10^6)#
+	dat$totalParPIB <- round((dat$total / gdp[match(dat$iso2, gdp$iso2c),'values'] ), 1)#
+#
+	#############################################################################################
+	###		MAP#
+	#############################################################################################
+	library(ggmap)#
+	library(leaflet)#
+	library(htmlwidgets)#
+	# Geocode every country (concatenate country name with iso2 code)#
+	latlon <- geocode(paste(dat$country, dat$iso2, sep = ", country="), output = c("latlon"), messaging = F)#
+	data <- cbind(dat, latlon)#
+#
+	# remove parenthesis and rep. abbreviations#
+	naCountry <- gsub("Rep\\.", "Republic", gsub(" \\(.*\\)$", "", data[is.na(data$lat),'country']))#
+	latlon2 <- geocode(paste(naCountry,  data[is.na(data$lat),'iso2'], sep = ", country="),  output = c("latlon"), messaging = F)#
+	data[is.na(data$lat), c('lon', 'lat')] <- latlon2#
+#
+	# remove lines with NA lat lon#
+	data <- data[!is.na(data$lat),]#
+	## Add back the number of asylum seeker and refugees#
+	# add asylum and refugees numbers#
+	tmp <- filter(dat2, `Population type` == "Asylum-seekers")#
+	data$asylumSeeker <- unlist(tmp[match(data$iso2, tmp$iso2), 'total'])#
+	tmp <- filter(dat2, `Population type` == "Refugees (incl. refugee-like situations)")#
+	data$refugees <- unlist(tmp[match(data$iso2, tmp$iso2), 'total'])#
+	# add PIB and GDP#
+	data$pop <- pop[match(data$iso2, pop$iso2c),'values']#
+	data$gdp <- round(gdp[match(data$iso2, gdp$iso2c),'values'])#
+#
+	save(data, file = "../data/06_refugeesMap.Rdata")#
+} else {#
+	load("../data/06_refugeesMap.Rdata")#
+}#
+### Set country translation#
+# countryTrans <- read.csv("~/swissinfo/_helpers/countrynames.csv", sep ="\t")#
+# write.csv(countryTrans[c(which(countryTrans$iso2 %in% data$iso2), which(!countryTrans$iso2 %in% data$iso2)),],#
+# 	file = "~/swissinfo/_helpers/countrynames_ordered.csv")#
+#
+#############################################################################################
+###		map settings#
+#############################################################################################
+fontSize <- "0.9em"#
+i <- 1#
+#
+for (i in 1:ncol(trad)) {#
+#
+	lang <- colnames(trad)[i]#
+	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
+	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
+#
+	groups <- c(trad['group1',lang], trad['group2',lang])#
+#
+	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
+	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
+#
+	top <- paste0('<strong>', data$geo, "</strong>", '<p style=\"font-size:', fontSize, '\">',#
+	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
+  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
+	  )#
+#
+	popup_pop <- paste0(top,#
+	  trad['tooltip.population', lang], ": ", round(data$pop / 10^6, 2), " ", trad['tooltip.popMillion', lang], "<br>",#
+	  trad['tooltip.totalByPop', lang], ": ", "<strong>", data$totalParMillion,#
+	  "</strong></p>")#
+#
+	popup_gdp <- paste0(top,#
+	  trad['tooltip.gdpPerCapita', lang],  ": ", data$gdp, "<br>",#
+   	  trad['tooltip.totbyGDP', lang], ": ", "<strong>", data$totalParPIB,#
+  	  "</strong></p>"#
+	)#
+#
+	mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+	    radius = ~sqrt(totalParMillion) / 12, popup = popup_pop, group=groups[1]) %>%#
+		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
+	    radius = ~sqrt(totalParPIB) * 2, popup = popup_gdp, group=groups[2]) %>%#
+		setView(21.824312, 39.074208, zoom = 3) %>%#
+		addLegend(position = "topright", title = trad['title',lang], opacity = 0, colors = NULL, labels = NULL) %>%#
+	    addLayersControl(#
+	       baseGroups = c(groups[1], groups[2]),#
+	       options = layersControlOptions(collapsed = FALSE)#
+	     ) %>% hideGroup(groups[2])#
+#
+	saveWidget(mn, file = output.html, selfcontained = FALSE, libdir = "leafletjs")#
+}
+ifelse(lang == 'ar', "dir=RTL", "")
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+library(WDI)#
+library(countrycode)#
+library(tidyr)#
 library(dplyr)#
 library(ggplot2)#
 library(swiTheme)#
-require(gtable)#
-library(animation)#
-library(png)#
-inputData <- "../data/02_citizenMonthly_waffled.Rdata"#
-load(inputData)#
+library(swiMap)#
+library(leaflet)#
+library(htmlwidgets)#
 #
-tradFile <- "../trad/02_translation.csv"#
-trad <- read.csv(tradFile, check.names = F, stringsAsFactors = F, row.names = 1)#
+getData <- F#
 #
-# load SWI logo#
-swiLogo <- readPNG("~/swissinfo/_helpers/SWI-RGB.png")#
+trad <- read.csv("../trad/06_refugessByPopGDP.csv", check.names = F, stringsAsFactors = F, row.names = 1)#
 #
-#############################################################################################
-###		HELPER#
-#############################################################################################
+if(getData) {#
+	#############################################################################################
+	###		Load UNHCR asylum seeker data#
+	#############################################################################################
 #
-library(waffle)#
+	dat.read <- read.csv("data/unhcr_popstats_export_time_series_2015_07_10_150142_refugees.csv", check.names = F, stringsAsFactors = F)#
 #
-#### Adapt the original function#
-waffled <- function (parts, rows = 10, xlab = NULL, title = NULL, colors = NA,#
-    size = 2, flip = FALSE, reverse = FALSE, equal = TRUE, pad = 0)#
-{#
-    part_names <- names(parts)#
-    if (length(part_names) < length(parts)) {#
-        part_names <- c(part_names, LETTERS[1:length(parts) -#
-            length(part_names)])#
-    }#
-    if (all(is.na(colors))) {#
-        colors <- brewer.pal(length(parts), "Set2")#
-    }#
-    parts_vec <- unlist(sapply(1:length(parts), function(i) {#
-        rep(LETTERS[i + 1], parts[i])#
-    }))#
-    if (reverse) {#
-        parts_vec <- rev(parts_vec)#
-    }#
-    dat <- expand.grid(y = 1:rows, x = seq_len(pad + (ceiling(sum(parts)/rows))))#
-	##### My change 1 , added factor and levels being of length "parts" (even if some parts have 0 square) !!!!!!!!!!!!#
-    dat$value <- factor(c(parts_vec, rep(NA, nrow(dat) - length(parts_vec))), levels = LETTERS[2:(length(parts)+1)])#
-    ##### Changes 2, do not pass data in ggplot but to geom_tile#
-	if (flip) {#
-		gg <- ggplot() + geom_tile(data = dat, aes(x = y, y = x, fill = value), color = "white", size = size)#
-    }#
-    else {#
-		gg <- ggplot() + geom_tile(data = dat, aes(x = x, y = y, fill = value), color = "white", size = size)#
-    }#
-    #gg <- gg + geom_tile(color = "white", size = size)#
-    gg <- gg + labs(x = xlab, y = NULL, title = title)#
-    gg <- gg + scale_x_continuous(expand = c(0, 0))#
-    gg <- gg + scale_y_continuous(expand = c(0, 0))#
-    ###### 3 Added this as well, not sure it is useful: drop = FALSE !!!!!!!!!!!!#
-	gg <- gg + scale_fill_manual(name = "", values = colors,#
-        labels = part_names, drop = FALSE)#
-    gg <- gg + guides(fill = guide_legend(override.aes = list(colour = NULL)))#
-    if (equal) {#
-        gg <- gg + coord_equal()#
-    }#
-    gg <- gg + theme_bw()#
-    gg <- gg + theme(panel.grid = element_blank())#
-    gg <- gg + theme(panel.border = element_blank())#
-    gg <- gg + theme(panel.background = element_blank())#
-    gg <- gg + theme(panel.margin = unit(0, "null"))#
-    gg <- gg + theme(axis.text = element_blank())#
-    gg <- gg + theme(axis.title.x = element_text(size = 10))#
-    gg <- gg + theme(axis.ticks = element_blank())#
-    gg <- gg + theme(axis.line = element_blank())#
-    gg <- gg + theme(axis.ticks.length = unit(0, "null"))#
-    gg <- gg + theme(axis.ticks.margin = unit(0, "null"))#
-    gg <- gg + theme(plot.title = element_text(size = 18))#
-    gg <- gg + theme(plot.background = element_blank())#
-	## Change 4 make space on the top and comment the other line#
-    gg <- gg + theme(plot.margin = unit(c(2.8, 0, 0.5, 0), "lines"))#
-    # gg <- gg + theme(plot.margin = rep(unit(0, "null"), 4))#
-    gg#
-}#
-#############################################################################################
-### subset the whole dataset and save the production data.frame#
-#############################################################################################
+	dat.read <- rename(dat.read, country = `Country / territory of asylum/residence`)#
+	dat.read$Value <- as.numeric(dat.read$Value)#
 #
-range(data$time)#
-tmp <- as.data.frame(df %>% filter(iso2 != 'EU28') %>% group_by(iso2) %>%#
-	summarise(totsq = sum(sq)) %>% filter(totsq > 2 | iso2 %in% c('PT', 'ES')) %>%#
-	filter(!iso2 %in% c('LI', 'IS', 'CZ', 'HR', 'LT', 'LV', 'SI', 'SK', 'BG', 'EE', 'LU', 'PT', 'BE', 'FI', 'IE', 'NO', 'NL', 'DK')))#
+	###	Aggregate values by country (drop origin)#
+	dat <- dat.read %>% group_by(country) %>% summarise(total = sum(Value, na.rm = T)) %>% ungroup()#
+	###	Aggregate values by country and origin#
+	dat2 <- dat.read %>% group_by(country, `Population type`) %>% summarise(total = sum(Value, na.rm = T)) %>% ungroup()#
 #
-iso.ordered <- as.character(tmp$iso2[order(tmp$totsq)])#
+	###	get the iso country code#
+	dat$iso2 <- countrycode(dat$country, "country.name", "iso2c")#
+	dat2$iso2 <- countrycode(dat2$country, "country.name", "iso2c")#
 #
-## Create the translation data.frame#
-t.df <- df %>% filter(iso2 %in% iso.ordered) %>% select(iso2, geo, citizen)#
+	# discard VG, NR#
+	dat <- dat[!dat$iso2 %in% c('VG', 'NR'),]#
 #
-t.df <- rbind(unique(t.df[,1:2]), data.frame(iso2 = paste0("cit.", substr(unique(t.df$citizen), 1, 4)), geo = unique(t.df$citizen)))#
-colnames(t.df) <- c('code', 'en')#
-write.csv(t.df, file = "../trad/02_translation_tmp.csv", row.names = F)#
-### Filter out iso.ordered#
-df <- df %>% filter(iso2 %in% iso.ordered)#
+	#############################################################################################
+	###		Get world bank indicators#
+	#############################################################################################
 #
-### Add the citizen code to data.frame#
-df <- cbind(df, cit.code = factor(t.df[match(df$citizen, t.df$en), 'code']))#
-rownames(df) <- NULL#
-### Define colors#
-colorV <- structure(swi_rpal[1:nlevels(df$cit.code)], names = levels(df$cit.code))#
-colorV['cit.Tota'] <- 'darkgrey'#
+	# GDP per capita, PPP (current international $) http://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD#
+	# Population, total http://data.worldbank.org/indicator/SP.POP.TOTL#
 #
-write.csv(df, file = "../data/02_inputData.csv")#
+	idw <- c('NY.GDP.PCAP.PP.CD', 'SP.POP.TOTL')#
 #
-#############################################################################################
-###		Plot#
-#############################################################################################
-####### PLOT SETTINGS ########
-###	waffle settings#
-font <- "Open Sans"#
-# how many rows in waffle#
-w.row <- 10#
-w.size <- 3.7#
-#
-legendKeySize <- unit(2.5, "line")#
-legendKeyHeight <- unit(2,"line")#
-animationInterval <- 3.7#
-#
-iso <- 'HU' ## debugging#
-#
-####### helper functions ########
-#
-waffleIso <- function(iso = 'CH', iDf = df.l, trad, lang) {#
-	stopifnot(length(iso) == 1)#
-#
-	dff <- iDf %>% filter(iso2 == iso)#
-	dfff <- dff %>% filter(sq > 0)#
-#
-	wf <- structure(dfff$sq, names = as.character(dfff$CIT))#
-#
-	countryTop <- geom_text(data = data.frame(x = 0, y = w.row + 2.2, label = dff$GEO[1]), aes(x = x, y = y, label = label),#
-				family = font, fontface = "bold", alpha = 1, size = 11, hjust = 0, vjust = 0, colour = "#333333")#
-	topText <- paste0(dff[which(dff$citizen == "Total"),'sum'], " ", trad["title.slide", lang])#
-	titleTop <- geom_text(data = data.frame(x = 0, y = w.row + 1.5, label = topText), aes(x = x, y = y, label = label),#
-				family = font, alpha = 1, size = 6, hjust = 0, vjust = 0)#
-	text2 <- paste0(trad["subtitle1.slide", lang], " ", unit,  " ", trad["subtitle2.slide", lang], " ",#
-		dff[which(dff$citizen == "Total"),'perU'], " ", trad["subtitle3.slide", lang])#
-	subtitle <- geom_text(data = data.frame(x = 0, y = w.row + 0.9, label = text2), aes(x = x, y = y, label = label),#
-				family = font, alpha = 1, size = 6, hjust = 0, vjust = 0)#
-#
-	# Hack: set a blank waffle and display top text#
-	blankW <- waffled(rep(round(17 * w.row / length(wf)), length(wf)), rows = w.row, size = w.size, colors = rep("white", length(wf))) +#
-		theme(legend.position = "bottom", legend.key.size = legendKeySize, legend.key.height = legendKeyHeight,#
-		legend.key = element_rect(colour = NA), legend.text = element_text(colour = "white")) +#
-		guides(fill = guide_legend(nrow = 2, byrow = TRUE,#
-		override.aes = list(colour = NULL)))#
-	textOnly <- blankW + countryTop +titleTop + subtitle#
-#
-	textOnly2 <- ggplot_gtable(ggplot_build(textOnly))#
-	textOnly2$layout$clip[textOnly2$layout$name == "panel"] <- "off"#
-	grid.newpage()#
-	grid.draw(textOnly2)#
-#
-	# Waffle chart#
-	padding <- maxCol - ceiling(sum(wf) / w.row)#
-	gw <- waffled(wf, rows = w.row, size = w.size, colors = unname(colorV[match(as.character(iDf[match(names(wf), iDf$CIT),'cit.code']), names(colorV))]),#
-		pad = padding, xlab = NULL) +#
-		theme(legend.position = "bottom", legend.key.size = legendKeySize, legend.key.height = legendKeyHeight,#
-		legend.key = element_rect(colour = NA),#
-		axis.ticks = element_blank(), axis.text = element_blank(), text = element_text(size = 14, family = font)) +#
-		guides(fill = guide_legend(nrow = 2, byrow = TRUE, override.aes = list(colour = NULL)))#
-		# TITLE#
-#
-	gw2 <- gw + countryTop + titleTop + subtitle#
-#
-	## Turn off clipping and print !#
-	gw3 <- ggplot_gtable(ggplot_build(gw2))#
-	gw3$layout$clip[gw3$layout$name == "panel"] <- "off"#
-	grid.newpage()#
-	grid.draw(gw3)#
-	grid.newpage()#
-	grid.draw(gw3)#
-}#
-#
-introText <- function(title, title2, subtitle, img = swiLogo) {#
-	par(mar = c(0,0,0,0))#
-	plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')#
-	text(x = 0.01, y = 0.95, title, cex = 2.5, col = "black", family = font, font = 2, adj = 0)#
-	text(x = 0.01, y = 0.88, title2, cex = 2.5, col = "black", family = font, font = 2, adj = 0)#
-	text(x = 0.01, y = 0.5, subtitle, cex = 2.5, col = "gray30", family = font, font = 1, adj = 0)#
-	rasterImage(img, .85, 0.03, 0.96, 0)#
-}#
-#
-outroText <- function(source = "source: Eurostat",#
-	method = "Seuls les mois avec des données pour tous les pays européens ont été considérés.",#
-	method2 = "Inspiré par: Le Monde - les Décodeurs",#
-	lastUpdate = paste0("Dernière mise à jour: ", Sys.Date()), author = "Duc-Quang Nguyen (@duc_qn)", img = swiLogo) {#
-#
-	par(mar = c(0,0,0,0))#
-	plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')#
-	text(x = 0.01, y = 0.95, source, cex = 1.8, col = "black", family = font, font = 3, adj = 0)#
-	text(x = 0.01, y = 0.88, method, cex = 1.5, col = "black", family = font, font = 3, adj = 0)#
-	text(x = 0.01, y = 0.8, method2, cex = 1.5, col = "black", family = font, font = 3, adj = 0)#
-	text(x = 0.01, y = 0.2, lastUpdate, cex = 1.3, col = "gray30", family = font, font = 1, adj = 0)#
-	text(x = 0.01, y = 0.15, author, cex = 1.3, col = "gray30", family = font, font = 1, adj = 0)#
-	rasterImage(img, .85, 0.03, 0.96, 0)#
-}#
-#############################################################################################
-###		Loop by language to create the GIF#
-#############################################################################################
-#
-test <- F#
-#
-languages <- if(test) 'fr' else colnames(trad)#
-#
-for(lang in languages) {#
-#
-	df.l <- cbind(df, GEO = trad[match(df$iso2, rownames(trad)), lang],#
-		CIT = paste0(" ", trad[match(df$cit.code, rownames(trad)), lang], "  ") )#
-#
-	if(test){output <- "test.gif"#
-	}  else {#
-		output <- paste0("02_EU_asylum_waffle_", lang ,".gif")#
+	getwbData <- function (ind, countries = dat$iso2) {#
+		indicator <- WDI(indicator = ind, country = countries, start = 2008, end = 2015)#
+		colnames(indicator)[3] <- 'values'#
+		do.call(rbind, by(indicator, indicator$iso2c, function(ii) {#
+			rowx <- !is.na(ii[,3])#
+			if(all(!rowx)) {#
+				ii[1,]#
+			} else if (all(rowx)){#
+				ii[which.max(ii$year),]#
+			} else {#
+				ii[which(rowx)[1],]#
+			}#
+		}))#
 	}#
 #
-	saveGIF({#
-		introText(title = trad["title.main", lang], trad["title2.main", lang], trad["title3.main", lang])#
-		if(test) {#
-			wp <- waffleIso('CH', df.l, trad, lang)#
-			print(wp)#
-			wp <- waffleIso('HU', df.l, trad, lang)#
-			print(wp)#
-		} else {#
-			for(iso in iso.ordered) {#
-				wp <- waffleIso(iso, df.l, trad, lang)#
-				print(wp)#
-			}#
-			outroText(source = trad["credit.source", lang], method = trad["credit.method1", lang], method2 = trad["credit.method2", lang], lastUpdate = paste0(trad["credit.lastUpdate", lang],  Sys.Date())#
-			outroText(source = trad["credit.source", lang], method = trad["credit.method1", lang], method2 = trad["credit.method2", lang], lastUpdate = paste0(trad["credit.lastUpdate", lang],  Sys.Date())#
-		}#
-	}, movie.name = output, interval = animationInterval, nmax = 50, ani.width = 800, ani.height = 600, loop = TRUE, outdir = "prod")#
+	gdp <- getwbData(idw[1], dat$iso2)#
+	pop <- getwbData(idw[2], dat$iso2)#
+#
+	# combine indicators#
+	dat$totalParMillion <- round((dat$total / pop[match(dat$iso2, pop$iso2c),'values']) * 10^6)#
+	dat$totalParPIB <- round((dat$total / gdp[match(dat$iso2, gdp$iso2c),'values'] ), 1)#
+#
+	#############################################################################################
+	###		MAP#
+	#############################################################################################
+	library(ggmap)#
+	library(leaflet)#
+	library(htmlwidgets)#
+	# Geocode every country (concatenate country name with iso2 code)#
+	latlon <- geocode(paste(dat$country, dat$iso2, sep = ", country="), output = c("latlon"), messaging = F)#
+	data <- cbind(dat, latlon)#
+#
+	# remove parenthesis and rep. abbreviations#
+	naCountry <- gsub("Rep\\.", "Republic", gsub(" \\(.*\\)$", "", data[is.na(data$lat),'country']))#
+	latlon2 <- geocode(paste(naCountry,  data[is.na(data$lat),'iso2'], sep = ", country="),  output = c("latlon"), messaging = F)#
+	data[is.na(data$lat), c('lon', 'lat')] <- latlon2#
+#
+	# remove lines with NA lat lon#
+	data <- data[!is.na(data$lat),]#
+	## Add back the number of asylum seeker and refugees#
+	# add asylum and refugees numbers#
+	tmp <- filter(dat2, `Population type` == "Asylum-seekers")#
+	data$asylumSeeker <- unlist(tmp[match(data$iso2, tmp$iso2), 'total'])#
+	tmp <- filter(dat2, `Population type` == "Refugees (incl. refugee-like situations)")#
+	data$refugees <- unlist(tmp[match(data$iso2, tmp$iso2), 'total'])#
+	# add PIB and GDP#
+	data$pop <- pop[match(data$iso2, pop$iso2c),'values']#
+	data$gdp <- round(gdp[match(data$iso2, gdp$iso2c),'values'])#
+#
+	save(data, file = "../data/06_refugeesMap.Rdata")#
+} else {#
+	load("../data/06_refugeesMap.Rdata")#
+}#
+### Set country translation#
+# countryTrans <- read.csv("~/swissinfo/_helpers/countrynames.csv", sep ="\t")#
+# write.csv(countryTrans[c(which(countryTrans$iso2 %in% data$iso2), which(!countryTrans$iso2 %in% data$iso2)),],#
+# 	file = "~/swissinfo/_helpers/countrynames_ordered.csv")#
+#
+#############################################################################################
+###		map settings#
+#############################################################################################
+fontSize <- "0.9em"#
+i <- 1#
+#
+for (i in 1:ncol(trad)) {#
+#
+	lang <- colnames(trad)[i]#
+	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
+	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
+#
+	groups <- c(trad['group1',lang], trad['group2',lang])#
+#
+	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
+	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
+#
+	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', "dir=rtl", ""), ' style=\"font-size:', fontSize, '\">',#
+	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
+  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
+	  )#
+#
+	popup_pop <- paste0(top,#
+	  trad['tooltip.population', lang], ": ", round(data$pop / 10^6, 2), " ", trad['tooltip.popMillion', lang], "<br>",#
+	  trad['tooltip.totalByPop', lang], ": ", "<strong>", data$totalParMillion,#
+	  "</strong></p>")#
+#
+	popup_gdp <- paste0(top,#
+	  trad['tooltip.gdpPerCapita', lang],  ": ", data$gdp, "<br>",#
+   	  trad['tooltip.totbyGDP', lang], ": ", "<strong>", data$totalParPIB,#
+  	  "</strong></p>"#
+	)#
+#
+	mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+	    radius = ~sqrt(totalParMillion) / 12, popup = popup_pop, group=groups[1]) %>%#
+		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
+	    radius = ~sqrt(totalParPIB) * 2, popup = popup_gdp, group=groups[2]) %>%#
+		setView(21.824312, 39.074208, zoom = 3) %>%#
+		addLegend(position = "topright", title = trad['title',lang], opacity = 0, colors = NULL, labels = NULL) %>%#
+	    addLayersControl(#
+	       baseGroups = c(groups[1], groups[2]),#
+	       options = layersControlOptions(collapsed = FALSE)#
+	     ) %>% hideGroup(groups[2])#
+#
+	saveWidget(mn, file = output.html, selfcontained = FALSE, libdir = "leafletjs")#
 }
+colnames(trad)
+i <- 5
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+lang <- colnames(trad)[i]#
+	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
+	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
+#
+	groups <- c(trad['group1',lang], trad['group2',lang])#
+#
+	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
+	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
+#
+	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', "dir=rtl", ""), ' style=\"font-size:', fontSize, '\">',#
+	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
+  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
+	  )
+top
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+for (i in 1:ncol(trad)) {#
+#
+	lang <- colnames(trad)[i]#
+	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
+	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
+#
+	groups <- c(trad['group1',lang], trad['group2',lang])#
+#
+	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
+	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
+#
+	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', 'dir="rtl"', ""), ' style=\"font-size:', fontSize, '\">',#
+	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
+  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
+	  )#
+#
+	popup_pop <- paste0(top,#
+	  trad['tooltip.population', lang], ": ", round(data$pop / 10^6, 2), " ", trad['tooltip.popMillion', lang], "<br>",#
+	  trad['tooltip.totalByPop', lang], ": ", "<strong>", data$totalParMillion,#
+	  "</strong></p>")#
+#
+	popup_gdp <- paste0(top,#
+	  trad['tooltip.gdpPerCapita', lang],  ": ", data$gdp, "<br>",#
+   	  trad['tooltip.totbyGDP', lang], ": ", "<strong>", data$totalParPIB,#
+  	  "</strong></p>"#
+	)#
+#
+	mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+	    radius = ~sqrt(totalParMillion) / 12, popup = popup_pop, group=groups[1]) %>%#
+		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
+	    radius = ~sqrt(totalParPIB) * 2, popup = popup_gdp, group=groups[2]) %>%#
+		setView(21.824312, 39.074208, zoom = 3) %>%#
+		addLegend(position = "topright", title = trad['title',lang], opacity = 0, colors = NULL, labels = NULL) %>%#
+	    addLayersControl(#
+	       baseGroups = c(groups[1], groups[2]),#
+	       options = layersControlOptions(collapsed = FALSE)#
+	     ) %>% hideGroup(groups[2])#
+#
+	saveWidget(mn, file = output.html, selfcontained = FALSE, libdir = "leafletjs")#
+}
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+lang <- colnames(trad)[i]#
+	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
+	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
+#
+	groups <- c(trad['group1',lang], trad['group2',lang])#
+#
+	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
+	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
+#
+	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', 'dir="rtl"', ""), ' style=\"font-size:', fontSize, '\">',#
+	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
+  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
+	  )
+top
+i <- 5
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+lang <- colnames(trad)[i]#
+	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
+	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
+#
+	groups <- c(trad['group1',lang], trad['group2',lang])#
+#
+	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
+	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
+#
+	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', 'dir="rtl"', ""), ' style=\"font-size:', fontSize, '\">',#
+	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
+  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
+	  )
+top
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+i <- 1
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+# write.csv(countryTrans[c(which(countryTrans$iso2 %in% data$iso2), which(!countryTrans$iso2 %in% data$iso2)),],#
+# 	file = "~/swissinfo/_helpers/countrynames_ordered.csv")#
+#
+#############################################################################################
+###		map settings#
+#############################################################################################
+fontSize <- "0.9em"#
+i <- 1
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+for (i in 1:ncol(trad)) {#
+#
+	lang <- colnames(trad)[i]#
+	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
+	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
+#
+	groups <- c(trad['group1',lang], trad['group2',lang])#
+#
+	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
+	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
+#
+	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', 'dir=\"rtl\"', ""), ' style=\"font-size:', fontSize, '\">',#
+	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
+  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
+	  )#
+#
+	popup_pop <- paste0(top,#
+	  trad['tooltip.population', lang], ": ", round(data$pop / 10^6, 2), " ", trad['tooltip.popMillion', lang], "<br>",#
+	  trad['tooltip.totalByPop', lang], ": ", "<strong>", data$totalParMillion,#
+	  "</strong></p>")#
+#
+	popup_gdp <- paste0(top,#
+	  trad['tooltip.gdpPerCapita', lang],  ": ", data$gdp, "<br>",#
+   	  trad['tooltip.totbyGDP', lang], ": ", "<strong>", data$totalParPIB,#
+  	  "</strong></p>"#
+	)#
+#
+	mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
+		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
+	    radius = ~sqrt(totalParMillion) / 12, popup = popup_pop, group=groups[1]) %>%#
+		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
+	    radius = ~sqrt(totalParPIB) * 2, popup = popup_gdp, group=groups[2]) %>%#
+		setView(21.824312, 39.074208, zoom = 3) %>%#
+		addLegend(position = "topright", title = trad['title',lang], opacity = 0, colors = NULL, labels = NULL) %>%#
+	    addLayersControl(#
+	       baseGroups = c(groups[1], groups[2]),#
+	       options = layersControlOptions(collapsed = FALSE)#
+	     ) %>% hideGroup(groups[2])#
+#
+	saveWidget(mn, file = output.html, selfcontained = FALSE, libdir = "leafletjs")#
+}
+i <- 5
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+lang <- colnames(trad)[i]#
+	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
+	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
+#
+	groups <- c(trad['group1',lang], trad['group2',lang])#
+#
+	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
+	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
+#
+	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', 'dir=\"rtl\"', ""), ' style=\"font-size:', fontSize, '\">',#
+	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
+  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
+	  )
+top

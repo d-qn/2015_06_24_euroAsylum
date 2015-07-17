@@ -146,7 +146,7 @@ for (i in 1:ncol(trad)) {
 	a$yAxis(title = list(text = trad['y.lab',lang], style = list(fontWeight = "bold")),
 		labels = list(format = '{value}'), gridLineWidth = 0)
 
-	a$legend(title = list(style = list(fontWeight ='normal'),
+	a$legend(title = list(style = list(fontWeight ='normal'), itemMarginTop = 10,
 			text = paste0(trad['legend.country',lang], ' <span style="font-size: 9px; color: #666; font-weight: normal">',
 			trad['legend.descr',lang], '</span><br>')), style = list(fontStyle = 'italic'))
 

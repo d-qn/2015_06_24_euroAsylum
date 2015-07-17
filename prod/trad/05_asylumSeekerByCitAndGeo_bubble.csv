@@ -1,26 +1,26 @@
-code,fr,it
-title,Décisions positives des demandes d'asile par pays d'origine,Domande d'asilo: decisioni positive per paese d'origine
-descr,Pourcentage de décisions positives en première instance en 2014 pour une sélection de pays d'Europe et par pays d'origine. La taille des bulles est proportionnelle au nombre de cas réglés. Placez votre curseur ou tapotez sur une bulle pour voir les chiffres exacts.,"Percentuale di decisioni positive in prima istanza nel 2014 per paese d'origine e d'accoglienza. La grandezza delle bolle è proporzionale al numero di casi risolti. Per vedere le cifre esatte di un paese, puntare il cursore o cliccare su una bolla."
-y.lab,Taux de décision positive en première instance (%),Tasso di decisioni positive in prima istanza (%)
-source,source: Eurostat,Fonte: Eurostat
-legend.country,Pays d'origine,Paese d'origine
-legend.descr,(Cliquez pour masquer),(Cliccare per nascondere)
-tooltip1,Décisions en première en instance pour demandes d'asile:,Totale decisioni in prima istanza
-tooltip2,% décision positive,% di decisioni positive
-cit.Afghanistan,Afghanistan,Afghanistan
-cit.Eritrea,Erythrée,Eritrea
-cit.Iraq,Iraq,Iraq
-cit.Pakistan,Pakistan,Pakistan
-cit.Somalia,Somalie,Somalia
-cit.Stateless,Apatride,Apolide
-cit.Syria,Syrie,Siria
-cit.autres pays,autres pays,Altri paesi
-CH,Suisse,Svizzera
-DE,Allemagne,Germania
-ES,Espagne,Spagna
-FR,France,Francia
-HU,Hongrie,Ungheria
-IT,Italie,Italia
-PT,Portugal,Portogallo
-SE,Suède,Svezia
-UK,Royaume-Uni,Regno Unito
+code,fr,it,de,pt,ar,ch
+title,Décisions positives des demandes d'asile par pays d'origine,Domande d'asilo: decisioni positive per paese d'origine,Asylanträge: positive Entscheide nach Herkunftsland,Decisões positivas em pedidos de asilo por país de origem,طلبات اللجوء: القرارات الإيجابية بحسب البلد الأصلي,获批准的难民数(按来源国划分)
+descr,Pourcentage de décisions positives en première instance en 2014 pour une sélection de pays d'Europe et par pays d'origine. La taille des bulles est proportionnelle au nombre de cas réglés. Placez votre curseur ou tapotez sur une bulle pour voir les chiffres exacts.,"Percentuale di decisioni positive in prima istanza nel 2014 per paese d'origine e d'accoglienza. La grandezza delle bolle è proporzionale al numero di casi risolti. Per vedere le cifre esatte di un paese, puntare il cursore o cliccare su una bolla.","Anteil positiver Entscheide in erster Instanz 2014 nach Herkunfts- und Aufnahmeland. Die Grösse der Blasen ist proportional zur Zahl der gelösten Fälle. Um die genauen Zahlen für ein Land zu sehen, halten Sie den Cursor darüber oder klicken Sie auf eine Blase.",Porcentagem de decisões positivas em primeira instância em 2014 para os países selecionados na Europa e por país de origem. O tamanho da bolha é proporcional ao número de processos findos. Coloque o cursor ou toque em uma bolha para ver os números exatos.,النسبة المائوية للقرارات الإيجابية في الدرجة الأولى في عام 2014 حسب بلد الأصل والإستقبال. حجم الكرات متناسب مع عدد الحالات التي تم الحسم فيها. لمشاهدة الأرقام الدقيقة لبلد معين، أشّـر بالفأرة أو انقر على إحدى الكرات.,2014年某些欧洲国家对首次难民申请的批准比例(按来源国划分)。圆圈大小与处理过的申请数成正比。用光标或手指点圆圈查阅精确数据。
+y.lab,Taux de décision positive en première instance (%),Tasso di decisioni positive in prima istanza (%),Anteil der positiven Entscheide in erster Instanz (%),Índice de decisão positiva em primeira instância (%),نسبة القرارات الإيجابية في الدرجة الأولى (%),首次申请成功率(%)
+source,source: Eurostat,Fonte: Eurostat,Quelle: Eurostat,fonte: Eurostat,المصدر: يوروستات (المكتب الإحصائي الأوروبي),来源：欧盟统计局
+legend.country,Pays d'origine,Paese d'origine,Herkunftsland,País de origem,بلد الأصل ,来源国
+legend.descr,(Cliquez pour masquer),(Cliccare per nascondere),"(Anklicken, um auszublenden)",(Clique para esconder),(انقر للتغطية),(点击隐藏)
+tooltip1,Décisions en première en instance pour demandes d'asile:,Totale decisioni in prima istanza,Total erstinstanzliche Entscheide,Decisões em primeira instância por pedidos de asilo:,العدد الإجمالي للقرارات في الدرجة الأولى ,对首次难民申请的决定：
+tooltip2,% décision positive,% di decisioni positive,% positive Entscheide,% decisões positivas,النسبة المائوية للقرارات الإيجابية,%的成功率
+cit.Afghanistan,Afghanistan,Afghanistan,Afghanistan,Afeganistão,أفغانستان,阿富汗
+cit.Eritrea,Erythrée,Eritrea,Eritrea,Eritreia,أريتريا ,厄立特里亚
+cit.Iraq,Iraq,Iraq,Irak,Iraque,العراق ,伊拉克
+cit.Pakistan,Pakistan,Pakistan,Pakistan,Paquistão,باكستان,巴基斯坦
+cit.Somalia,Somalie,Somalia,Somalia,Somália,الصومال,索马里
+cit.Stateless,Apatride,Apolide,Staatenlos,Apátrido,عديمو الجنسية,无国籍
+cit.Syria,Syrie,Siria,Syrien,Síria,سوريا ,叙利亚
+cit.autres pays,autres pays,Altri paesi,andere Länder,outros países,بلدان أخرى ,其他国家
+CH,Suisse,Svizzera,Schweiz,Suíça,سويسرا,瑞士
+DE,Allemagne,Germania,Deutschland,Alemanha,ألمانيا,德国
+ES,Espagne,Spagna,Spanien,Espanha,إسبانيا,西班牙
+FR,France,Francia,Frankreich,França,فرنسا ,法国
+HU,Hongrie,Ungheria,Ungarn,Hungria,هنغاريا (المجر),匈牙利
+IT,Italie,Italia,Italien,Itália,إيطاليا,意大利
+PT,Portugal,Portogallo,Portugal,Portugal,البرتغال,葡萄牙
+SE,Suède,Svezia,Schweden,Suécia,السويد,瑞典
+UK,Royaume-Uni,Regno Unito,Vereinigtes Königreich,Reino Unido,المملكة المتحدة,英国
