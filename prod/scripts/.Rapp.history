@@ -1,3 +1,65 @@
+ggplot(world.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = FIPS)) + #
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank())
+ggplot(world.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = FIPS)) + #
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank())
+ggplot(world.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = FIPS)) + #
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank())
+ggplot(world.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = FIPS)) + #
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())
+path.ch <- getPathShp('CH')
+path.ch
+getShpLayers(path.ch)
+ch <- readOGR(path.ch, layer = 'municipalities')
+ch.df <- formatShp(ch)
+str(ch.df)
+ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) + #
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())
+lake <- readOGR(path.ch, layer = "lakes")#
+country <- readOGR(path.ch, layer = "country")
+lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
+country.df <- formatShp(readOGR(path.ch, layer = "country"))
+alpha
+lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
+country.df <- formatShp(readOGR(path.ch, layer = "country"))#
+ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + #
+  geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
+ch.communes <- ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) + #
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
+ch.communes
+lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
+country.df <- formatShp(readOGR(path.ch, layer = "country"))#
+ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + #
+  geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
+?alpha
+library(swiMap)
+?getShpLayers
+require(rgdal)#
+require(rgeos)#
+require(ggplot2)#
+path <- getPathShp('world')#
+layers <- getShpLayers(path)#
+# read shapefiles for given layer#
+world <- readOGR(path, layer = layers[1])#
+world.df <- formatShp(world)#
+# plot world map#
+ggplot(world.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = FIPS)) +#
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
+Same with swiss commune map (slow!)#
+## Not run: #
+path.ch <- getPathShp('CH')#
+ch <- readOGR(path.ch, layer = 'municipalities')#
+ch.df <- formatShp(ch)#
+# plot swiss commune map#
+ch.communes <- ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) +#
+theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
+ch.communes
+lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))#
+country.df <- formatShp(readOGR(path.ch, layer = "country"))
+ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
+library(scales)
+ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + geom_polygon(data = lake.df, fill = alpha("lightgrey", alpha = 1), colour = alpha("lightgrey", alpha = 1))
+ch.communes + geom_polygon(data = country.df, fill = NA, size = 0.15) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
+ch.communes + geom_polygon(data = country.df, fill = NA, size = 1) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
 str(country.df)
 library(swiMap)
 ?getShpLayers
@@ -473,464 +535,156 @@ h1$series(data=rep(30,30), marker= list(enabled = FALSE))#
 h1
 257508 / 20524
 setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+###### This download the yearly data with country of origin!#
+library(eurostat)#
 library(WDI)#
-library(countrycode)#
 library(tidyr)#
 library(dplyr)#
 library(ggplot2)#
 library(swiTheme)#
-library(swiMap)#
-library(leaflet)#
-library(htmlwidgets)#
+library(swiRcharts)#
+trad <- read.csv("../trad/05_asylumSeekerByCitAndGeo_bubble.csv", check.names = F, stringsAsFactors = F, row.names = 1)#
 #
 getData <- F#
 #
-trad <- read.csv("../trad/06_refugessByPopGDP.csv", check.names = F, stringsAsFactors = F, row.names = 1)#
+#############################################################################################
+###		Get asylum data#
+#############################################################################################
+# Asylum and first time asylum applicants by citizenship, age and sex Annual aggregated data (rounded) [migr_asyappctza]#
+# First instance decisions on applications by citizenship, age and sex Annual aggregated data (rounded) [migr_asydcfsta]#
 #
 if(getData) {#
-	#############################################################################################
-	###		Load UNHCR asylum seeker data#
-	#############################################################################################
+	id <- c('migr_asydcfsta')#
+	getYearlyData <- function(id) {#
+		dat <- get_eurostat(id, time_format = "raw", cache = F )#
+		datl <- label_eurostat(dat)#
+		# add iso2 code#
+		datl$iso2 <- dat$geo#
 #
-	dat.read <- read.csv("data/unhcr_popstats_export_time_series_2015_07_10_150142_refugees.csv", check.names = F, stringsAsFactors = F)#
-#
-	dat.read <- rename(dat.read, country = `Country / territory of asylum/residence`)#
-	dat.read$Value <- as.numeric(dat.read$Value)#
-#
-	###	Aggregate values by country (drop origin)#
-	dat <- dat.read %>% group_by(country) %>% summarise(total = sum(Value, na.rm = T)) %>% ungroup()#
-	###	Aggregate values by country and origin#
-	dat2 <- dat.read %>% group_by(country, `Population type`) %>% summarise(total = sum(Value, na.rm = T)) %>% ungroup()#
-#
-	###	get the iso country code#
-	dat$iso2 <- countrycode(dat$country, "country.name", "iso2c")#
-	dat2$iso2 <- countrycode(dat2$country, "country.name", "iso2c")#
-#
-	# discard VG, NR#
-	dat <- dat[!dat$iso2 %in% c('VG', 'NR'),]#
-#
-	#############################################################################################
-	###		Get world bank indicators#
-	#############################################################################################
-#
-	# GDP per capita, PPP (current international $) http://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD#
-	# Population, total http://data.worldbank.org/indicator/SP.POP.TOTL#
-#
-	idw <- c('NY.GDP.PCAP.PP.CD', 'SP.POP.TOTL')#
-#
-	getwbData <- function (ind, countries = dat$iso2) {#
-		indicator <- WDI(indicator = ind, country = countries, start = 2008, end = 2015)#
-		colnames(indicator)[3] <- 'values'#
-		do.call(rbind, by(indicator, indicator$iso2c, function(ii) {#
-			rowx <- !is.na(ii[,3])#
-			if(all(!rowx)) {#
-				ii[1,]#
-			} else if (all(rowx)){#
-				ii[which.max(ii$year),]#
-			} else {#
-				ii[which(rowx)[1],]#
-			}#
-		}))#
+		# transform dates efficiently!#
+		datl$time <- as.numeric(as.character(datl$time))#
+		datl#
 	}#
 #
-	gdp <- getwbData(idw[1], dat$iso2)#
-	pop <- getwbData(idw[2], dat$iso2)#
+	dat.asde <- getYearlyData(id)#
+	dat.asde <- dat.asde %>%  filter(time == max(dat.asde$time), sex == "Total", age == "Total")#
 #
-	# combine indicators#
-	dat$totalParMillion <- round((dat$total / pop[match(dat$iso2, pop$iso2c),'values']) * 10^6)#
-	dat$totalParPIB <- round((dat$total / gdp[match(dat$iso2, gdp$iso2c),'values'] ), 1)#
-#
-	#############################################################################################
-	###		MAP#
-	#############################################################################################
-	library(ggmap)#
-	library(leaflet)#
-	library(htmlwidgets)#
-	# Geocode every country (concatenate country name with iso2 code)#
-	latlon <- geocode(paste(dat$country, dat$iso2, sep = ", country="), output = c("latlon"), messaging = F)#
-	data <- cbind(dat, latlon)#
-#
-	# remove parenthesis and rep. abbreviations#
-	naCountry <- gsub("Rep\\.", "Republic", gsub(" \\(.*\\)$", "", data[is.na(data$lat),'country']))#
-	latlon2 <- geocode(paste(naCountry,  data[is.na(data$lat),'iso2'], sep = ", country="),  output = c("latlon"), messaging = F)#
-	data[is.na(data$lat), c('lon', 'lat')] <- latlon2#
-#
-	# remove lines with NA lat lon#
-	data <- data[!is.na(data$lat),]#
-	## Add back the number of asylum seeker and refugees#
-	# add asylum and refugees numbers#
-	tmp <- filter(dat2, `Population type` == "Asylum-seekers")#
-	data$asylumSeeker <- unlist(tmp[match(data$iso2, tmp$iso2), 'total'])#
-	tmp <- filter(dat2, `Population type` == "Refugees (incl. refugee-like situations)")#
-	data$refugees <- unlist(tmp[match(data$iso2, tmp$iso2), 'total'])#
-	# add PIB and GDP#
-	data$pop <- pop[match(data$iso2, pop$iso2c),'values']#
-	data$gdp <- round(gdp[match(data$iso2, gdp$iso2c),'values'])#
-#
-	save(data, file = "../data/06_refugeesMap.Rdata")#
+	save(dat.asde, file = "../data/05_asylumByCitAndGeo.Rdata")#
 } else {#
-	load("../data/06_refugeesMap.Rdata")#
+	load(file = "../data/05_asylumByCitAndGeo.Rdata")#
 }#
-### Set country translation#
-# countryTrans <- read.csv("~/swissinfo/_helpers/countrynames.csv", sep ="\t")#
-# write.csv(countryTrans[c(which(countryTrans$iso2 %in% data$iso2), which(!countryTrans$iso2 %in% data$iso2)),],#
-# 	file = "~/swissinfo/_helpers/countrynames_ordered.csv")#
+citizenAgg <- c("Total", "European Union (28 countries)", "Extra EU-28")#
 #
 #############################################################################################
-###		map settings#
+###		Compute the postitive decision rate for all geos#
 #############################################################################################
-fontSize <- "0.9em"#
+#
+tot.pos <- dat.asde %>% group_by(iso2) %>% filter( citizen == 'Total', decision == "Total positive decisions") %>% ungroup()#
+tot.dec <- dat.asde %>% group_by(iso2) %>% filter( citizen == 'Total', decision == "Total") %>% ungroup()#
+stopifnot(tot.pos$iso2 ==  tot.dec$iso2)#
+#
+data.frame(iso2 = tot.pos$iso2, geo = tot.pos$geo, rate = (tot.pos$values / tot.dec$values) * 100)#
+#
+#############################################################################################
+###		Create a subset data with a few geos to plot#
+#############################################################################################
+#
+iso2.subset <- c('CH', 'DE', 'UK', 'FR', 'IT', 'ES', 'PT', 'SE', 'HU')#
+#
+citot <- dat.asde %>% filter(iso2 == 'TOTAL', !citizen %in% citizenAgg, decision == "Total positive decisions")#
+citot2 <- dat.asde %>% filter(iso2 == 'TOTAL', !citizen %in% citizenAgg, decision == "Total")#
+#
+cit.top <- unique(c(as.character(head(citot2[order(citot2$values, decreasing = T),'citizen'], 6)),#
+	as.character(head(citot[order(citot$values, decreasing = T),'citizen'], 6))))#
+#
+cit.top <- cit.top[!cit.top %in% c("Albania", "Serbia", "Unknown")]#
+#
+dat <- filter(dat.asde, !citizen %in% citizenAgg, decision %in% c("Total positive decisions",  "Total"),#
+	!geo %in% c('EU28', 'TOTAL'))  %>% select(one_of(c('citizen', 'decision', 'geo', 'values', 'iso2')))#
+#
+dat <- dat %>% filter(iso2 %in% iso2.subset) %>% mutate(CIT = ifelse(citizen %in% cit.top, as.character(citizen), "autres pays"))#
+## spread - make data wide for col decision & collapse autre pays! Killer line, go dplyr#
+data <- spread(dat, decision, values) %>% group_by(CIT, geo, iso2) %>% summarise(totDec = sum(Total, na.rm = T),#
+	totPos = sum(`Total positive decisions`, na.rm = T)) %>% ungroup()#
+#
+##### check ###### !!!#
+data %>% group_by(iso2) %>% summarise(gTotDec = sum(totDec, na.rm =T), gTotPos = sum(totPos, na.rm = T )) %>% ungroup()#
+tot.pos#
+tot.dec#
+#
+# ALMOST THE SAME ?!?!?#
+data$posRate <- round((data$totPos / data$totDec) * 100)#
+#
+# Order the country by the average posRate:#
+ordered.iso2subset <- data %>% group_by(iso2) %>% summarise(meanPosRate = mean(posRate, na.rm =T )) %>% select(iso2) %>% ungroup()#
+#
+#############################################################################################
+###		Bubble chart#
+#############################################################################################
+data$iso2 <- factor(data$iso2, levels = as.character(unlist(ordered.iso2subset)))#
+#ggplot(data = data) + geom_line(aes(x = iso2, y = posRate, group = CIT, colour = CIT))#
+#
+# change CIT to series, drop unuse factors#
+data <- rename(data, series = CIT)#
+data$geo <- factor(data$geo)#
+citColors <- structure(swi_rpal[1:length(unique(data$series))], names = unique(data$series))#
+data$color <- citColors[match(data$series, names(citColors))]#
 i <- 1#
 #
 for (i in 1:ncol(trad)) {#
 #
 	lang <- colnames(trad)[i]#
-	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
-	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
+	output.html <- paste("../05_asylumDecisionByCitizenAndGeo_bubble_", lang, ".html", sep ="")#
 #
-	groups <- c(trad['group1',lang], trad['group2',lang])#
+	ddd <- data#
 #
-	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
-	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
+	## Translate citizen country names ###
+	stopifnot(paste0("cit.",unique(ddd$series)) %in% rownames(trad))#
+	rowI <- match(paste0("cit.",ddd$series), rownames(trad))#
+	ddd$series <- trad[rowI,lang]#
+	## Translate country names ###
+	stopifnot(unique(ddd$iso2) %in% rownames(trad))#
+	rowI <- match(ddd$iso2, rownames(trad))#
+	ddd$geo <- trad[rowI,lang]#
+	ddd$geo <- factor(ddd$geo, levels = as.character(unlist(ddd[match(unlist(ordered.iso2subset), ddd$iso2),'geo'])))#
 #
-	top <- paste0('<strong>', data$geo, "</strong>", '<p style=\"font-size:', fontSize, '\">',#
-	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
-  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
-	  )#
+	## create fancy tooltip as html table#
+	ddd$name <- paste0(#
+		'<table cellpadding="1" style="line-height:1.4">',#
+	    '<tr><td><div style="font-size:0.85em"><i>', ddd$geo, '</i></td></div>',#
+			'<td></td><td></td></tr>',#
+	    '<tr><td colspan="3"><div style="font-size:0.85em">',#
+			trad['tooltip1',lang], " ",#
+			'<b>', ddd$series, '</b>','</div></td></tr>',#
+	       '<tr><td colspan="3"><div style="font-size:0.85em">', ddd$totDec, '</div></td></tr>',#
+		   '<tr><td colspan="3"><div style="font-size:0.85em">', trad['tooltip2',lang] , ' : <b> ',#
+		 	 	ddd$posRate, '</b> ', "(", ddd$totPos, ")", '</div></td></tr>',#
+		'</table>')#
 #
-	popup_pop <- paste0(top,#
-	  trad['tooltip.population', lang], ": ", round(data$pop / 10^6, 2), " ", trad['tooltip.popMillion', lang], "<br>",#
-	  trad['tooltip.totalByPop', lang], ": ", "<strong>", data$totalParMillion,#
-	  "</strong></p>")#
+	a <- rCharts::Highcharts$new()#
+	hSeries <- hSeries2(data.frame(x = as.numeric(ddd$geo), y = ddd$posRate, z = ddd$totDec,#
+		name = ddd$name, series = ddd$series), "series")#
+	a$series(hSeries)#
 #
-	popup_gdp <- paste0(top,#
-	  trad['tooltip.gdpPerCapita', lang],  ": ", data$gdp, "<br>",#
-   	  trad['tooltip.totbyGDP', lang], ": ", "<strong>", data$totalParPIB,#
-  	  "</strong></p>"#
-	)#
+	a$chart(zoomType = "xy", type = "bubble", height = 600)#
+	a$xAxis(categories = c("", levels(ddd$geo)))#
+	a$lang( numericSymbols= NULL)#
+	a$plotOptions(bubble = list(minSize = 3, maxSize = 70))#
+	a$yAxis(title = list(text = trad['y.lab',lang], style = list(fontWeight = "bold")),#
+		labels = list(format = '{value}'), gridLineWidth = 0)#
 #
-	mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
-		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
-	    radius = ~sqrt(totalParMillion) / 12, popup = popup_pop, group=groups[1]) %>%#
-		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
-	    radius = ~sqrt(totalParPIB) * 2, popup = popup_gdp, group=groups[2]) %>%#
-		setView(21.824312, 39.074208, zoom = 3) %>%#
-		addLegend(position = "topright", title = trad['title',lang], opacity = 0, colors = NULL, labels = NULL) %>%#
-	    addLayersControl(#
-	       baseGroups = c(groups[1], groups[2]),#
-	       options = layersControlOptions(collapsed = FALSE)#
-	     ) %>% hideGroup(groups[2])#
+	a$legend(title = list(style = list(fontWeight ='normal'), itemMarginTop = 10,#
+			text = paste0(trad['legend.country',lang], ' <span style="font-size: 9px; color: #666; font-weight: normal">',#
+			trad['legend.descr',lang], '</span><br>')), style = list(fontStyle = 'italic'))#
 #
-	saveWidget(mn, file = output.html, selfcontained = FALSE, libdir = "leafletjs")#
+	a$tooltip(formatter = "#! function() { return this.point.name; } !#", useHTML = T , borderWidth = 3, style = list(padding = 1.5))#
+	#a#
+	hChart.html <- tempfile("hchart_labelledBubble.html")#
+	a$save(hChart.html)#
+#
+	# Example of converting a highcharts-rCharts html chart into a responsive one#
+#
+	hChart2responsiveHTML(hChart.html, output.html = output.html, h2 = trad['title',lang], descr = trad['descr',lang],#
+		source = trad['source',lang], h3 = "", author = " swissinfo.ch")#
+#
 }
-ifelse(lang == 'ar', "dir=RTL", "")
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-library(WDI)#
-library(countrycode)#
-library(tidyr)#
-library(dplyr)#
-library(ggplot2)#
-library(swiTheme)#
-library(swiMap)#
-library(leaflet)#
-library(htmlwidgets)#
-#
-getData <- F#
-#
-trad <- read.csv("../trad/06_refugessByPopGDP.csv", check.names = F, stringsAsFactors = F, row.names = 1)#
-#
-if(getData) {#
-	#############################################################################################
-	###		Load UNHCR asylum seeker data#
-	#############################################################################################
-#
-	dat.read <- read.csv("data/unhcr_popstats_export_time_series_2015_07_10_150142_refugees.csv", check.names = F, stringsAsFactors = F)#
-#
-	dat.read <- rename(dat.read, country = `Country / territory of asylum/residence`)#
-	dat.read$Value <- as.numeric(dat.read$Value)#
-#
-	###	Aggregate values by country (drop origin)#
-	dat <- dat.read %>% group_by(country) %>% summarise(total = sum(Value, na.rm = T)) %>% ungroup()#
-	###	Aggregate values by country and origin#
-	dat2 <- dat.read %>% group_by(country, `Population type`) %>% summarise(total = sum(Value, na.rm = T)) %>% ungroup()#
-#
-	###	get the iso country code#
-	dat$iso2 <- countrycode(dat$country, "country.name", "iso2c")#
-	dat2$iso2 <- countrycode(dat2$country, "country.name", "iso2c")#
-#
-	# discard VG, NR#
-	dat <- dat[!dat$iso2 %in% c('VG', 'NR'),]#
-#
-	#############################################################################################
-	###		Get world bank indicators#
-	#############################################################################################
-#
-	# GDP per capita, PPP (current international $) http://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD#
-	# Population, total http://data.worldbank.org/indicator/SP.POP.TOTL#
-#
-	idw <- c('NY.GDP.PCAP.PP.CD', 'SP.POP.TOTL')#
-#
-	getwbData <- function (ind, countries = dat$iso2) {#
-		indicator <- WDI(indicator = ind, country = countries, start = 2008, end = 2015)#
-		colnames(indicator)[3] <- 'values'#
-		do.call(rbind, by(indicator, indicator$iso2c, function(ii) {#
-			rowx <- !is.na(ii[,3])#
-			if(all(!rowx)) {#
-				ii[1,]#
-			} else if (all(rowx)){#
-				ii[which.max(ii$year),]#
-			} else {#
-				ii[which(rowx)[1],]#
-			}#
-		}))#
-	}#
-#
-	gdp <- getwbData(idw[1], dat$iso2)#
-	pop <- getwbData(idw[2], dat$iso2)#
-#
-	# combine indicators#
-	dat$totalParMillion <- round((dat$total / pop[match(dat$iso2, pop$iso2c),'values']) * 10^6)#
-	dat$totalParPIB <- round((dat$total / gdp[match(dat$iso2, gdp$iso2c),'values'] ), 1)#
-#
-	#############################################################################################
-	###		MAP#
-	#############################################################################################
-	library(ggmap)#
-	library(leaflet)#
-	library(htmlwidgets)#
-	# Geocode every country (concatenate country name with iso2 code)#
-	latlon <- geocode(paste(dat$country, dat$iso2, sep = ", country="), output = c("latlon"), messaging = F)#
-	data <- cbind(dat, latlon)#
-#
-	# remove parenthesis and rep. abbreviations#
-	naCountry <- gsub("Rep\\.", "Republic", gsub(" \\(.*\\)$", "", data[is.na(data$lat),'country']))#
-	latlon2 <- geocode(paste(naCountry,  data[is.na(data$lat),'iso2'], sep = ", country="),  output = c("latlon"), messaging = F)#
-	data[is.na(data$lat), c('lon', 'lat')] <- latlon2#
-#
-	# remove lines with NA lat lon#
-	data <- data[!is.na(data$lat),]#
-	## Add back the number of asylum seeker and refugees#
-	# add asylum and refugees numbers#
-	tmp <- filter(dat2, `Population type` == "Asylum-seekers")#
-	data$asylumSeeker <- unlist(tmp[match(data$iso2, tmp$iso2), 'total'])#
-	tmp <- filter(dat2, `Population type` == "Refugees (incl. refugee-like situations)")#
-	data$refugees <- unlist(tmp[match(data$iso2, tmp$iso2), 'total'])#
-	# add PIB and GDP#
-	data$pop <- pop[match(data$iso2, pop$iso2c),'values']#
-	data$gdp <- round(gdp[match(data$iso2, gdp$iso2c),'values'])#
-#
-	save(data, file = "../data/06_refugeesMap.Rdata")#
-} else {#
-	load("../data/06_refugeesMap.Rdata")#
-}#
-### Set country translation#
-# countryTrans <- read.csv("~/swissinfo/_helpers/countrynames.csv", sep ="\t")#
-# write.csv(countryTrans[c(which(countryTrans$iso2 %in% data$iso2), which(!countryTrans$iso2 %in% data$iso2)),],#
-# 	file = "~/swissinfo/_helpers/countrynames_ordered.csv")#
-#
-#############################################################################################
-###		map settings#
-#############################################################################################
-fontSize <- "0.9em"#
-i <- 1#
-#
-for (i in 1:ncol(trad)) {#
-#
-	lang <- colnames(trad)[i]#
-	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
-	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
-#
-	groups <- c(trad['group1',lang], trad['group2',lang])#
-#
-	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
-	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
-#
-	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', "dir=rtl", ""), ' style=\"font-size:', fontSize, '\">',#
-	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
-  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
-	  )#
-#
-	popup_pop <- paste0(top,#
-	  trad['tooltip.population', lang], ": ", round(data$pop / 10^6, 2), " ", trad['tooltip.popMillion', lang], "<br>",#
-	  trad['tooltip.totalByPop', lang], ": ", "<strong>", data$totalParMillion,#
-	  "</strong></p>")#
-#
-	popup_gdp <- paste0(top,#
-	  trad['tooltip.gdpPerCapita', lang],  ": ", data$gdp, "<br>",#
-   	  trad['tooltip.totbyGDP', lang], ": ", "<strong>", data$totalParPIB,#
-  	  "</strong></p>"#
-	)#
-#
-	mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
-		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
-	    radius = ~sqrt(totalParMillion) / 12, popup = popup_pop, group=groups[1]) %>%#
-		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
-	    radius = ~sqrt(totalParPIB) * 2, popup = popup_gdp, group=groups[2]) %>%#
-		setView(21.824312, 39.074208, zoom = 3) %>%#
-		addLegend(position = "topright", title = trad['title',lang], opacity = 0, colors = NULL, labels = NULL) %>%#
-	    addLayersControl(#
-	       baseGroups = c(groups[1], groups[2]),#
-	       options = layersControlOptions(collapsed = FALSE)#
-	     ) %>% hideGroup(groups[2])#
-#
-	saveWidget(mn, file = output.html, selfcontained = FALSE, libdir = "leafletjs")#
-}
-colnames(trad)
-i <- 5
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-lang <- colnames(trad)[i]#
-	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
-	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
-#
-	groups <- c(trad['group1',lang], trad['group2',lang])#
-#
-	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
-	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
-#
-	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', "dir=rtl", ""), ' style=\"font-size:', fontSize, '\">',#
-	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
-  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
-	  )
-top
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-for (i in 1:ncol(trad)) {#
-#
-	lang <- colnames(trad)[i]#
-	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
-	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
-#
-	groups <- c(trad['group1',lang], trad['group2',lang])#
-#
-	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
-	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
-#
-	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', 'dir="rtl"', ""), ' style=\"font-size:', fontSize, '\">',#
-	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
-  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
-	  )#
-#
-	popup_pop <- paste0(top,#
-	  trad['tooltip.population', lang], ": ", round(data$pop / 10^6, 2), " ", trad['tooltip.popMillion', lang], "<br>",#
-	  trad['tooltip.totalByPop', lang], ": ", "<strong>", data$totalParMillion,#
-	  "</strong></p>")#
-#
-	popup_gdp <- paste0(top,#
-	  trad['tooltip.gdpPerCapita', lang],  ": ", data$gdp, "<br>",#
-   	  trad['tooltip.totbyGDP', lang], ": ", "<strong>", data$totalParPIB,#
-  	  "</strong></p>"#
-	)#
-#
-	mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
-		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
-	    radius = ~sqrt(totalParMillion) / 12, popup = popup_pop, group=groups[1]) %>%#
-		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
-	    radius = ~sqrt(totalParPIB) * 2, popup = popup_gdp, group=groups[2]) %>%#
-		setView(21.824312, 39.074208, zoom = 3) %>%#
-		addLegend(position = "topright", title = trad['title',lang], opacity = 0, colors = NULL, labels = NULL) %>%#
-	    addLayersControl(#
-	       baseGroups = c(groups[1], groups[2]),#
-	       options = layersControlOptions(collapsed = FALSE)#
-	     ) %>% hideGroup(groups[2])#
-#
-	saveWidget(mn, file = output.html, selfcontained = FALSE, libdir = "leafletjs")#
-}
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-lang <- colnames(trad)[i]#
-	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
-	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
-#
-	groups <- c(trad['group1',lang], trad['group2',lang])#
-#
-	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
-	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
-#
-	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', 'dir="rtl"', ""), ' style=\"font-size:', fontSize, '\">',#
-	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
-  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
-	  )
-top
-i <- 5
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-lang <- colnames(trad)[i]#
-	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
-	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
-#
-	groups <- c(trad['group1',lang], trad['group2',lang])#
-#
-	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
-	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
-#
-	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', 'dir="rtl"', ""), ' style=\"font-size:', fontSize, '\">',#
-	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
-  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
-	  )
-top
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-i <- 1
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-# write.csv(countryTrans[c(which(countryTrans$iso2 %in% data$iso2), which(!countryTrans$iso2 %in% data$iso2)),],#
-# 	file = "~/swissinfo/_helpers/countrynames_ordered.csv")#
-#
-#############################################################################################
-###		map settings#
-#############################################################################################
-fontSize <- "0.9em"#
-i <- 1
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-for (i in 1:ncol(trad)) {#
-#
-	lang <- colnames(trad)[i]#
-	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
-	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
-#
-	groups <- c(trad['group1',lang], trad['group2',lang])#
-#
-	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
-	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
-#
-	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', 'dir=\"rtl\"', ""), ' style=\"font-size:', fontSize, '\">',#
-	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
-  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
-	  )#
-#
-	popup_pop <- paste0(top,#
-	  trad['tooltip.population', lang], ": ", round(data$pop / 10^6, 2), " ", trad['tooltip.popMillion', lang], "<br>",#
-	  trad['tooltip.totalByPop', lang], ": ", "<strong>", data$totalParMillion,#
-	  "</strong></p>")#
-#
-	popup_gdp <- paste0(top,#
-	  trad['tooltip.gdpPerCapita', lang],  ": ", data$gdp, "<br>",#
-   	  trad['tooltip.totbyGDP', lang], ": ", "<strong>", data$totalParPIB,#
-  	  "</strong></p>"#
-	)#
-#
-	mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%#
-		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],#
-	    radius = ~sqrt(totalParMillion) / 12, popup = popup_pop, group=groups[1]) %>%#
-		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],#
-	    radius = ~sqrt(totalParPIB) * 2, popup = popup_gdp, group=groups[2]) %>%#
-		setView(21.824312, 39.074208, zoom = 3) %>%#
-		addLegend(position = "topright", title = trad['title',lang], opacity = 0, colors = NULL, labels = NULL) %>%#
-	    addLayersControl(#
-	       baseGroups = c(groups[1], groups[2]),#
-	       options = layersControlOptions(collapsed = FALSE)#
-	     ) %>% hideGroup(groups[2])#
-#
-	saveWidget(mn, file = output.html, selfcontained = FALSE, libdir = "leafletjs")#
-}
-i <- 5
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
-lang <- colnames(trad)[i]#
-	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")#
-	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]#
-#
-	groups <- c(trad['group1',lang], trad['group2',lang])#
-#
-	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'#
-	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')#
-#
-	top <- paste0('<strong>', data$geo, "</strong>", '<p ', ifelse(lang == 'ar', 'dir=\"rtl\"', ""), ' style=\"font-size:', fontSize, '\">',#
-	  trad['tooltip.refugeesTotal', lang], ": ", "<strong>",  data$refugees, "</strong><br>",#
-  	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"#
-	  )
-top
