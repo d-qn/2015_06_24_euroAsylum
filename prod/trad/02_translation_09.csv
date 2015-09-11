@@ -1,0 +1,37 @@
+code,en,fr,it,de,pt
+AT,Austria,Autriche,Austria,Österreich,Áustria
+CH,Switzerland,Suisse,Svizzera,Schweiz,Suíça
+CY,Cyprus,Chypre,Cipro,Zypern,Chipre
+DE,Germany,Allemagne,Germania,Deutschland,Alemanha
+EL,Greece,Grèce,Grecia,Griechenland,Grécia
+ES,Spain,Espagne,Spagna,Spanien,Espanha
+FR,France,France,Francia,Frankreich,França
+HU,Hungary,Hongrie,Ungheria,Ungarn,Hungria
+IT,Italy,Italie,Italia,Italien,Itália
+MT,Malta,Malte,Malta,Malta,Malta
+SE,Sweden,Suède,Svezia,Schweden,Suécia
+UK,United Kingdom,Royaume-Uni,Regno Unito,Vereinigtes Königreich,Reino Unido
+cit.Afgh,Afghanistan,Afghanistan,Afghanistan,Afghanistan,Afeganistão
+cit.Alba,Albania,Albanie,Albania,Albanien,Albânia
+cit.Erit,Eritrea,Erythrée,Eritrea,Eritrea,Eritreia
+cit.Iraq,Iraq,Irak,Iraq,Irak,Iraque
+cit.Liby,Libya,Libye,Libia,Libyen,Líbia
+cit.Paki,Pakistan,Pakistan,Pakistan,Pakistan,Pakistan
+cit.Serb,Serbia,Serbie,Serbia,Serbien,Sérvia
+cit.Soma,Somalia,Somalie,Somalia,Somalia,Somália
+cit.Stat,stateless,Apatride,Apolide,Staatenlos,Apátrida
+cit.Syri,Syria,Syrie,Siria,Syrien,Síria
+cit.Ukra,Ukraine,Ukraine,Ucraina,Ukraine,Ucrânia
+cit.Koso,Kosovo,Kosovo,Kosovo,Kosovo,Kosovo
+cit.Tota,Other countries,Autres pays,Altri paesi,Andere Länder,Outros países
+title.main,Asylum requests in Europe,Demandes d'asile en Europe,Domande d'asilo in Europa,Asylgesuche in Europa,Pedidos de asilo na Europa
+title2.main,2015 to present,"En 2015, jusqu'à présent","Nel 2015, fino ad oggi","2015, bis jetzt",Em 2015 até agora
+title3.main,"If all the countries in Europe had 50,000 inhabitants",Si tous les pays européens avait 50000 habitants...,Se tutti i paesi europei avessero 50'000 abitanti…,Wenn alle europäischen Länder 50'000 Einwohner hätten…,Se cada país europeu tinhivesse 50.000 habitantes ...
+title.slide,Asylum requests in 2015 through March,demandes d'asile y ont été déposées en 2015 jusqu'à mars,"domande d'asilo depositate nel 2015, fino a fine marzo","Asylgesuche, die bis im März 2015 eingereicht wurden",pedidos de asilo apresentados em 2015 até março
+subtitle1.slide,If this country had ,Si ce pays avait,Se questo paese avesse,Wenn dieses Land,Se este país tivesse
+subtitle2.slide,"inhabitants, it would have had","habitants, il y aurait eu","abitanti, ci sarebbero","Einwohner hätte, hätte es","habitantes, teria havido"
+subtitle3.slide,asylum requests from:,demandes d'asile de:,domande d'asilo di:,Asylgesuche aus:,pedidos de asilo de:
+credit.source,source: Eurostat,source: Eurostat,Fonte: Eurostat,Quelle: Eurostat,fonte: Eurostat
+credit.method1,Only the months with data for all European countries were considered,Seuls les mois avec des données pour tous les pays européens ont été considérés.,Sono stati presi in considerazione unicamente i mesi peri quali sono disponibili i dati per tutti i paesi europei,"Es wurden nur jene Monate berücksichtigt, wo Zahlen für alle europäischen Länder vorlagen.",Apenas os meses com dados para todos os países europeus foram considerados.
+credit.method2,"Inspired by: ""les Décodeurs"" from Le Monde",Inspiré par: Le Monde - les Décodeurs,Ispirato da: Le Monde - les Décodeurs,Inspiriert von: Le Monde - les Décodeurs,Inspirado por: Le Monde - les Décodeurs
+credit.lastUpdate,Last updated:,Dernière mise à jour:,Ultimo aggiornamento: ,Letztes Update:,Última atualização:

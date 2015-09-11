@@ -8,10 +8,10 @@ library(animation)
 library(png)
 
 
-inputData <- "../data/02_citizenMonthly_waffled.Rdata"
+inputData <- "../data/02_citizenMonthly_waffled_new.Rdata"
 load(inputData)
 
-tradFile <- "../trad/02_translation.csv"
+tradFile <- "../trad/02_translation_09.csv"
 trad <- read.csv(tradFile, check.names = F, stringsAsFactors = F, row.names = 1)
 
 # load SWI logo
@@ -89,7 +89,7 @@ waffled <- function (parts, rows = 10, xlab = NULL, title = NULL, colors = NA,
 range(data$time)
 tmp <- as.data.frame(df %>% filter(iso2 != 'EU28') %>% group_by(iso2) %>%
 	summarise(totsq = sum(sq)) %>% filter(totsq > 2 | iso2 %in% c('PT', 'ES')) %>%
-	filter(!iso2 %in% c('LI', 'IS', 'CZ', 'HR', 'LT', 'LV', 'SI', 'SK', 'BG', 'EE', 'LU', 'PT', 'BE', 'FI', 'IE', 'NO', 'NL', 'DK')))
+	filter(!iso2 %in% c('LI', 'IS', 'CZ', 'HR', 'LT', 'LV', 'SI', 'SK', 'BG', 'EE', 'LU', 'PT', 'BE', 'FI', 'IE', 'NO', 'NL', 'DK', 'PL')))
 
 iso.ordered <- as.character(tmp$iso2[order(tmp$totsq)])
 
@@ -123,23 +123,27 @@ write.csv(df, file = "../data/02_inputData.csv")
 ####### PLOT SETTINGS #######
 ###	waffle settings
 # how many rows in waffle
-w.row <- 10
-w.size <- 3.7
+w.row <- 20
+w.size <- 1
 
-legendKeySize <- unit(2.5, "line")
-legendTextSize <- 15
+legendKeySize <- unit(1, "line")
+legendTextSize <- 12
 legendKeyHeight <- unit(2,"line")
 animationInterval <- 3.2
 countryText <- 12
 descrText <- 6
 
+fig.width <- 800
+fig.height <- 600
 
+maxCol <- ceiling(max(data.frame(df %>% group_by(iso2) %>% summarise(totSq = sum(sq)))$totSq) / w.row)
 
 iso <- 'HU' ## debugging
 
 ####### helper functions #######
 
 waffleIso <- function(iso = 'CH', iDf = df.l, trad, lang, font = "Open Sans") {
+	#browser()
 	stopifnot(length(iso) == 1)
 	if(lang == 'ru') descrText <- 5
 
@@ -149,18 +153,18 @@ waffleIso <- function(iso = 'CH', iDf = df.l, trad, lang, font = "Open Sans") {
 
 	wf <- structure(dfff$sq, names = as.character(dfff$CIT))
 
-	countryTop <- geom_text(data = data.frame(x = 0, y = w.row + 2.2, label = dff$GEO[1]), aes(x = x, y = y, label = label),
+	countryTop <- geom_text(data = data.frame(x = 0, y = w.row + 3, label = dff$GEO[1]), aes(x = x, y = y, label = label),
 				family = font, fontface = "bold", alpha = 1, size = countryText, hjust = 0, vjust = 0, colour = "#aa8959")
 	topText <- paste0(dff[which(dff$citizen == "Total"),'sum'], " ", trad["title.slide", lang])
-	titleTop <- geom_text(data = data.frame(x = 0, y = w.row + 1.5, label = topText), aes(x = x, y = y, label = label),
+	titleTop <- geom_text(data = data.frame(x = 0, y = w.row + 2, label = topText), aes(x = x, y = y, label = label),
 				family = font, alpha = 1, size = descrText, hjust = 0, vjust = 0)
 	text2 <- paste0(trad["subtitle1.slide", lang], " ", unit,  " ", trad["subtitle2.slide", lang], " ",
 		dff[which(dff$citizen == "Total"),'perU'], " ", trad["subtitle3.slide", lang])
-	subtitle <- geom_text(data = data.frame(x = 0, y = w.row + 0.9, label = text2), aes(x = x, y = y, label = label),
+	subtitle <- geom_text(data = data.frame(x = 0, y = w.row + 1, label = text2), aes(x = x, y = y, label = label),
 				family = font, alpha = 1, size = descrText, hjust = 0, vjust = 0)
 
 	# Hack: set a blank waffle and display top text
-	blankW <- waffled(rep(round(17 * w.row / length(wf)), length(wf)), rows = w.row, size = w.size, colors = rep("white", length(wf))) +
+	blankW <- waffled(rep(round(maxCol * w.row / length(wf)), length(wf)), rows = w.row, size = w.size, colors = rep("white", length(wf))) +
 		theme(legend.position = "bottom", legend.key.size = legendKeySize, legend.key.height = legendKeyHeight,
 		legend.key = element_rect(colour = NA), legend.text = element_text(colour = "white", size = legendTextSize, family = font)) +
 		guides(fill = guide_legend(nrow = 2, byrow = TRUE,
@@ -224,7 +228,7 @@ outroText <- function(source = "source: Eurostat",
 
 test <- F
 
-languages <- if(test) 'ru' else colnames(trad)
+languages <- if(test) 'en' else colnames(trad)
 
 for(lang in languages) {
 
@@ -255,7 +259,7 @@ for(lang in languages) {
 				outroText(source = trad["credit.source", lang], method = trad["credit.method1", lang], method2 = trad["credit.method2", lang], lastUpdate = paste0(trad["credit.lastUpdate", lang],  Sys.Date()),font = font)
 				outroText(source = trad["credit.source", lang], method = trad["credit.method1", lang], method2 = trad["credit.method2", lang], lastUpdate = paste0(trad["credit.lastUpdate", lang],  Sys.Date()),font = font)
 			}
-		}, movie.name = output, interval = 1.1, nmax = 50, ani.width = 800, ani.height = 600, loop = TRUE, outdir = "prod")
+		}, movie.name = output, interval = 1.1, nmax = 50, ani.width = fig.width, ani.height = fig.height, loop = TRUE, outdir = "prod")
 
 		output <- paste0("02_EU_asylum_waffle_", lang ,".gif")
 	}
@@ -275,7 +279,7 @@ for(lang in languages) {
 			outroText(source = trad["credit.source", lang], method = trad["credit.method1", lang], method2 = trad["credit.method2", lang], lastUpdate = paste0(trad["credit.lastUpdate", lang],  Sys.Date()),font = font)
 			outroText(source = trad["credit.source", lang], method = trad["credit.method1", lang], method2 = trad["credit.method2", lang], lastUpdate = paste0(trad["credit.lastUpdate", lang],  Sys.Date()),font = font)
 		}
-	}, movie.name = output, interval = animationInterval, nmax = 50, ani.width = 800, ani.height = 600, loop = TRUE, outdir = "prod")
+	}, movie.name = output, interval = animationInterval, nmax = 50, ani.width = fig.width, ani.height = fig.height, loop = TRUE, outdir = "prod")
 }
 
 

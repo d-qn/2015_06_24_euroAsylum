@@ -1,68 +1,3 @@
-ch.df[which(ch.df$GEMNAME == 'Knonau'),]
-length(unique(ch.df$BFSNR))
-length(unique(ch.df$GEMNAME))
-duplicated(ch.df$BFSNR)
-ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]
-ch.df[!duplicated(ch.df$BFSNR),'BFSNR']
-order(ch.df[!duplicated(ch.df$BFSNR),'BFSNR'])
-ch.df[order(ch.df[!duplicated(ch.df$BFSNR),'BFSNR']), c('BFSNR', 'GEMNAME')]
-ch.df[sort(ch.df[!duplicated(ch.df$BFSNR),'BFSNR']), c('BFSNR', 'GEMNAME')]
-order(ch.df[!duplicated(ch.df$BFSNR),'BFSNR'])
-ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]
-bfsnName <- ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]
-bfsnName
-?order
-order(bfsnName[,1])
-bfsnName[order(bfsnName[,1]),]
-bfsnName <- ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]
-bfsnName <- ch.df[!duplicated(ch.df$BFSNR),c('BFSNR', 'GEMNAME')]#
-str(bfsnName[order(bfsnName[,1]),])
-"GeoJSON" %in% ogrDrivers()$name
-library(rgdal)
-install.packages("rgeos", repos="http://R-Forge.R-project.org", type="source")
-install.packages('rgdal')
-install.packages('rgdal', type='source')
-library(rgdal)
-install.packages('rgdal', type='source')
-library(rgdal)
-install.packages('rgdal')
-install.packages('rgdal', type='source')
-library(rgdal)
-library(swiMap)
-?getShpLayers
-require(rgdal)#
-require(rgeos)#
-require(ggplot2)#
-path <- getPathShp('world')#
-layers <- getShpLayers(path)#
-# read shapefiles for given layer#
-world <- readOGR(path, layer = layers[1])#
-world.df <- formatShp(world)#
-# plot world map#
-ggplot(world.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = FIPS)) +#
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
-Same with swiss commune map (slow!)#
-## Not run: #
-path.ch <- getPathShp('CH')#
-ch <- readOGR(path.ch, layer = 'municipalities')#
-ch.df <- formatShp(ch)#
-# plot swiss commune map#
-ch.communes <- ggplot(ch.df, aes(x = long, y = lat, group = group)) + geom_polygon(size = 0.01, aes(fill = GEMNAME)) +#
-theme_minimal() + theme(legend.position = "none", panel.grid = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), axis.text = element_blank())#
-ch.communes#
-# add the lake and country contours#
-lake.df <- formatShp(readOGR(path.ch, layer = "lakes"))
-ogrListLayers(file.path(path.ch, "ch-country.ch"))
-ogrListLayers(file.path(path.ch, "ch-country.json"))
-country.layers <- ogrListLayers(file.path(path.ch, "ch-country.json"))
-country.layers
-country.df <- readOGR(file.path(path.ch, "ch-country.json"), "country")
-country.layers <- ogrListLayers(file.path(path.ch, "ch-country.json"))
-country.df <- formatShp(readOGR(file.path(path.ch, "ch-country.json"), country.layers[1]))
-country.df <- readOGR(file.path(path.ch, "ch-country.json"), country.layers[1])
-ch.communes + geom_polygon(data = country.df, fill = NA, color = "black", size = 2) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
-country.df <- formatShp(readOGR(file.path(path.ch, "ch-country.json"), country.layers[1]))
-country.df <- readOGR(file.path(path.ch, "ch-country.json"), country.layers[1])
 str(country.df)
 country.df <- fortify(readOGR(file.path(path.ch, "ch-country.json"), country.layers[1]))
 ch.communes + geom_polygon(data = country.df, fill = NA, color = "black", size = 2) + geom_polygon(data = lake.df, fill = "lightgrey", colour = "lightgrey")
@@ -440,6 +375,9 @@ test <- loadCommunesCHportraits()
 loadCommunesCHportraits
 3700 / 67.2
 3.700 / 67.2
+6 * 254
+6 * 25
+install.packages("gridSVG")
 setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
 ###### This download the very large monthly data with country of origin!#
 library(eurostat)#
@@ -448,10 +386,17 @@ library(ggplot2)#
 library(swiTheme)#
 #
 loadData <- F#
-inputfile <- "data/02_citizenMonthly.Rdata"#
-outputfile <- "prod/data/02_citizenMonthly_waffled.Rdata"
-setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
-##### 1 Get monthly asylum data#
+inputfile <- "data/02_citizenMonthly_new.Rdata"#
+outputfile <- "prod/data/02_citizenMonthly_waffled_new.Rdata"#
+#
+#############################################################################################
+###		Get data#
+#############################################################################################
+#
+if(loadData) {#
+	load(file = inputfile)#
+} else {#
+	##### 1 Get monthly asylum data#
 	id <- c('migr_asyappctzm')#
 #
 	getYearlyData <- function(id) {#
@@ -471,55 +416,735 @@ setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
 	##### 2 Get Population#
 	dat <- get_eurostat('tps00001')#
 	datl <- label_eurostat(dat)#
-	datl$iso2 <- dat$geo
-devtools::install_github("rstudio/d3heatmap")
-library(d3heatmap)#
-d3heatmap(mtcars, scale = "column", colors = "Spectral")
-? d3heatmap
-library(d3heatmap)#
-d3heatmap(mtcars, scale = "column", colors = "Spectral", show_grid = F)
-str(mtcars)
-df[rep(1:nrow(df),each=3),]
-d3heatmap(mtcars, scale = "column", colors = "Spectral", show_grid = F)
-d3heatmap(mtcars[rep(1:nrow(mtcars),each=3),], scale = "column", colors = "Spectral", show_grid = F)
-colnames(mtcars)
-d3heatmap(mtcars[,rep(1:nrow(mtcars),each=3)], scale = "column", colors = "Spectral", show_grid = F)
-d3heatmap(mtcars[,rep(1:ncol(mtcars),each=3)], scale = "column", colors = "Spectral", show_grid = F)
-d3heatmap(mtcars[,rep(1:ncol(mtcars),each=10)], scale = "column", colors = "Spectral", show_grid = F)
-?rep
-d3heatmap(mtcars[,rep(1:ncol(mtcars),10)], scale = "column", colors = "Spectral", show_grid = F)
-rep(1:ncol(mtcars),10)
-d3heatmap(mtcars[,rep(1:ncol(mtcars),100)], scale = "column", colors = "Spectral", show_grid = F)
-d3heatmap(mtcars[,rep(1:ncol(mtcars),100)], scale = "column", colors = "Spectral", show_grid = F)
-rep(1:ncol(mtcars),10)
-rep(1:ncol(mtcars),100)
-sample(rep(1:ncol(mtcars),100))
-df<- mtcars[,rep(1:ncol(mtcars),100)]
-str(df)
-row.names(df)
-colname(df)
-colnames(df)
-paste(sample(c(0:9, letters, LETTERS),#
-                                 lenght, replace=TRUE),#
-                                 collapse="")
-paste(sample(c(0:9, letters, LETTERS),#
-                                 length, replace=TRUE),#
-                                 collapse="")
-sample(c(0:9, letters, LETTERS)
+	datl$iso2 <- dat$geo#
+#
+	pop <- datl %>% filter(time <= as.Date("2015-01-01")) %>% select(one_of(c('geo', 'time','values', 'iso2')))#
+	save(datl1, pop, file = inputfile)#
+}#
+# subset the data for year 2015#
+data.m <- datl1 %>% filter(asyl_app == 'Asylum applicant', sex == 'Total', age == 'Total') %>%#
+	select(one_of(c('citizen', 'geo', 'time', 'values', 'iso2')))#
+# consider only the months with full data (with NA less than 10%) !!#
+times <- tapply(data.m$values, data.m$time, function(v) (sum(is.na(v))/length(v)) ) < 0.1#
+# subset by time#
+data <- data.m %>% filter(time >= as.Date("2015-01-01"), time <= max(as.Date(names(times))[times]))#
+	### CHECK ####
+## check CH value with http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=migr_asyappctzm&lang=en#
+data %>% filter(iso2 == 'CH', citizen == "Total")#
+data %>% filter(iso2 == 'HU', citizen == "Total")#
+#
+### ANALYSIS#
+#
+## TO do compare the 2015 monthly statistics with the previous year!#
+data.m %>% filter(iso2 == 'CH', citizen == "Total", time < as.Date("2015-01-01"), time >= as.Date("2014-01-01"))#
+#############################################################################################
+###		WAFFLE chart by origin country of others#
+#############################################################################################
+#
+library(waffle)#
+#### Adapt the original function#
+waffled <- function (parts, rows = 10, xlab = NULL, title = NULL, colors = NA,#
+    size = 2, flip = FALSE, reverse = FALSE, equal = TRUE, pad = 0)#
+{#
+    part_names <- names(parts)#
+    if (length(part_names) < length(parts)) {#
+        part_names <- c(part_names, LETTERS[1:length(parts) -#
+            length(part_names)])#
+    }#
+    if (all(is.na(colors))) {#
+        colors <- brewer.pal(length(parts), "Set2")#
+    }#
+    parts_vec <- unlist(sapply(1:length(parts), function(i) {#
+        rep(LETTERS[i + 1], parts[i])#
+    }))#
+    if (reverse) {#
+        parts_vec <- rev(parts_vec)#
+    }#
+    dat <- expand.grid(y = 1:rows, x = seq_len(pad + (ceiling(sum(parts)/rows))))#
+	##### My change, added factor and levels being of length parts !!!!!!!!!!!!#
+    dat$value <- factor(c(parts_vec, rep(NA, nrow(dat) - length(parts_vec))), levels = LETTERS[2:(length(parts)+1)])#
+    if (flip) {#
+        gg <- ggplot(dat, aes(x = y, y = x, fill = value))#
+    }#
+    else {#
+        gg <- ggplot(dat, aes(x = x, y = y, fill = value))#
+    }#
+    gg <- gg + geom_tile(color = "white", size = size)#
+    gg <- gg + labs(x = xlab, y = NULL, title = title)#
+    gg <- gg + scale_x_continuous(expand = c(0, 0))#
+    gg <- gg + scale_y_continuous(expand = c(0, 0))#
+    ###### Added this as well, not sure it is useful: drop = FALSE !!!!!!!!!!!!#
+	gg <- gg + scale_fill_manual(name = "", values = colors,#
+        labels = part_names, drop = FALSE)#
+    gg <- gg + guides(fill = guide_legend(override.aes = list(colour = NULL)))#
+    if (equal) {#
+        gg <- gg + coord_equal()#
+    }#
+    gg <- gg + theme_bw()#
+    gg <- gg + theme(panel.grid = element_blank())#
+    gg <- gg + theme(panel.border = element_blank())#
+    gg <- gg + theme(panel.background = element_blank())#
+    gg <- gg + theme(panel.margin = unit(0, "null"))#
+    gg <- gg + theme(axis.text = element_blank())#
+    gg <- gg + theme(axis.title.x = element_text(size = 10))#
+    gg <- gg + theme(axis.ticks = element_blank())#
+    gg <- gg + theme(axis.line = element_blank())#
+    gg <- gg + theme(axis.ticks.length = unit(0, "null"))#
+    gg <- gg + theme(axis.ticks.margin = unit(0, "null"))#
+    gg <- gg + theme(plot.title = element_text(size = 18))#
+    gg <- gg + theme(plot.background = element_blank())#
+    gg <- gg + theme(plot.margin = unit(c(0, 0, 0, 0), "null"))#
+    gg <- gg + theme(plot.margin = rep(unit(0, "null"), 4))#
+    gg#
+}#
+#
+###	waffle settings#
+font <- "Open Sans"#
+unit <- 5 * 10^4#
+squareThreshold <- 3#
+w.row <- 10#
+#
+###	COMPUTE#
+#
+citizenAgg <- c("Total", "European Union (28 countries)", "Extra EU-28")#
+#
+## Compute the asylum seeker by iso2 country#
+dd <- data %>% filter(!citizen %in% citizenAgg, iso2 != "TOTAL") %>% group_by(iso2, geo, citizen) %>% summarise(sum = sum(values, na.rm =T))  %>% ungroup()#
+# add population in 2014 column#
+dd <- cbind(dd, pop = pop[match(dd$iso2, pop$iso2),'values'])#
+# express asylum demand by country per inhabitant * unit#
+dd$perU <- (dd$sum / dd$pop) * unit#
+dd$sq <- round(dd$perU)#
+#
+# Check Swiss results#
+dd %>% filter(iso2 == 'CH', perU > 0)#
+#
+### Compute the square/waffle by iso2 and filter it by squareThreshold#
+citizen.subset <- as.character(unlist(unique(dd %>% filter(sq > squareThreshold) %>% select(citizen))))#
+#
+# filter citizen#
+dd <- filter(dd, citizen %in% citizen.subset)#
+#
+# Find the maximum of square (use citizen Total )#
+sumAll <- data %>% filter(citizen == "Total", !iso2 %in% c('EU28', 'TOTAL')) %>% group_by(iso2, geo, citizen) %>% summarise(sum = sum(values, na.rm =T)) %>% ungroup()#
+# add population in 2014 column#
+sumAll <- cbind(sumAll, pop = pop[match(sumAll$iso2, pop$iso2),'values'])#
+sumAll$sq <- round((sumAll$sum / sumAll$pop) * unit)#
+tmpSum <- as.data.frame(dd %>% group_by(iso2) %>% summarise(tsum = sum(sq, na.rm = T)) %>% ungroup())#
+sumAll$others <- sumAll$sq - tmpSum[match(sumAll$iso2, tmpSum$iso2), 2]#
+maxCol <- ceiling(max(sumAll$sq) / w.row)#
+## Bind others sum to dd#
+df <- do.call(rbind, by(dd, dd$iso, function(spt) {#
+	iso <- as.character(unique(spt$iso))#
+	newrow <- sumAll[sumAll$iso == iso,]#
+	colnames(newrow)[colnames(newrow)=='sq'] <- 'perU'#
+	colnames(newrow)[colnames(newrow)=='others'] <- 'sq'#
+	rbind(spt, newrow)#
+}))#
+# drop unsused factors#
+df$citizen <- factor(df$citizen)#
+colorV <- structure(swi_rpal[1:nlevels(df$citizen)], names = levels(df$citizen))#
+### SAVE#
+save(df, dd, maxCol, data, sumAll, unit, squareThreshold, file = outputfile)#
+waffleIso <- function(iso = 'CH') {#
+	stopifnot(length(iso) == 1)#
+#
+	#topText <- paste0("En", )#
+	dff <- df %>% filter(iso2 == iso)#
+#
+	wf <- structure(dff$sq, names = as.character(dff$citizen))#
+#
+	padding <- maxCol - ceiling(sum(wf) / w.row)#
+#
+	waffled(wf, rows = w.row, size = 0.7, colors = unname(colorV[match(names(wf), names(colorV))]),#
+		pad = padding, xlab = paste("1 carré = demandes d'asile pour ce pays par", unit, "habitant")) +#
+		theme(legend.position = "top", legend.key.size = unit(0.7, "line"), legend.key.height = unit(1,"line"),#
+		legend.key = element_rect(colour = NA),#
+		axis.ticks = element_blank(), axis.text = element_blank()) + ggtitle(iso) +#
+		guides(fill = guide_legend(nrow = 2, byrow = TRUE, override.aes = list(colour = NULL)))#
+}#
+## CHECK CH value with http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=migr_asyappctzm&lang=en#
+	waffleIso('CH')#
+	ck <- df %>% filter(iso2 == 'CH')#
+	ckdf <- as.data.frame(ck %>% filter(citizen == "Total"))#
+	round((ckdf$sum / ckdf$pop) * unit)#
+	waffleIso('DE')#
+	ck <- df %>% filter(iso2 == 'DE')#
+	ckdf <- as.data.frame(ck %>% filter(citizen == "Total"))#
+	round((ckdf$sum / ckdf$pop) * unit)#
+#
+	waffleIso('HU')#
+#
+	waffleIso('IT')#
+	ck <- df %>% filter(iso2 == 'IT')#
+	ckdf <- as.data.frame(ck %>% filter(citizen == "Total"))#
+	round((ckdf$sum / ckdf$pop) * unit)#
+#
+	waffleIso('UK')#
+	ck <- df %>% filter(iso2 == 'UK')#
+	ckdf <- as.data.frame(ck %>% filter(citizen == "Total"))#
+	round((ckdf$sum / ckdf$pop) * unit)#
+#
+	waffleIso('ES')#
+	ck <- df %>% filter(iso2 == 'ES')#
+	ckdf <- as.data.frame(ck %>% filter(citizen == "Total"))#
+	round((ckdf$sum / ckdf$pop) * unit)
+str(dd)
+dd
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+font <- "Open Sans"#
+unit <- 5 * 10^4#
+squareThreshold <- 4#
+w.row <- 10#
+#
+###	COMPUTE#
+#
+citizenAgg <- c("Total", "European Union (28 countries)", "Extra EU-28")#
+#
+## Compute the asylum seeker by iso2 country#
+dd <- data %>% filter(!citizen %in% citizenAgg, iso2 != "TOTAL") %>% group_by(iso2, geo, citizen) %>% summarise(sum = sum(values, na.rm =T))  %>% ungroup()#
+# add population in 2014 column#
+dd <- cbind(dd, pop = pop[match(dd$iso2, pop$iso2),'values'])#
+# express asylum demand by country per inhabitant * unit#
+dd$perU <- (dd$sum / dd$pop) * unit#
+dd$sq <- round(dd$perU)#
+#
+# Check Swiss results#
+dd %>% filter(iso2 == 'CH', perU > 0)#
+#
+### Compute the square/waffle by iso2 and filter it by squareThreshold#
+citizen.subset <- as.character(unlist(unique(dd %>% filter(sq > squareThreshold) %>% select(citizen))))#
+#
+# filter citizen#
+dd <- filter(dd, citizen %in% citizen.subset)#
+#
+# Find the maximum of square (use citizen Total )#
+sumAll <- data %>% filter(citizen == "Total", !iso2 %in% c('EU28', 'TOTAL')) %>% group_by(iso2, geo, citizen) %>% summarise(sum = sum(values, na.rm =T)) %>% ungroup()#
+# add population in 2014 column#
+sumAll <- cbind(sumAll, pop = pop[match(sumAll$iso2, pop$iso2),'values'])#
+sumAll$sq <- round((sumAll$sum / sumAll$pop) * unit)#
+tmpSum <- as.data.frame(dd %>% group_by(iso2) %>% summarise(tsum = sum(sq, na.rm = T)) %>% ungroup())#
+sumAll$others <- sumAll$sq - tmpSum[match(sumAll$iso2, tmpSum$iso2), 2]#
+maxCol <- ceiling(max(sumAll$sq) / w.row)#
+## Bind others sum to dd#
+df <- do.call(rbind, by(dd, dd$iso, function(spt) {#
+	iso <- as.character(unique(spt$iso))#
+	newrow <- sumAll[sumAll$iso == iso,]#
+	colnames(newrow)[colnames(newrow)=='sq'] <- 'perU'#
+	colnames(newrow)[colnames(newrow)=='others'] <- 'sq'#
+	rbind(spt, newrow)#
+}))#
+# drop unsused factors#
+df$citizen <- factor(df$citizen)#
+colorV <- structure(swi_rpal[1:nlevels(df$citizen)], names = levels(df$citizen))
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+waffleIso <- function(iso = 'CH') {#
+	stopifnot(length(iso) == 1)#
+#
+	#topText <- paste0("En", )#
+	dff <- df %>% filter(iso2 == iso)#
+#
+	wf <- structure(dff$sq, names = as.character(dff$citizen))#
+#
+	padding <- maxCol - ceiling(sum(wf) / w.row)#
+#
+	waffled(wf, rows = w.row, size = 0.7, colors = unname(colorV[match(names(wf), names(colorV))]),#
+		pad = padding, xlab = paste("1 carré = demandes d'asile pour ce pays par", unit, "habitant")) +#
+		theme(legend.position = "top", legend.key.size = unit(0.7, "line"), legend.key.height = unit(1,"line"),#
+		legend.key = element_rect(colour = NA),#
+		axis.ticks = element_blank(), axis.text = element_blank()) + ggtitle(iso) +#
+		guides(fill = guide_legend(nrow = 2, byrow = TRUE, override.aes = list(colour = NULL)))#
+}#
+## CHECK CH value with http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=migr_asyappctzm&lang=en#
+	waffleIso('CH')#
+	ck <- df %>% filter(iso2 == 'CH')#
+	ckdf <- as.data.frame(ck %>% filter(citizen == "Total"))#
+	round((ckdf$sum / ckdf$pop) * unit)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+waffleIso('DE')#
+	ck <- df %>% filter(iso2 == 'DE')#
+	ckdf <- as.data.frame(ck %>% filter(citizen == "Total"))#
+	round((ckdf$sum / ckdf$pop) * unit)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+waffleIso('HU')
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+waffleIso('CH')
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+ck <- df %>% filter(iso2 == 'CH')#
+	ckdf <- as.data.frame(ck %>% filter(citizen == "Total"))#
+	round((ckdf$sum / ckdf$pop) * unit)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+###### This download the very large monthly data with country of origin!#
+#
+library(dplyr)#
+library(ggplot2)#
+library(swiTheme)#
+require(gtable)#
+library(animation)#
+library(png)#
+inputData <- "../data/02_citizenMonthly_waffled_new.Rdata"#
+load(inputData)#
+#
+tradFile <- "../trad/02_translation.csv"#
+trad <- read.csv(tradFile, check.names = F, stringsAsFactors = F, row.names = 1)#
+#
+# load SWI logo#
+swiLogo <- readPNG("~/swissinfo/_helpers/SWI-RGB.png")
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+library(waffle)#
+#
+#### Adapt the original function#
+waffled <- function (parts, rows = 10, xlab = NULL, title = NULL, colors = NA,#
+    size = 2, flip = FALSE, reverse = FALSE, equal = TRUE, pad = 0)#
+{#
+    part_names <- names(parts)#
+    if (length(part_names) < length(parts)) {#
+        part_names <- c(part_names, LETTERS[1:length(parts) -#
+            length(part_names)])#
+    }#
+    if (all(is.na(colors))) {#
+        colors <- brewer.pal(length(parts), "Set2")#
+    }#
+    parts_vec <- unlist(sapply(1:length(parts), function(i) {#
+        rep(LETTERS[i + 1], parts[i])#
+    }))#
+    if (reverse) {#
+        parts_vec <- rev(parts_vec)#
+    }#
+    dat <- expand.grid(y = 1:rows, x = seq_len(pad + (ceiling(sum(parts)/rows))))#
+	##### My change 1 , added factor and levels being of length "parts" (even if some parts have 0 square) !!!!!!!!!!!!#
+    dat$value <- factor(c(parts_vec, rep(NA, nrow(dat) - length(parts_vec))), levels = LETTERS[2:(length(parts)+1)])#
+    ##### Changes 2, do not pass data in ggplot but to geom_tile#
+	if (flip) {#
+		gg <- ggplot() + geom_tile(data = dat, aes(x = y, y = x, fill = value), color = "white", size = size)#
+    }#
+    else {#
+		gg <- ggplot() + geom_tile(data = dat, aes(x = x, y = y, fill = value), color = "white", size = size)#
+    }#
+    #gg <- gg + geom_tile(color = "white", size = size)#
+    gg <- gg + labs(x = xlab, y = NULL, title = title)#
+    gg <- gg + scale_x_continuous(expand = c(0, 0))#
+    gg <- gg + scale_y_continuous(expand = c(0, 0))#
+    ###### 3 Added this as well, not sure it is useful: drop = FALSE !!!!!!!!!!!!#
+	gg <- gg + scale_fill_manual(name = "", values = colors,#
+        labels = part_names, drop = FALSE)#
+    gg <- gg + guides(fill = guide_legend(override.aes = list(colour = NULL)))#
+    if (equal) {#
+        gg <- gg + coord_equal()#
+    }#
+    gg <- gg + theme_bw()#
+    gg <- gg + theme(panel.grid = element_blank())#
+    gg <- gg + theme(panel.border = element_blank())#
+    gg <- gg + theme(panel.background = element_blank())#
+    gg <- gg + theme(panel.margin = unit(0, "null"))#
+    gg <- gg + theme(axis.text = element_blank())#
+    gg <- gg + theme(axis.title.x = element_text(size = 10))#
+    gg <- gg + theme(axis.ticks = element_blank())#
+    gg <- gg + theme(axis.line = element_blank())#
+    gg <- gg + theme(axis.ticks.length = unit(0, "null"))#
+    gg <- gg + theme(axis.ticks.margin = unit(0, "null"))#
+    gg <- gg + theme(plot.title = element_text(size = 18))#
+    gg <- gg + theme(plot.background = element_blank())#
+	## Change 4 make space on the top and comment the other line#
+    gg <- gg + theme(plot.margin = unit(c(2.8, 0, 0.5, 0), "lines"))#
+    # gg <- gg + theme(plot.margin = rep(unit(0, "null"), 4))#
+    gg#
+}#
+#############################################################################################
+### subset the whole dataset and save the production data.frame#
+#############################################################################################
+#
+range(data$time)#
+tmp <- as.data.frame(df %>% filter(iso2 != 'EU28') %>% group_by(iso2) %>%#
+	summarise(totsq = sum(sq)) %>% filter(totsq > 2 | iso2 %in% c('PT', 'ES')) %>%#
+	filter(!iso2 %in% c('LI', 'IS', 'CZ', 'HR', 'LT', 'LV', 'SI', 'SK', 'BG', 'EE', 'LU', 'PT', 'BE', 'FI', 'IE', 'NO', 'NL', 'DK')))#
+#
+iso.ordered <- as.character(tmp$iso2[order(tmp$totsq)])#
+#
+## Create the translation data.frame#
+t.df <- df %>% filter(iso2 %in% iso.ordered) %>% select(iso2, geo, citizen)#
+#
+t.df <- rbind(unique(t.df[,1:2]), data.frame(iso2 = paste0("cit.", substr(unique(t.df$citizen), 1, 4)), geo = unique(t.df$citizen)))#
+colnames(t.df) <- c('code', 'en')
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum/prod/scripts')
+t.df
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+font <- "Open Sans"#
+unit <- 5 * 10^4#
+squareThreshold <- 5#
+w.row <- 10#
+#
+###	COMPUTE#
+#
+citizenAgg <- c("Total", "European Union (28 countries)", "Extra EU-28")#
+#
+## Compute the asylum seeker by iso2 country#
+dd <- data %>% filter(!citizen %in% citizenAgg, iso2 != "TOTAL") %>% group_by(iso2, geo, citizen) %>% summarise(sum = sum(values, na.rm =T))  %>% ungroup()#
+# add population in 2014 column#
+dd <- cbind(dd, pop = pop[match(dd$iso2, pop$iso2),'values'])#
+# express asylum demand by country per inhabitant * unit#
+dd$perU <- (dd$sum / dd$pop) * unit#
+dd$sq <- round(dd$perU)#
+#
+# Check Swiss results#
+dd %>% filter(iso2 == 'CH', perU > 0)#
+#
+### Compute the square/waffle by iso2 and filter it by squareThreshold#
+citizen.subset <- as.character(unlist(unique(dd %>% filter(sq > squareThreshold) %>% select(citizen))))#
+#
+# filter citizen#
+dd <- filter(dd, citizen %in% citizen.subset)#
+#
+# Find the maximum of square (use citizen Total )#
+sumAll <- data %>% filter(citizen == "Total", !iso2 %in% c('EU28', 'TOTAL')) %>% group_by(iso2, geo, citizen) %>% summarise(sum = sum(values, na.rm =T)) %>% ungroup()#
+# add population in 2014 column#
+sumAll <- cbind(sumAll, pop = pop[match(sumAll$iso2, pop$iso2),'values'])#
+sumAll$sq <- round((sumAll$sum / sumAll$pop) * unit)#
+tmpSum <- as.data.frame(dd %>% group_by(iso2) %>% summarise(tsum = sum(sq, na.rm = T)) %>% ungroup())#
+sumAll$others <- sumAll$sq - tmpSum[match(sumAll$iso2, tmpSum$iso2), 2]#
+maxCol <- ceiling(max(sumAll$sq) / w.row)#
+## Bind others sum to dd#
+df <- do.call(rbind, by(dd, dd$iso, function(spt) {#
+	iso <- as.character(unique(spt$iso))#
+	newrow <- sumAll[sumAll$iso == iso,]#
+	colnames(newrow)[colnames(newrow)=='sq'] <- 'perU'#
+	colnames(newrow)[colnames(newrow)=='others'] <- 'sq'#
+	rbind(spt, newrow)#
+}))#
+# drop unsused factors#
+df$citizen <- factor(df$citizen)#
+colorV <- structure(swi_rpal[1:nlevels(df$citizen)], names = levels(df$citizen))#
+### SAVE#
+save(df, dd, maxCol, data, sumAll, unit, squareThreshold, file = outputfile)#
+waffleIso <- function(iso = 'CH') {#
+	stopifnot(length(iso) == 1)#
+#
+	#topText <- paste0("En", )#
+	dff <- df %>% filter(iso2 == iso)#
+#
+	wf <- structure(dff$sq, names = as.character(dff$citizen))#
+#
+	padding <- maxCol - ceiling(sum(wf) / w.row)#
+#
+	waffled(wf, rows = w.row, size = 0.7, colors = unname(colorV[match(names(wf), names(colorV))]),#
+		pad = padding, xlab = paste("1 carré = demandes d'asile pour ce pays par", unit, "habitant")) +#
+		theme(legend.position = "top", legend.key.size = unit(0.7, "line"), legend.key.height = unit(1,"line"),#
+		legend.key = element_rect(colour = NA),#
+		axis.ticks = element_blank(), axis.text = element_blank()) + ggtitle(iso) +#
+		guides(fill = guide_legend(nrow = 2, byrow = TRUE, override.aes = list(colour = NULL)))#
+}#
+## CHECK CH value with http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=migr_asyappctzm&lang=en#
+	waffleIso('CH')#
+	ck <- df %>% filter(iso2 == 'CH')#
+	ckdf <- as.data.frame(ck %>% filter(citizen == "Total"))#
+	round((ckdf$sum / ckdf$pop) * unit)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+font <- "Open Sans"#
+unit <- 5 * 10^4#
+squareThreshold <- 6#
+w.row <- 10#
+#
+###	COMPUTE#
+#
+citizenAgg <- c("Total", "European Union (28 countries)", "Extra EU-28")#
+#
+## Compute the asylum seeker by iso2 country#
+dd <- data %>% filter(!citizen %in% citizenAgg, iso2 != "TOTAL") %>% group_by(iso2, geo, citizen) %>% summarise(sum = sum(values, na.rm =T))  %>% ungroup()#
+# add population in 2014 column#
+dd <- cbind(dd, pop = pop[match(dd$iso2, pop$iso2),'values'])#
+# express asylum demand by country per inhabitant * unit#
+dd$perU <- (dd$sum / dd$pop) * unit#
+dd$sq <- round(dd$perU)#
+#
+# Check Swiss results#
+dd %>% filter(iso2 == 'CH', perU > 0)#
+#
+### Compute the square/waffle by iso2 and filter it by squareThreshold#
+citizen.subset <- as.character(unlist(unique(dd %>% filter(sq > squareThreshold) %>% select(citizen))))#
+#
+# filter citizen#
+dd <- filter(dd, citizen %in% citizen.subset)#
+#
+# Find the maximum of square (use citizen Total )#
+sumAll <- data %>% filter(citizen == "Total", !iso2 %in% c('EU28', 'TOTAL')) %>% group_by(iso2, geo, citizen) %>% summarise(sum = sum(values, na.rm =T)) %>% ungroup()#
+# add population in 2014 column#
+sumAll <- cbind(sumAll, pop = pop[match(sumAll$iso2, pop$iso2),'values'])#
+sumAll$sq <- round((sumAll$sum / sumAll$pop) * unit)#
+tmpSum <- as.data.frame(dd %>% group_by(iso2) %>% summarise(tsum = sum(sq, na.rm = T)) %>% ungroup())#
+sumAll$others <- sumAll$sq - tmpSum[match(sumAll$iso2, tmpSum$iso2), 2]#
+maxCol <- ceiling(max(sumAll$sq) / w.row)#
+## Bind others sum to dd#
+df <- do.call(rbind, by(dd, dd$iso, function(spt) {#
+	iso <- as.character(unique(spt$iso))#
+	newrow <- sumAll[sumAll$iso == iso,]#
+	colnames(newrow)[colnames(newrow)=='sq'] <- 'perU'#
+	colnames(newrow)[colnames(newrow)=='others'] <- 'sq'#
+	rbind(spt, newrow)#
+}))#
+# drop unsused factors#
+df$citizen <- factor(df$citizen)#
+colorV <- structure(swi_rpal[1:nlevels(df$citizen)], names = levels(df$citizen))#
+### SAVE#
+save(df, dd, maxCol, data, sumAll, unit, squareThreshold, file = outputfile)#
+waffleIso <- function(iso = 'CH') {#
+	stopifnot(length(iso) == 1)#
+#
+	#topText <- paste0("En", )#
+	dff <- df %>% filter(iso2 == iso)#
+#
+	wf <- structure(dff$sq, names = as.character(dff$citizen))#
+#
+	padding <- maxCol - ceiling(sum(wf) / w.row)#
+#
+	waffled(wf, rows = w.row, size = 0.7, colors = unname(colorV[match(names(wf), names(colorV))]),#
+		pad = padding, xlab = paste("1 carré = demandes d'asile pour ce pays par", unit, "habitant")) +#
+		theme(legend.position = "top", legend.key.size = unit(0.7, "line"), legend.key.height = unit(1,"line"),#
+		legend.key = element_rect(colour = NA),#
+		axis.ticks = element_blank(), axis.text = element_blank()) + ggtitle(iso) +#
+		guides(fill = guide_legend(nrow = 2, byrow = TRUE, override.aes = list(colour = NULL)))#
+}#
+## CHECK CH value with http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=migr_asyappctzm&lang=en#
+	waffleIso('CH')#
+	ck <- df %>% filter(iso2 == 'CH')#
+	ckdf <- as.data.frame(ck %>% filter(citizen == "Total"))#
+	round((ckdf$sum / ckdf$pop) * unit)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+dd$sq
+dd
+unique(dd %>% filter(sq > squareThreshold) %>% select(citizen))
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+dd %>% group_by(citizen) %>% summarise(perU.sum = sum(perU))
+?arrange
+dd %>% group_by(citizen) %>% summarise(perU.sum = sum(perU)) %>% arrange(desc(perU.sum))
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+dd %>% filter(iso2 == 'CH', perU > 0)
+data.frame(dd %>% filter(iso2 == 'CH', perU > 0))
+data.frame(dd %>% filter(iso2 == 'CH', perU > 0))$sum
+sum(data.frame(dd %>% filter(iso2 == 'CH', perU > 0))$sum)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+times
+data %>% filter(iso2 == 'CH')
+sum(data.frame(dd %>% filter(iso2 == 'CH', perU > 0))$sum)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+sum(data.frame(dd %>% filter(iso2 == 'CH', perU > 0))$sum)
+data %>% filter(iso2 == 'CH', citizen == 'Total')
+dd %>% filter(iso2 == 'CH', perU > 0
 )
-colnames(df) <- 1:ncol(df)
-d3heatmap(df, scale = "column", colors = "Spectral", show_grid = F)
-?d3heatmap
-d3heatmap(df, scale = "column", colors = "Spectral", show_grid = F, Rowv =F)
-d3heatmap(df, scale = "column", colors = "Spectral", show_grid = F, Rowv =F, reorderfun = NULL)
-d3heatmap(df, scale = "column", colors = "Spectral", show_grid = F, Rowv =F)
-d3heatmap(df, scale = "column", colors = "Spectral", show_grid = F, Rowv =F, dendrogram = "none")
-df<- mtcars[,rep(1:ncol(mtcars),1000)]
-colnames(df) <- 1:ncol(df)
-str(df)
-d3heatmap(df, scale = "column", colors = "Spectral", show_grid = F, Rowv =F, dendrogram = "none")
-install.packges(grid.scg)
-install.packges(grid.svg)
-install.packges("grid.svg")
-install.packages("grid.svg")
-install.packages("gridSVG")
+dd %>% filter(iso2 == 'CH')
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+dd %>% filter(iso2 == 'CH')
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+data %>% filter(iso2 == 'CH')
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+data %>% filter(iso2 == 'CH', !citizen %in% citizenAgg, iso2 != "TOTAL")
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+data %>% filter(iso2 == 'CH', !citizen %in% citizenAgg, iso2 != "TOTAL") %>% group_by(time) %>% summarise(testSum = sum(values, na.rm = T))
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+data %>% filter(iso2 == 'CH', !citizen %in% citizenAgg, iso2 != "TOTAL") %>% group_by(time) %>% summarise(testSum = sum(values, na.rm = T)) %>% ungroup()
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+data %>% filter(iso2 == 'CH', citizen == 'Total')
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+citizen.subset <- as.character(unlist(unique(dd %>% filter(sq > squareThreshold) %>% select(citizen))))
+citizen.subset
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+dd %>% group_by(citizen) %>% summarise(perU.sum = sum(perU))
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+dd %>% group_by(citizen) %>% summarise(perU.sum = sum(perU)) %>% arrange(desc(perU.sum))
+data.frame(dd %>% group_by(citizen) %>% summarise(perU.sum = sum(perU)) %>% arrange(desc(perU.sum)))$citizen
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+citizen.subset <- head(data.frame(dd %>% group_by(citizen) %>% summarise(perU.sum = sum(perU)) %>% arrange(desc(perU.sum)))$citizen, topCitNat)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+topCitNat <- 12
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+citizen.subset <- head(data.frame(dd %>% group_by(citizen) %>% summarise(perU.sum = sum(perU)) %>% arrange(desc(perU.sum)))$citizen, topCitNat)
+citizen.subset
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+as.character(unlist(unique(dd %>% filter(sq > squareThreshold) %>% select(citizen))))
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+citizen.subset <- as.character(head(data.frame(dd %>% group_by(citizen) %>% summarise(perU.sum = sum(perU)) %>% #
+	arrange(desc(perU.sum)))$citizen, topCitNat))
+citizen.subset
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+# filter citizen#
+dd <- filter(dd, citizen %in% citizen.subset)#
+#
+# Find the maximum of square (use citizen Total )#
+sumAll <- data %>% filter(citizen == "Total", !iso2 %in% c('EU28', 'TOTAL')) %>% group_by(iso2, geo, citizen) %>% summarise(sum = sum(values, na.rm =T)) %>% ungroup()#
+# add population in 2014 column#
+sumAll <- cbind(sumAll, pop = pop[match(sumAll$iso2, pop$iso2),'values'])#
+sumAll$sq <- round((sumAll$sum / sumAll$pop) * unit)#
+tmpSum <- as.data.frame(dd %>% group_by(iso2) %>% summarise(tsum = sum(sq, na.rm = T)) %>% ungroup())#
+sumAll$others <- sumAll$sq - tmpSum[match(sumAll$iso2, tmpSum$iso2), 2]#
+maxCol <- ceiling(max(sumAll$sq) / w.row)#
+## Bind others sum to dd#
+df <- do.call(rbind, by(dd, dd$iso, function(spt) {#
+	iso <- as.character(unique(spt$iso))#
+	newrow <- sumAll[sumAll$iso == iso,]#
+	colnames(newrow)[colnames(newrow)=='sq'] <- 'perU'#
+	colnames(newrow)[colnames(newrow)=='others'] <- 'sq'#
+	rbind(spt, newrow)#
+}))#
+# drop unsused factors#
+df$citizen <- factor(df$citizen)#
+colorV <- structure(swi_rpal[1:nlevels(df$citizen)], names = levels(df$citizen))#
+### SAVE#
+save(df, dd, maxCol, data, sumAll, unit, squareThreshold, file = outputfile)#
+waffleIso <- function(iso = 'CH') {#
+	stopifnot(length(iso) == 1)#
+#
+	#topText <- paste0("En", )#
+	dff <- df %>% filter(iso2 == iso)#
+#
+	wf <- structure(dff$sq, names = as.character(dff$citizen))#
+#
+	padding <- maxCol - ceiling(sum(wf) / w.row)#
+#
+	waffled(wf, rows = w.row, size = 0.7, colors = unname(colorV[match(names(wf), names(colorV))]),#
+		pad = padding, xlab = paste("1 carré = demandes d'asile pour ce pays par", unit, "habitant")) +#
+		theme(legend.position = "top", legend.key.size = unit(0.7, "line"), legend.key.height = unit(1,"line"),#
+		legend.key = element_rect(colour = NA),#
+		axis.ticks = element_blank(), axis.text = element_blank()) + ggtitle(iso) +#
+		guides(fill = guide_legend(nrow = 2, byrow = TRUE, override.aes = list(colour = NULL)))#
+}#
+## CHECK CH value with http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=migr_asyappctzm&lang=en#
+	waffleIso('CH')#
+	ck <- df %>% filter(iso2 == 'CH')#
+	ckdf <- as.data.frame(ck %>% filter(citizen == "Total"))#
+	round((ckdf$sum / ckdf$pop) * unit)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+waffleIso('HU')
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+waffleIso('ES')#
+	ck <- df %>% filter(iso2 == 'ES')#
+	ckdf <- as.data.frame(ck %>% filter(citizen == "Total"))#
+	round((ckdf$sum / ckdf$pop) * unit)
+setwd('/Users/nguyendu/Google Drive/swissinfo/2015_06_24_euroAsylum')
+# subset the data for year 2015#
+data.m <- datl1 %>% filter(asyl_app == 'Asylum applicant', sex == 'Total', age == 'Total') %>%#
+	select(one_of(c('citizen', 'geo', 'time', 'values', 'iso2')))#
+# consider only the months with full data (with NA less than 10%) !!#
+times <- tapply(data.m$values, data.m$time, function(v) (sum(is.na(v))/length(v)) ) < 0.1#
+# subset by time#
+data <- data.m %>% filter(time >= as.Date("2015-01-01"), time <= max(as.Date(names(times))[times]))#
+	### CHECK ####
+## check CH value with http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=migr_asyappctzm&lang=en#
+data %>% filter(iso2 == 'CH', citizen == "Total")#
+data %>% filter(iso2 == 'HU', citizen == "Total")#
+#
+### ANALYSIS#
+#
+## TO do compare the 2015 monthly statistics with the previous year!#
+data.m %>% filter(iso2 == 'CH', citizen == "Total", time < as.Date("2015-01-01"), time >= as.Date("2014-01-01"))#
+#############################################################################################
+###		WAFFLE chart by origin country of others#
+#############################################################################################
+#
+library(waffle)#
+#### Adapt the original function#
+waffled <- function (parts, rows = 10, xlab = NULL, title = NULL, colors = NA,#
+    size = 2, flip = FALSE, reverse = FALSE, equal = TRUE, pad = 0)#
+{#
+    part_names <- names(parts)#
+    if (length(part_names) < length(parts)) {#
+        part_names <- c(part_names, LETTERS[1:length(parts) -#
+            length(part_names)])#
+    }#
+    if (all(is.na(colors))) {#
+        colors <- brewer.pal(length(parts), "Set2")#
+    }#
+    parts_vec <- unlist(sapply(1:length(parts), function(i) {#
+        rep(LETTERS[i + 1], parts[i])#
+    }))#
+    if (reverse) {#
+        parts_vec <- rev(parts_vec)#
+    }#
+    dat <- expand.grid(y = 1:rows, x = seq_len(pad + (ceiling(sum(parts)/rows))))#
+	##### My change, added factor and levels being of length parts !!!!!!!!!!!!#
+    dat$value <- factor(c(parts_vec, rep(NA, nrow(dat) - length(parts_vec))), levels = LETTERS[2:(length(parts)+1)])#
+    if (flip) {#
+        gg <- ggplot(dat, aes(x = y, y = x, fill = value))#
+    }#
+    else {#
+        gg <- ggplot(dat, aes(x = x, y = y, fill = value))#
+    }#
+    gg <- gg + geom_tile(color = "white", size = size)#
+    gg <- gg + labs(x = xlab, y = NULL, title = title)#
+    gg <- gg + scale_x_continuous(expand = c(0, 0))#
+    gg <- gg + scale_y_continuous(expand = c(0, 0))#
+    ###### Added this as well, not sure it is useful: drop = FALSE !!!!!!!!!!!!#
+	gg <- gg + scale_fill_manual(name = "", values = colors,#
+        labels = part_names, drop = FALSE)#
+    gg <- gg + guides(fill = guide_legend(override.aes = list(colour = NULL)))#
+    if (equal) {#
+        gg <- gg + coord_equal()#
+    }#
+    gg <- gg + theme_bw()#
+    gg <- gg + theme(panel.grid = element_blank())#
+    gg <- gg + theme(panel.border = element_blank())#
+    gg <- gg + theme(panel.background = element_blank())#
+    gg <- gg + theme(panel.margin = unit(0, "null"))#
+    gg <- gg + theme(axis.text = element_blank())#
+    gg <- gg + theme(axis.title.x = element_text(size = 10))#
+    gg <- gg + theme(axis.ticks = element_blank())#
+    gg <- gg + theme(axis.line = element_blank())#
+    gg <- gg + theme(axis.ticks.length = unit(0, "null"))#
+    gg <- gg + theme(axis.ticks.margin = unit(0, "null"))#
+    gg <- gg + theme(plot.title = element_text(size = 18))#
+    gg <- gg + theme(plot.background = element_blank())#
+    gg <- gg + theme(plot.margin = unit(c(0, 0, 0, 0), "null"))#
+    gg <- gg + theme(plot.margin = rep(unit(0, "null"), 4))#
+    gg#
+}#
+#
+###	waffle settings#
+font <- "Open Sans"#
+unit <- 5 * 10^4#
+squareThreshold <- 4 ## deprecated !! #
+topCitNat <- 12#
+w.row <- 10#
+#
+###	COMPUTE#
+#
+citizenAgg <- c("Total", "European Union (28 countries)", "Extra EU-28")#
+#
+## Compute the asylum seeker by iso2 country#
+dd <- data %>% filter(!citizen %in% citizenAgg, iso2 != "TOTAL") %>% group_by(iso2, geo, citizen) %>% summarise(sum = sum(values, na.rm =T))  %>% ungroup()#
+# add population in 2014 column#
+dd <- cbind(dd, pop = pop[match(dd$iso2, pop$iso2),'values'])#
+# express asylum demand by country per inhabitant * unit#
+dd$perU <- (dd$sum / dd$pop) * unit#
+dd$sq <- round(dd$perU)#
+#
+# Check Swiss results ##
+dd %>% filter(iso2 == 'CH', perU > 0)#
+data %>% filter(iso2 == 'CH', citizen == 'Total')#
+data %>% filter(iso2 == 'CH', !citizen %in% citizenAgg, iso2 != "TOTAL") %>% group_by(time) %>% summarise(testSum = sum(values, na.rm = T)) %>% ungroup()#
+### Compute the square/waffle by iso2 and filter it by squareThreshold#
+# old way to filter the citizen to display: get all country of origin with more than 5 squares#
+citizen.subset <- as.character(unlist(unique(dd %>% filter(sq > squareThreshold) %>% select(citizen))))#
+citizen.subset <- as.character(head(data.frame(dd %>% group_by(citizen) %>% summarise(perU.sum = sum(perU)) %>% #
+	arrange(desc(perU.sum)))$citizen, topCitNat))#
+# filter citizen#
+dd <- filter(dd, citizen %in% citizen.subset)#
+#
+# Find the maximum of square (use citizen Total )#
+sumAll <- data %>% filter(citizen == "Total", !iso2 %in% c('EU28', 'TOTAL')) %>% group_by(iso2, geo, citizen) %>% summarise(sum = sum(values, na.rm =T)) %>% ungroup()#
+# add population in 2014 column#
+sumAll <- cbind(sumAll, pop = pop[match(sumAll$iso2, pop$iso2),'values'])#
+sumAll$sq <- round((sumAll$sum / sumAll$pop) * unit)#
+tmpSum <- as.data.frame(dd %>% group_by(iso2) %>% summarise(tsum = sum(sq, na.rm = T)) %>% ungroup())#
+sumAll$others <- sumAll$sq - tmpSum[match(sumAll$iso2, tmpSum$iso2), 2]#
+maxCol <- ceiling(max(sumAll$sq) / w.row)#
+## Bind others sum to dd#
+df <- do.call(rbind, by(dd, dd$iso, function(spt) {#
+	iso <- as.character(unique(spt$iso))#
+	newrow <- sumAll[sumAll$iso == iso,]#
+	colnames(newrow)[colnames(newrow)=='sq'] <- 'perU'#
+	colnames(newrow)[colnames(newrow)=='others'] <- 'sq'#
+	rbind(spt, newrow)#
+}))#
+# drop unsused factors#
+df$citizen <- factor(df$citizen)#
+colorV <- structure(swi_rpal[1:nlevels(df$citizen)], names = levels(df$citizen))#
+### SAVE#
+save(df, dd, maxCol, data, sumAll, unit, squareThreshold, file = outputfile)

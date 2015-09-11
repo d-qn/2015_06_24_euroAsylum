@@ -4,16 +4,16 @@ library(dplyr)
 library(ggplot2)
 library(swiTheme)
 
-loadData <- T
-inputfile <- "data/02_citizenMonthly.Rdata"
-outputfile <- "prod/data/02_citizenMonthly_waffled.Rdata"
+loadData <- F
+inputfile <- "data/02_citizenMonthly_new.Rdata"
+outputfile <- "prod/data/02_citizenMonthly_waffled_new.Rdata"
 
 ############################################################################################
 ###		Get data
 ############################################################################################
 
 if(loadData) {
-	load(file = "data/02_citizenMonthly.Rdata")
+	load(file = inputfile)
 } else {
 	##### 1 Get monthly asylum data
 	id <- c('migr_asyappctzm')
@@ -38,8 +38,9 @@ if(loadData) {
 	datl$iso2 <- dat$geo
 
 	pop <- datl %>% filter(time <= as.Date("2015-01-01")) %>% select(one_of(c('geo', 'time','values', 'iso2')))
-	save(datl1, pop, file = "data/02_citizenMonthly.Rdata")
+	save(datl1, pop, file = inputfile)
 }
+
 
 
 # subset the data for year 2015
@@ -130,7 +131,8 @@ waffled <- function (parts, rows = 10, xlab = NULL, title = NULL, colors = NA,
 ###	waffle settings
 font <- "Open Sans"
 unit <- 5 * 10^4
-squareThreshold <- 3
+squareThreshold <- 4 ## deprecated !!
+topCitNat <- 12
 w.row <- 10
 
 ###	COMPUTE
@@ -147,11 +149,19 @@ dd <- cbind(dd, pop = pop[match(dd$iso2, pop$iso2),'values'])
 dd$perU <- (dd$sum / dd$pop) * unit
 dd$sq <- round(dd$perU)
 
-# Check Swiss results
+# Check Swiss results #
 dd %>% filter(iso2 == 'CH', perU > 0)
+data %>% filter(iso2 == 'CH', citizen == 'Total')
+data %>% filter(iso2 == 'CH', !citizen %in% citizenAgg, iso2 != "TOTAL") %>% group_by(time) %>% summarise(testSum = sum(values, na.rm = T)) %>% ungroup()
+
 
 ### Compute the square/waffle by iso2 and filter it by squareThreshold
+# old way to filter the citizen to display: get all country of origin with more than 5 squares
 citizen.subset <- as.character(unlist(unique(dd %>% filter(sq > squareThreshold) %>% select(citizen))))
+citizen.subset <- as.character(head(data.frame(dd %>% group_by(citizen) %>% summarise(perU.sum = sum(perU)) %>%
+	arrange(desc(perU.sum)))$citizen, topCitNat))
+
+
 
 # filter citizen
 dd <- filter(dd, citizen %in% citizen.subset)
@@ -164,8 +174,6 @@ sumAll$sq <- round((sumAll$sum / sumAll$pop) * unit)
 tmpSum <- as.data.frame(dd %>% group_by(iso2) %>% summarise(tsum = sum(sq, na.rm = T)) %>% ungroup())
 sumAll$others <- sumAll$sq - tmpSum[match(sumAll$iso2, tmpSum$iso2), 2]
 maxCol <- ceiling(max(sumAll$sq) / w.row)
-
-
 
 
 
@@ -187,6 +195,12 @@ colorV <- structure(swi_rpal[1:nlevels(df$citizen)], names = levels(df$citizen))
 
 ### SAVE
 save(df, dd, maxCol, data, sumAll, unit, squareThreshold, file = outputfile)
+
+
+
+
+
+
 
 
 waffleIso <- function(iso = 'CH') {
