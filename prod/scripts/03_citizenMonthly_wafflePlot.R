@@ -123,18 +123,18 @@ write.csv(df, file = "../data/02_inputData.csv")
 ####### PLOT SETTINGS #######
 ###	waffle settings
 # how many rows in waffle
-w.row <- 20
-w.size <- 1
+w.row <- 10
+w.size <- 1.5
 
-legendKeySize <- unit(1, "line")
-legendTextSize <- 12
-legendKeyHeight <- unit(2,"line")
-animationInterval <- 3.2
+legendKeySize <- unit(1.6, "line")
+legendTextSize <- 13
+legendKeyHeight <- unit(1.5,"line")
+animationInterval <- 3.7
 countryText <- 12
 descrText <- 6
-
+topText.x <- -1
 fig.width <- 800
-fig.height <- 600
+fig.height <- 400
 
 maxCol <- ceiling(max(data.frame(df %>% group_by(iso2) %>% summarise(totSq = sum(sq)))$totSq) / w.row)
 
@@ -153,22 +153,22 @@ waffleIso <- function(iso = 'CH', iDf = df.l, trad, lang, font = "Open Sans") {
 
 	wf <- structure(dfff$sq, names = as.character(dfff$CIT))
 
-	countryTop <- geom_text(data = data.frame(x = 0, y = w.row + 3, label = dff$GEO[1]), aes(x = x, y = y, label = label),
+	countryTop <- geom_text(data = data.frame(x = topText.x, y = w.row + 3.3, label = dff$GEO[1]), aes(x = x, y = y, label = label),
 				family = font, fontface = "bold", alpha = 1, size = countryText, hjust = 0, vjust = 0, colour = "#aa8959")
 	topText <- paste0(dff[which(dff$citizen == "Total"),'sum'], " ", trad["title.slide", lang])
-	titleTop <- geom_text(data = data.frame(x = 0, y = w.row + 2, label = topText), aes(x = x, y = y, label = label),
+	titleTop <- geom_text(data = data.frame(x = topText.x, y = w.row + 2, label = topText), aes(x = x, y = y, label = label),
 				family = font, alpha = 1, size = descrText, hjust = 0, vjust = 0)
 	text2 <- paste0(trad["subtitle1.slide", lang], " ", unit,  " ", trad["subtitle2.slide", lang], " ",
 		dff[which(dff$citizen == "Total"),'perU'], " ", trad["subtitle3.slide", lang])
-	subtitle <- geom_text(data = data.frame(x = 0, y = w.row + 1, label = text2), aes(x = x, y = y, label = label),
+	subtitle <- geom_text(data = data.frame(x = topText.x, y = w.row + 1, label = text2), aes(x = x, y = y, label = label),
 				family = font, alpha = 1, size = descrText, hjust = 0, vjust = 0)
 
 	# Hack: set a blank waffle and display top text
-	blankW <- waffled(rep(round(maxCol * w.row / length(wf)), length(wf)), rows = w.row, size = w.size, colors = rep("white", length(wf))) +
+	blankW <- waffled(rep(round(maxCol * w.row / length(wf)), length(wf)), rows = w.row, size = w.size, colors = rep("white", length(wf)),  xlab = NULL) +
 		theme(legend.position = "bottom", legend.key.size = legendKeySize, legend.key.height = legendKeyHeight,
-		legend.key = element_rect(colour = NA), legend.text = element_text(colour = "white", size = legendTextSize, family = font)) +
-		guides(fill = guide_legend(nrow = 2, byrow = TRUE,
-		override.aes = list(colour = NULL)))
+		legend.key = element_rect(colour = NA), legend.text = element_text(colour = "white", size = legendTextSize, family = font),
+		axis.ticks = element_blank(), axis.text = element_blank(), text = element_text(size = 14, family = font)) +
+		guides(fill = guide_legend(nrow = 2, byrow = TRUE, override.aes = list(colour = NULL)))
 	textOnly <- blankW + countryTop +titleTop + subtitle
 
 	textOnly2 <- ggplot_gtable(ggplot_build(textOnly))
@@ -200,10 +200,10 @@ waffleIso <- function(iso = 'CH', iDf = df.l, trad, lang, font = "Open Sans") {
 introText <- function(title, title2, subtitle, img = swiLogo, font = "Open Sans") {
 	par(mar = c(0,0,0,0))
 	plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
-	text(x = 0.01, y = 0.95, title, cex = 2.5, col = "black", family = font, font = 2, adj = 0)
-	text(x = 0.01, y = 0.88, title2, cex = 2.5, col = "black", family = font, font = 2, adj = 0)
+	text(x = 0.01, y = 0.96, title, cex = 2.5, col = "black", family = font, font = 2, adj = 0)
+	text(x = 0.01, y = 0.87, title2, cex = 2.5, col = "black", family = font, font = 2, adj = 0)
 	text(x = 0.01, y = 0.5, subtitle, cex = 2, col = "gray30", family = font, font = 1, adj = 0)
-	rasterImage(img, .85, 0.03, 0.96, 0)
+	rasterImage(img, .85, 0.05, 0.96, 0)
 }
 
 outroText <- function(source = "source: Eurostat",
@@ -218,7 +218,7 @@ outroText <- function(source = "source: Eurostat",
 	text(x = 0.01, y = 0.8, method2, cex = 1.2, col = "black", family = font, font = 3, adj = 0)
 	text(x = 0.01, y = 0.2, lastUpdate, cex = 1.3, col = "gray30", family = font, font = 1, adj = 0)
 	text(x = 0.01, y = 0.15, author, cex = 1.3, col = "gray30", family = font, font = 1, adj = 0)
-	rasterImage(img, .85, 0.03, 0.96, 0)
+	rasterImage(img, .85, 0.05, 0.96, 0)
 }
 
 

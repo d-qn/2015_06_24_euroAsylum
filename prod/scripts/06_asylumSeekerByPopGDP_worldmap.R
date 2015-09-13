@@ -10,7 +10,7 @@ library(htmlwidgets)
 
 getData <- F
 
-trad <- read.csv("../trad/06_refugessByPopGDP.csv", check.names = F, stringsAsFactors = F, row.names = 1)
+trad <- read.csv("../trad/06_refugessByPopGDP_09.csv", check.names = F, stringsAsFactors = F, row.names = 1)
 
 if(getData) {
 	############################################################################################
@@ -121,7 +121,7 @@ for (i in 1:ncol(trad)) {
 	output.html <- paste("06_map_refugeesAsylum_", lang, ".html", sep ="")
 	data$geo <- countryTranslation(data$iso2, toupper(lang))[,2]
 
-	groups <- c(trad['group1',lang], trad['group2',lang])
+	groups <- c(trad['group1',lang], trad['group2',lang],  trad['group3',lang])
 
 	mb_tiles <- 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'
 	mb_attribution <- paste0(trad['credits',lang], ' | Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ')
@@ -138,6 +138,8 @@ for (i in 1:ncol(trad)) {
   	  trad['tooltip.asylumTotal', lang], ": ", "<strong>",  data$asylumSeeker,"</strong><br><br>"
 	  )
 
+	popup_abs <- paste0(top, "</p>")
+
 	popup_pop <- paste0(top,
 	  trad['tooltip.population', lang], ": ", round(data$pop / 10^6, 2), " ", trad['tooltip.popMillion', lang], "<br>",
 	  trad['tooltip.totalByPop', lang], ": ", "<strong>", data$totalParMillion,
@@ -149,14 +151,16 @@ for (i in 1:ncol(trad)) {
   	  "</strong></p>", ifelse(lang == 'ar', "</div>", ""))
 
 	mn <- leaflet(data = data) %>% addTiles(urlTemplate = mb_tiles, attribution = mb_attribution) %>%
+		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[3],
+		radius = ~sqrt(total) / 40, popup = popup_abs, group=groups[1]) %>%
 		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[1],
-	    radius = ~sqrt(totalParMillion) / 12, popup = popup_pop, group=groups[1]) %>%
+	    radius = ~sqrt(totalParMillion) / 12, popup = popup_pop, group=groups[2]) %>%
 		addCircleMarkers(lng = ~lon, lat = ~lat, stroke = FALSE, fillOpacity = 0.4, fillColor = swi_rpal[7],
-	    radius = ~sqrt(totalParPIB) * 2, popup = popup_gdp, group=groups[2]) %>%
-		setView(21.824312, 39.074208, zoom = 3) %>%
+	    radius = ~sqrt(totalParPIB) * 2, popup = popup_gdp, group=groups[3]) %>%
+		setView(7, 30, zoom = 3) %>%
 		addLegend(position = "topright", title = trad['title',lang], opacity = 0, colors = NULL, labels = NULL) %>%
 	    addLayersControl(
-	       baseGroups = c(groups[1], groups[2]),
+	       baseGroups = c(groups[1], groups[2], groups[3]),
 	       options = layersControlOptions(collapsed = FALSE)
 	     ) %>% hideGroup(groups[2])
 
